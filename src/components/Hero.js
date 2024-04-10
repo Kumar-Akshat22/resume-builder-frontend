@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Extra from './Extra'
 import { PDFRenderer, PDFViewer } from '@react-pdf/renderer'
 import RoverResume from '../resume/RoverResume'
 

@@ -1,11 +1,36 @@
 import React from 'react';
-import { Document, Image, Link, Page, Text, View, Svg } from '@react-pdf/renderer';
+import { Document, Image, Link, Page, Text, View, Svg, Font } from '@react-pdf/renderer';
 import { StyleSheet } from '@react-pdf/renderer';
 import mail from '../assets/mail.png';
 import linkedin from '../assets/linkedin.png';
 import github from '../assets/github.png';
+import RobotoBold from '../assets/roboto-font/Roboto-Bold.ttf';
+import RobotoItalic from '../assets/roboto-font/Roboto-Italic.ttf';
+import RobotoLight from '../assets/roboto-font/Roboto-Light.ttf';
+
 
 function RoverResume() {
+
+    Font.register({
+        
+        family:'Roboto',
+        fonts:[
+            
+            {
+                src:RobotoBold,
+                fontWeight:'bold',
+            },
+
+            {
+                src:RobotoItalic,
+                fontStyle:'italic',
+            },
+
+            {
+                src:RobotoLight,
+            }
+        ]
+    })
 
     // Creat the layout of the Resume
     const styles = StyleSheet.create({
@@ -16,6 +41,7 @@ function RoverResume() {
             flexDirection: 'column',
             gap: 1,
             padding:10,
+            fontFamily:'Roboto',
         },
 
         section: {
@@ -177,7 +203,7 @@ function RoverResume() {
 
             fontWeight: 700,
             fontSize: 12,
-            fontStyle: 'italic'
+            fontStyle:'italic'
 
 
         },
