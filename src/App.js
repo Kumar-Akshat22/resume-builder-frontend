@@ -3,11 +3,11 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import { Routes , Route } from 'react-router-dom'
 import ResumeDetails from './pages/ResumeDetails';
-import Education from './components/ResumeDetails.js/Education';
-import Projects from './components/ResumeDetails.js/Projects';
-import Experience from './components/ResumeDetails.js/Experience';
-import Extra from './components/ResumeDetails.js/Extra';
-import PersonalDetails from './components/ResumeDetails.js/Personal';
+import Education from './components/ResumeDetails/Education';
+import Projects from './components/ResumeDetails/Projects';
+import Experience from './components/ResumeDetails/Experience';
+import Extra from './components/ResumeDetails/Extra';
+import PersonalDetails from './components/ResumeDetails/Personal';
 
 function App() {
   return (
