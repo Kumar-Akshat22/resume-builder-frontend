@@ -9,6 +9,9 @@ import Experience from './components/ResumeDetails/Experience';
 import Extra from './components/ResumeDetails/Extra';
 import PersonalDetails from './components/ResumeDetails/Personal';
 import Skills from './components/ResumeDetails/Skills';
+import ProgLanuage from './components/ResumeDetails/ProgLanuage';
+import Frameworks from './components/ResumeDetails/Frameworks'
+import ToolsAndTech from './components/ResumeDetails/ToolsAndTech';
 
 function App() {
   return (

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
 import DateSelection from './DateSelection';
+import { IoAddCircleOutline } from "react-icons/io5";
 
 function Experience() {
 
     // To populate the bullet points data that can be mapped to a bullet point
     const [bulletPoints , setBulletPoints] = useState(()=>{
 
-        const savedPoints = localStorage.getItem('bulletPoints');
+        const savedPoints = localStorage.getItem('experienceBulletPoints');
 
         if(savedPoints){
             
@@ -62,7 +63,7 @@ function Experience() {
     // useEffect hook 
     useEffect(()=>{
 
-        localStorage.setItem("bulletPoints" , JSON.stringify(bulletPoints));
+        localStorage.setItem("experienceBulletPoints" , JSON.stringify(bulletPoints));
         
     },[bulletPoints]);
 
@@ -70,10 +71,17 @@ function Experience() {
         <div className='w-full p-5 mt-6'>
 
             <div className='max-w-[1140px] mx-auto'>
+                
+                <div className='w-full flex justify-between'>
 
-                <div className='mb-4'>
-                    <p className='uppercase text-xl'>Experience</p>
-                    <span className='text-sm'>List your work experience, most recent first</span>
+                    <div className='mb-4'>
+                        <p className='uppercase text-xl'>Experience</p>
+                        <span className='text-sm'>List your work experience, most recent first</span>
+                    </div>
+
+                    <div className='cursor-pointer'>
+                        <IoAddCircleOutline size={20}/>
+                    </div>
                 </div>
 
                 <div className='flex flex-col gap-5'>
