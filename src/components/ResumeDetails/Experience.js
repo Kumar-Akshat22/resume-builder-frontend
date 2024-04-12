@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
+import DateSelection from './DateSelection';
 
 function Experience() {
 
@@ -90,12 +91,10 @@ function Experience() {
                         </label>
                     </div>
 
-                    {/* Duration */}
-                    <label>
-
-                        <span>Duration</span>
-                        <input type='text' placeholder='e.g. Williams' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-                    </label>
+                    {/* Date Selection Component */}
+                    
+                        <DateSelection />
+                    
 
                     {/* Bullet Points */}
 

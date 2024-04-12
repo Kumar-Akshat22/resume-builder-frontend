@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink,Outlet } from 'react-router-dom'
 
 function ResumeDetails() {
 
     const [detailType , setDetailType] = useState('personalDetails');
+
+    useEffect(()=>{
+
+        localStorage.setItem('detailType',JSON.stringify(detailType));
+
+    },[detailType])
 
   return (
     
@@ -35,6 +41,13 @@ function ResumeDetails() {
                 ? 'bg-[#3983fa] text-white font-semibold border'
                 : 'bg-transparent'} text-xl rounded-md px-4 py-1 transition duration-200 ease-in-out`} onClick={()=>{setDetailType('experience')}}>Work Experience</span>
             </NavLink>
+
+            <NavLink to={'/resume-details/skills'}>
+                <span className={
+                `${detailType === 'skills' 
+                ? 'bg-[#3983fa] text-white font-semibold border'
+                : 'bg-transparent'} text-xl rounded-md px-4 py-1 transition duration-200 ease-in-out`} onClick={()=>{setDetailType('skills')}}>Skills</span>
+            </NavLink>
             
             <NavLink to={'/resume-details/projects'}>
                 <span className={
@@ -53,7 +66,6 @@ function ResumeDetails() {
             </NavLink>
 
             
-
         </div>
         
         <Outlet />
