@@ -3,6 +3,7 @@ import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
 import DateSelection from './DateSelection';
 import { IoAddCircleOutline } from "react-icons/io5";
+import Save from './Save';
 
 function Experience() {
 
@@ -78,9 +79,15 @@ function Experience() {
                         <p className='uppercase text-xl'>Experience</p>
                         <span className='text-sm'>List your work experience, most recent first</span>
                     </div>
+                    
+
+                    <div className="flex items-center gap-2">
 
                     <div className='cursor-pointer'>
                         <IoAddCircleOutline size={20}/>
+                    </div>
+
+                    <Save />
                     </div>
                 </div>
 

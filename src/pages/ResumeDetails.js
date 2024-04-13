@@ -4,11 +4,7 @@ import { NavLink,Outlet } from 'react-router-dom'
 function ResumeDetails() {
 
     const [detailType , setDetailType] = useState('personalDetails');
-
-    useEffect(()=>{
-
-    }, [detailType])
-
+    
   return (
     
     <div className='w-full border border-blue-500 p-5'>
@@ -73,7 +69,7 @@ function ResumeDetails() {
             
         </div>
         
-        <Outlet/>
+        <Outlet />
     </div>
 
   )

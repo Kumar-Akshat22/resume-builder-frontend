@@ -11,8 +11,23 @@ import PersonalDetails from './components/ResumeDetails/Personal';
 import Skills from './components/ResumeDetails/Skills';
 
 import Links from './components/ResumeDetails/Links';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  const [resumeDetails , setResumeDetails] = useState({});
+
+  const updateResumeDetails = (key , value) => {
+
+    setResumeDetails((prevDetails)=> ({...prevDetails , [key]:value}));
+  };
+
+  useEffect(()=>{
+
+    console.log(resumeDetails);
+
+  }, [resumeDetails]);
+
   return (
 
     <div className="">
@@ -23,13 +38,13 @@ function App() {
 
         <Route path='/resume-details' element={<ResumeDetails></ResumeDetails>}>
           
-          <Route path = 'education' element={<Education />} />
-          <Route path = 'projects' element={<Projects />} />
-          <Route path = 'experience' element={<Experience />} />
-          <Route path = 'extra' element={<Extra />} />
-          <Route path = 'personaldetails' element={<PersonalDetails />} />
-          <Route path = 'skills' element={<Skills />} />
-          <Route path = 'links' element={<Links />} />
+          <Route path = 'education' element={<Education updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'projects' element={<Projects updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'experience' element={<Experience updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'extra' element={<Extra />} updateResumeDetails={updateResumeDetails}/>
+          <Route path = 'personaldetails' element={<PersonalDetails updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'skills' element={<Skills updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'links' element={<Links updateResumeDetails={updateResumeDetails}/>} />
 
         </Route>
       </Routes>

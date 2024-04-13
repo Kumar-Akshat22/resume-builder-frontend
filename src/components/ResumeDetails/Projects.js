@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { IoAddCircleOutline } from "react-icons/io5";
 import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
+import Save from './Save';
 
 function Projects() {
 
@@ -67,8 +68,13 @@ function Projects() {
             <span className='text-sm'>Add information about your Projects</span>
           </div>
 
+          <div className='flex items-center gap-2'>
+
           <div className='cursor-pointer'>
             <IoAddCircleOutline size={20} />
+          </div>
+
+          <Save />
           </div>
         </div>
 

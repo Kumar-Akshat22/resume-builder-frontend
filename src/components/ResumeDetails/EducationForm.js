@@ -1,7 +1,7 @@
 import React from 'react'
 import DateSelection from "./DateSelection";
 
-function EducationForm( { currentIndex } ) {
+function EducationForm( { currentIndex, updateResumeDetails } ) {
     return (
         <div className="flex flex-col gap-5">
 

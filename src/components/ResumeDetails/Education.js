@@ -3,8 +3,9 @@ import EducationForm from "./EducationForm";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { GrFormPrevious } from "react-icons/gr";
 import { Navigate } from "react-router-dom";
+import Save from "./Save";
 
-function Education() {
+function Education({updateResumeDetails}) {
 
   const [currentIndex , setCurrentIndex] = useState(1);
   const [educations, setEducations] = useState([]);
@@ -23,11 +24,12 @@ function Education() {
 
 
         <div className='w-full flex justify-between items-center'>
-
-          <div className='mb-4'>
-            <p className='uppercase text-xl'>Education</p>
-            <span className='text-sm'>Add information about your educational background.</span>
-          </div>
+          
+            <div className='mb-4'>
+              <p className='uppercase text-xl'>Education</p>
+              <span className='text-sm'>Add information about your educational background.</span>
+            </div>
+            
 
           <div className="flex items-center gap-2">
 
@@ -40,13 +42,14 @@ function Education() {
             <div className='cursor-pointer'>
               <IoAddCircleOutline size={25} onClick={addEducation}/>
             </div>
+            <Save/>
           </div>
         </div>
 
         <div>
           <h1 className="text-lg">Degree {currentIndex}</h1>
         </div>
-          <EducationForm currentIndex={currentIndex}/>
+          <EducationForm currentIndex={currentIndex} updateResumeDetails={updateResumeDetails}/>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
 import { MdAddTask } from "react-icons/md";
 import { NavLink, Navigate } from 'react-router-dom';
+import Save from './Save';
 
 function Skills() {
 
@@ -90,6 +91,8 @@ function Skills() {
                         <div className='bg-stone-400 px-1 py-2 cursor-pointer'>
                             <GrNext size={20} />
                         </div>
+
+                        <Save />
 
 
 

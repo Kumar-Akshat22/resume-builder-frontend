@@ -1,4 +1,5 @@
 import React from 'react'
+import Save from './Save'
 
 function Links() {
   return (
@@ -7,9 +8,14 @@ function Links() {
 
         <div className='max-w-[1140px] mx-auto flex flex-col gap-7'>
 
-            <div className='mb-4'>
-                <p className='uppercase text-xl'>Social Links</p>
-                <span className='text-sm'>Add links to your Social Account</span>
+            <div className='w-full flex justify-between'>
+
+                <div className='mb-4'>
+                    <p className='uppercase text-xl'>Social Links</p>
+                    <span className='text-sm'>Add links to your Social Account</span>
+                </div>
+
+                <Save />
             </div>
 
             <div className="flex justify-between items-center">
