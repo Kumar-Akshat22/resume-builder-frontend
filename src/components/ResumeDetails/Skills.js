@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import BulletPoint from './BulletPoint'
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
@@ -8,15 +8,15 @@ import { NavLink, Navigate } from 'react-router-dom';
 function Skills() {
 
     // To populate the bullet points data that can be mapped to a bullet point
-    const [bulletPoints , setBulletPoints] = useState(()=>{
+    const [bulletPoints, setBulletPoints] = useState(() => {
 
         const savedPoints = localStorage.getItem('skillsBulletPoints');
 
-        if(savedPoints){
-            
+        if (savedPoints) {
+
             return JSON.parse(savedPoints);
 
-        } else{
+        } else {
 
             return [];
         }
@@ -29,7 +29,7 @@ function Skills() {
 
 
     // To add Bullet Points
-    function addPoint(text){
+    function addPoint(text) {
 
         const newPoint = {
 
@@ -37,13 +37,13 @@ function Skills() {
             text,
         }
 
-        setBulletPoints([...bulletPoints , newPoint]);
+        setBulletPoints([...bulletPoints, newPoint]);
         setText('');
 
-    }   
+    }
 
     // Function to delete a point
-    function deletePoint(id){
+    function deletePoint(id) {
 
         const newBulletPoints = bulletPoints.filter(bulletPoint => bulletPoint.id !== id);
         setBulletPoints(newBulletPoints);
@@ -51,84 +51,86 @@ function Skills() {
     }
 
     // Function to update or edit a bullet point 
-    function updatePoint(id,text){
+    function updatePoint(id, text) {
 
-        const targetPoint = bulletPoints.filter(bulletPoint=> bulletPoint.id === id);
+        const targetPoint = bulletPoints.filter(bulletPoint => bulletPoint.id === id);
 
         targetPoint.text = text;
 
-        setBulletPoints([...bulletPoints , targetPoint]);
+        setBulletPoints([...bulletPoints, targetPoint]);
 
     }
 
     // useEffect hook 
-    useEffect(()=>{
+    useEffect(() => {
 
-        localStorage.setItem("skillsBulletPoints" , JSON.stringify(bulletPoints));
-        
-    },[bulletPoints]);
+        localStorage.setItem("skillsBulletPoints", JSON.stringify(bulletPoints));
 
-  return (
-    <div className="w-full p-5 mt-6">
-        <div className='max-w-[1140px] mx-auto'>
-            <div className='w-full flex justify-between items-center'>
+    }, [bulletPoints]);
 
-                <div className='mb-4'>
-                    <p className='uppercase text-xl'>Skills</p>
-                    <span className='text-sm'>Highlight 6-8 of your top skills.</span>
-                </div>
-                
-                <div className='flex gap-3'>
 
-                    <div className='bg-stone-400 px-1 py-2 cursor-pointer hidden'>
-                        <GrPrevious size={20}/>
+
+    return (
+        <div className="w-full p-5 mt-6">
+            <div className='max-w-[1140px] mx-auto'>
+                <div className='w-full flex justify-between items-center'>
+
+                    <div className='mb-4'>
+                        <p className='uppercase text-xl'>Skills</p>
+                        <span className='text-sm'>Highlight 6-8 of your top skills.</span>
                     </div>
-                
+
+                    <div className='flex gap-3'>
+
+                        <div className='bg-stone-400 px-1 py-2 cursor-pointer hidden'>
+                            <GrPrevious size={20} />
+                        </div>
+
 
                         <div className='bg-stone-400 px-1 py-2 cursor-pointer'>
-                            <GrNext size={20}/>
+                            <GrNext size={20} />
                         </div>
 
-                    
-                    
+
+
+                    </div>
+
+
                 </div>
-                
+
+                <label>
+
+
+
+                    <div className='flex flex-col gap-6'>
+
+                        <div className='w-full flex align-items-center gap-5'>
+
+                            <input type='text' value={text} onChange={(e) => { setText(e.target.value) }} placeholder='e.g. React' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
+
+                            <div className='flex items-center cursor-pointer' onClick={() => addPoint(text)}>
+                                <MdAddTask color="#3983fa" size={30} />
+                            </div>
+
+                        </div>
+
+                        {
+                            bulletPoints.map(
+                                (bulletPoint) => {
+
+                                    return <BulletPoint key={bulletPoint.id} {...bulletPoint} deletePoint={deletePoint} updatePoint={updatePoint}></BulletPoint>
+                                }
+                            )
+                        }
+                    </div>
+
+                </label>
+
+
 
             </div>
-
-            <label>
-
-                        
-
-                        <div className='flex flex-col gap-6'>
-                                
-                            <div className='w-full flex align-items-center gap-5'> 
-                                
-                                <input type='text' value={text} onChange={(e)=>{setText(e.target.value)}} placeholder='e.g. React' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-
-                                <div className='flex items-center cursor-pointer' onClick={() => addPoint(text)}>
-                                    <MdAddTask color="#3983fa" size={30}/>
-                                </div>
-                    
-                            </div>
-                                
-                                {
-                                    bulletPoints.map(
-                                        (bulletPoint) => {
-
-                                            return <BulletPoint key={bulletPoint.id} {...bulletPoint}  deletePoint={deletePoint} updatePoint={updatePoint}></BulletPoint>
-                                        }
-                                    )
-                                }
-                        </div>
-                    
-                    </label>
-
-
-
         </div>
-    </div>
-  )
+    )
 }
 
 export default Skills

@@ -7,9 +7,7 @@ function ResumeDetails() {
 
     useEffect(()=>{
 
-        localStorage.setItem('detailType',JSON.stringify(detailType));
-
-    },[detailType])
+    }, [detailType])
 
   return (
     
@@ -21,11 +19,18 @@ function ResumeDetails() {
 
         <div className='max-w-[1140px] mx-auto flex flex-row justify-between'>
             
-            <NavLink to={'/resume-details/personal-details'}>
+            <NavLink to={'/resume-details/personaldetails'}>
                 <span className={
                 `${detailType === 'personalDetails' 
                 ? 'bg-[#3983fa] text-white font-semibold border'
                 : 'bg-transparent'} text-xl rounded-md px-4 py-1 transition duration-200 ease-in-out`} onClick={()=>{setDetailType('personalDetails')}}>Personal Details</span>
+            </NavLink>
+
+            <NavLink to={'/resume-details/links'}>
+                <span className={
+                `${detailType === 'links' 
+                ? 'bg-[#3983fa] text-white font-semibold border'
+                : 'bg-transparent'} text-xl rounded-md px-4 py-1 transition duration-200 ease-in-out`} onClick={()=>{setDetailType('links')}}>Links</span>
             </NavLink>
 
             <NavLink to={'/resume-details/education'} className=''>
@@ -68,7 +73,7 @@ function ResumeDetails() {
             
         </div>
         
-        <Outlet />
+        <Outlet/>
     </div>
 
   )

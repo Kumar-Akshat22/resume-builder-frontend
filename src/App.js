@@ -9,9 +9,8 @@ import Experience from './components/ResumeDetails/Experience';
 import Extra from './components/ResumeDetails/Extra';
 import PersonalDetails from './components/ResumeDetails/Personal';
 import Skills from './components/ResumeDetails/Skills';
-import ProgLanuage from './components/ResumeDetails/ProgLanuage';
-import Frameworks from './components/ResumeDetails/Frameworks'
-import ToolsAndTech from './components/ResumeDetails/ToolsAndTech';
+
+import Links from './components/ResumeDetails/Links';
 
 function App() {
   return (
@@ -28,8 +27,9 @@ function App() {
           <Route path = 'projects' element={<Projects />} />
           <Route path = 'experience' element={<Experience />} />
           <Route path = 'extra' element={<Extra />} />
-          <Route path = 'personal-details' element={<PersonalDetails />} />
+          <Route path = 'personaldetails' element={<PersonalDetails />} />
           <Route path = 'skills' element={<Skills />} />
+          <Route path = 'links' element={<Links />} />
 
         </Route>
       </Routes>

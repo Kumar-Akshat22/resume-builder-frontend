@@ -1,7 +1,7 @@
 import React from 'react'
 import DateSelection from "./DateSelection";
 
-function EducationForm() {
+function EducationForm( { currentIndex } ) {
     return (
         <div className="flex flex-col gap-5">
 
@@ -34,6 +34,8 @@ function EducationForm() {
                     <span className="">Degree</span>
                     <select className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1">
                         <option>Select a Degree</option>
+                        <option>Class XII</option>
+                        <option>Class X</option>
                         <option>Diploma</option>
                         <option>B.A.</option>
                         <option>B.Tech</option>
