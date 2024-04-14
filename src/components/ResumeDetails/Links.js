@@ -1,7 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Save from './Save'
 
-function Links() {
+function Links( {updateResumeDetails} ) {
+
+    const [linksFormData , setLinksFormData] = useState({
+
+        linkedIn:'',
+        website:'',
+        github:'',
+
+    });
+
+    const handleChange = (event)=>{
+
+        const {name , value} = event.target;
+
+        setLinksFormData({...linksFormData , [name]:value});
+
+    }
+
+    const saveDetails = ()=>{
+
+        updateResumeDetails('linkDetails' , linksFormData)
+    }
+
   return (
 
     <div className="w-full p-5 mt-6">
@@ -15,7 +37,7 @@ function Links() {
                     <span className='text-sm'>Add links to your Social Account</span>
                 </div>
 
-                <Save />
+                <Save saveDetails={saveDetails}/>
             </div>
 
             <div className="flex justify-between items-center">
@@ -29,7 +51,7 @@ function Links() {
                         <span>URL</span>
 
                         <input
-                        type="text"
+                        type="text" name='linkedIn' value={linksFormData.linkedIn} onChange={handleChange}
                         placeholder="e.g. John"
                         className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1"
                     ></input>
@@ -49,7 +71,7 @@ function Links() {
                         <span>URL</span>
 
                         <input
-                        type="text"
+                        type="text" name='website' value={linksFormData.website} onChange={handleChange}
                         placeholder="e.g. John"
                         className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1"
                     ></input>
@@ -69,7 +91,7 @@ function Links() {
                         <span>URL</span>
 
                         <input
-                        type="text"
+                        type="text" name='github' value={linksFormData.github} onChange={handleChange}
                         placeholder="e.g. John"
                         className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1"
                     ></input>

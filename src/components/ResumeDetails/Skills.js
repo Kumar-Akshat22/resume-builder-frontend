@@ -6,7 +6,11 @@ import { MdAddTask } from "react-icons/md";
 import { NavLink, Navigate } from 'react-router-dom';
 import Save from './Save';
 
-function Skills() {
+function Skills( {updateResumeDetails} ) {
+
+    const [skillFormDetails , setSkillFormDetails] = useState({});
+
+    const [skillType , setSkillType] = useState('');
 
     // To populate the bullet points data that can be mapped to a bullet point
     const [bulletPoints, setBulletPoints] = useState(() => {
@@ -62,10 +66,18 @@ function Skills() {
 
     }
 
+    const saveDetails = ()=>{
+        
+
+        updateResumeDetails('skills' , bulletPoints)
+
+    }
+
     // useEffect hook 
     useEffect(() => {
 
         localStorage.setItem("skillsBulletPoints", JSON.stringify(bulletPoints));
+        console.log(bulletPoints);
 
     }, [bulletPoints]);
 
@@ -92,7 +104,7 @@ function Skills() {
                             <GrNext size={20} />
                         </div>
 
-                        <Save />
+                        <Save saveDetails={saveDetails}/>
 
 
 

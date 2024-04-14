@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EducationForm from "./EducationForm";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { GrFormPrevious } from "react-icons/gr";
@@ -15,6 +15,12 @@ function Education({updateResumeDetails}) {
     setCurrentIndex(currentIndex+1);
 
   }
+
+  useEffect(()=>{
+
+    console.log(educations);
+    
+  },[educations])
 
 
 
