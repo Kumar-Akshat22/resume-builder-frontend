@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
-import DateSelection from './DateSelection';
 import { IoAddCircleOutline } from "react-icons/io5";
 import Save from './Save';
 
@@ -24,9 +23,6 @@ function Experience({updateResumeDetails}) {
 
     // To handle the input text of the field
     const [text, setText] = useState('');
-
-    console.log(text);
-
 
     // To add Bullet Points
     function addPoint(text){
@@ -111,7 +107,6 @@ function Experience({updateResumeDetails}) {
 
                     {/* Date Selection Component */}
                     
-                        <DateSelection />
                     
 
                     {/* Bullet Points */}
