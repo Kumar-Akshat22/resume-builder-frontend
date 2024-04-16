@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import BulletPoint from './BulletPoint'
-import { GrNext } from "react-icons/gr";
-import { GrPrevious } from "react-icons/gr";
 import { MdAddTask } from "react-icons/md";
-import { NavLink, Navigate } from 'react-router-dom';
 import Save from './Save';
 
 function Skills( {updateResumeDetails} ) {
@@ -92,23 +89,12 @@ function Skills( {updateResumeDetails} ) {
                         <p className='uppercase text-xl'>Skills</p>
                         <span className='text-sm'>Highlight 6-8 of your top skills.</span>
                     </div>
-
-                    <div className='flex gap-3'>
-
-                        <div className='bg-stone-400 px-1 py-2 cursor-pointer hidden'>
-                            <GrPrevious size={20} />
-                        </div>
-
-
-                        <div className='bg-stone-400 px-1 py-2 cursor-pointer'>
-                            <GrNext size={20} />
-                        </div>
-
+                    
                         <Save saveDetails={saveDetails}/>
 
 
 
-                    </div>
+                
 
 
                 </div>
