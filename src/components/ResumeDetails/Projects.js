@@ -1,25 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import { IoAddCircleOutline } from "react-icons/io5";
 import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
 import Save from './Save';
 
-function Projects() {
+function Projects({updateResumeDetails}) {
+
+  const [projects , setProjects] = useState([]);
+
+  const [projectDetails, setProjectDetails] = useState({
+    title: "",
+    shortDescription: "",
+    liveLink: "",
+    githubLink: "",
+    
+    projectDescription:[]
+
+  });
+
+  const handleChange = (event) => {
+
+    const { name, value } = event.target;
+
+    setProjectDetails({ ...projectDetails, [name]: value});
+  }
+
+  const addProject = ()=>{
+    setProjects([...projects, {projectDetails}])
+
+  }
+
+  const saveDetails = ()=>{
+
+    updateResumeDetails("project", {projects});
+  }
 
   // To populate the bullet points data that can be mapped to a bullet point
-  const [bulletPoints, setBulletPoints] = useState(() => {
-
-    const savedPoints = localStorage.getItem('projectBulletPoints');
-
-    if (savedPoints) {
-
-      return JSON.parse(savedPoints);
-
-    } else {
-
-      return [];
-    }
-  });
+  const [bulletPoints, setBulletPoints] = useState([]);
 
   // To handle the input text of the field
   const [text, setText] = useState('');
@@ -36,7 +52,7 @@ function Projects() {
       text,
     }
 
-    setBulletPoints([...bulletPoints, newPoint]);
+    setProjectDetails({...projectDetails , projectDescription:[...projectDetails.projectDescription , newPoint]});
     setText('');
 
   }
@@ -49,12 +65,8 @@ function Projects() {
 
   }
 
-  // useEffect hook 
-  useEffect(() => {
+  console.log('Printing the Projects Array',projects)
 
-    localStorage.setItem("projectBulletPoints", JSON.stringify(bulletPoints));
-
-  }, [bulletPoints]);
 
   return (
     <div className='w-full p-5 mt-6'>
@@ -68,33 +80,24 @@ function Projects() {
             <span className='text-sm'>Add information about your Projects</span>
           </div>
 
-          <div className='flex items-center gap-2'>
-
-          <div className='cursor-pointer'>
-            <IoAddCircleOutline size={20} />
-          </div>
-
-          <Save />
-          </div>
+          <Save saveDetails={saveDetails} />
+          
         </div>
 
 
         <div className='flex flex-col gap-5'>
 
-          <div>
-            <h1>Project { }</h1>
-          </div>
 
           {/* Project Name */}
           <div className='flex gap-5 align-items-center justify-center'>
             <label className='w-[50%]'>
               <span className=''>Name</span>
-              <input type='text' placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
+              <input type='text' name='title' value={projectDetails.title} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
             </label>
 
             <label className='w-[50%]'>
               <span>Short Description</span>
-              <input type='text' placeholder='e.g. Williams' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
+              <input type='text' name='shortDescription' value={projectDetails.shortDescription} onChange={handleChange} placeholder='e.g. Williams' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
             </label>
           </div>
 
@@ -102,12 +105,12 @@ function Projects() {
           <div className='flex gap-5 align-items-center justify-center'>
             <label className='w-[50%]'>
               <span className=''>Live Link</span>
-              <input type='text' placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
+              <input type='text' name='liveLink' value={projectDetails.liveLink} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
             </label>
 
             <label className='w-[50%]'>
               <span>GitHub Link</span>
-              <input type='text' placeholder='e.g. Williams' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
+              <input type='text' name='githubLink' value={projectDetails.githubLink} onChange={handleChange} placeholder='e.g. Williams' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
             </label>
           </div>
 
@@ -129,10 +132,10 @@ function Projects() {
               </div>
 
               {
-                bulletPoints.map(
-                  (bulletPoint) => {
+                projectDetails.projectDescription.map(
+                  (point , index) => {
 
-                    return <BulletPoint key={bulletPoint.id} {...bulletPoint} deletePoint={deletePoint}></BulletPoint>
+                    return <BulletPoint key={index} {...point} deletePoint={deletePoint}></BulletPoint>
                   }
                 )
               }
@@ -140,7 +143,14 @@ function Projects() {
 
           </label>
 
-
+          <div className="cursor-pointer mt-4">
+              <button
+                className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200"
+                onClick={addProject}
+              >
+                Add Project
+              </button>
+            </div>   
 
         </div>
 

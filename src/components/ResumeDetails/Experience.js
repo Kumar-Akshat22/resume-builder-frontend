@@ -85,7 +85,7 @@ function Experience({ updateResumeDetails }) {
     }
 
     const saveDetails = () => {
-        updateResumeDetails("experienceDetails", experiences);
+        updateResumeDetails("experience", experiences);
     }
 
     // console.log('Printing the Experiences Array:',experiences);

@@ -21,7 +21,7 @@ function Links( {updateResumeDetails} ) {
 
     const saveDetails = ()=>{
 
-        updateResumeDetails('linkDetails' , linksFormData)
+        updateResumeDetails('links' , linksFormData)
     }
 
   return (
