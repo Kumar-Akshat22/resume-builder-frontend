@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { MdAddTask } from "react-icons/md";
 import BulletPoint from './BulletPoint';
 
-function Extra( { updateResumeDetails } ) {
+function Extra({ updateResumeDetails }) {
 
   const [extraDetailsForm, setExtraDetailsForm] = useState({
 
@@ -15,25 +15,55 @@ function Extra( { updateResumeDetails } ) {
       link2: '',
 
     },
-
-    achievements: {
-
-    }
   });
 
-  
+  const [achievements, setAchievements] = useState([]);
 
-  function handleChange(event) {
+  const [text, setText] = useState('');
+
+  function addPoint(text) {
+
+    const newPoint = {
+
+      id: Date.now(),
+      text,
+    }
+
+    setAchievements([...achievements, newPoint]);
+    setText('')
+  }
+
+  function updatePoint(id , text){
+
+    achievements.find(id).text = text;
+    
+  }
+
+  function deletePoint(id){
+
+    const newAchievements = achievements.filter(achievement=>achievement.id !== id);
+    setAchievements(newAchievements);
+  }
+
+  function handleChange(event){
 
     const {name , value} = event.target;
 
     setExtraDetailsForm({...extraDetailsForm , certifications:{...extraDetailsForm.certifications , [name]:value}})
   }
 
-  const saveDetails = ()=>{
+  function updateAchievements(){
 
-    updateResumeDetails('extras', extraDetailsForm);
+    setExtraDetailsForm({...extraDetailsForm , achievements:achievements});
   }
+
+  function saveDetails(){
+
+    updateResumeDetails('extras' , extraDetailsForm);
+
+  }
+
+  console.log(achievements);
 
   return (
 
@@ -64,7 +94,7 @@ function Extra( { updateResumeDetails } ) {
           <div className='flex gap-5 align-items-center justify-center mt-4'>
             <label className='w-[50%]'>
               <span className=''>Title</span>
-              <input type='text' name='title1' value={extraDetailsForm.certifications.title1} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
+              <input type='text' name='title1' onChange={handleChange} value={extraDetailsForm.certifications.title1} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
             </label>
 
             <label className='w-[50%]'>
@@ -99,13 +129,30 @@ function Extra( { updateResumeDetails } ) {
 
               <div className='w-full flex align-items-center gap-5'>
 
-                <input type='text' placeholder='e.g. React' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
+                <input type='text' value={text} onChange={(e) => { setText(e.target.value) }} placeholder='e.g. React' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
 
-                <div className='flex items-center cursor-pointer'>
-                  <MdAddTask color="#3983fa" size={30}/>
+                <div className='flex items-center gap-3'>
+
+                  <div>
+                    <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={updateAchievements}>Update</button>
+                  </div>
+                  <div className='flex items-center cursor-pointer' onClick={() => addPoint(text)}>
+                    <MdAddTask color="#3983fa" size={30} />
+                  </div>
                 </div>
 
+
               </div>
+
+              {
+
+                achievements.map(
+                  (achievement) => {
+
+                    return <BulletPoint key={achievement.id} {...achievement} deletePoint={deletePoint} updatePoint={updatePoint}/>
+                  }
+                )
+              }
             </div>
           </label>
 

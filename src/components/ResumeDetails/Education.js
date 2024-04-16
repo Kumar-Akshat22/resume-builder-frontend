@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EducationForm from "./EducationForm";
-import { IoAddCircleOutline } from "react-icons/io5";
 import { GrFormPrevious } from "react-icons/gr";
-import { Navigate } from "react-router-dom";
 import Save from "./Save";
 
 function Education({updateResumeDetails}) {
@@ -10,18 +8,29 @@ function Education({updateResumeDetails}) {
   const [currentIndex , setCurrentIndex] = useState(1);
   const [educations, setEducations] = useState([]);
 
-  function addEducation() {
+  function addEducations(educationData){
 
-    setCurrentIndex(currentIndex+1);
+    setEducations([...educations , {educationData}]);
 
+  }
+
+  function addDegree(){
+
+    setCurrentIndex(currentIndex=>currentIndex+1);
+  }
+
+  function saveDetails(){
+
+    updateResumeDetails('educationDetails' , educations);
   }
 
   useEffect(()=>{
 
     console.log(educations);
-    
-  },[educations])
+    console.log(currentIndex);
 
+
+  }, [educations])
 
 
   return (
@@ -43,19 +52,23 @@ function Education({updateResumeDetails}) {
               `${currentIndex > 1 
               ? 'flex'
               : 'hidden' } cursor-pointer`}>
-              <GrFormPrevious size={25} onClick={()=>{setCurrentIndex(currentIndex-1)}}/>
+              <GrFormPrevious size={25}/>
             </div>
-            <div className='cursor-pointer'>
-              <IoAddCircleOutline size={25} onClick={addEducation}/>
-            </div>
-            <Save/>
+
+            <Save saveDetails={saveDetails}/>
           </div>
         </div>
 
         <div>
           <h1 className="text-lg">Degree {currentIndex}</h1>
         </div>
-          <EducationForm currentIndex={currentIndex} updateResumeDetails={updateResumeDetails}/>
+
+          
+          <EducationForm addEducations={addEducations} updateResumeDetails={updateResumeDetails}/>
+
+          <div className='cursor-pointer mt-4'>
+                    <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={addDegree}>Add more</button>
+          </div>
       </div>
     </div>
   );

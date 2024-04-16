@@ -5,7 +5,7 @@ import DateSelection from './DateSelection';
 import { IoAddCircleOutline } from "react-icons/io5";
 import Save from './Save';
 
-function Experience() {
+function Experience({updateResumeDetails}) {
 
     // To populate the bullet points data that can be mapped to a bullet point
     const [bulletPoints , setBulletPoints] = useState(()=>{

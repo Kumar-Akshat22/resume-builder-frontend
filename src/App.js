@@ -9,7 +9,6 @@ import Experience from './components/ResumeDetails/Experience';
 import Extra from './components/ResumeDetails/Extra';
 import PersonalDetails from './components/ResumeDetails/Personal';
 import Skills from './components/ResumeDetails/Skills';
-
 import Links from './components/ResumeDetails/Links';
 import { useEffect, useState } from 'react';
 
