@@ -1,6 +1,7 @@
 import React from 'react'
 import Hoverme from '../assets/hoverme.png'
 import TemplateOne from '../assets/Template-1.png'
+import TemplateTwo from '../assets/Template-2.png'
 
 function Templates() {
   return (
@@ -19,7 +20,7 @@ function Templates() {
                 </div>
 
                 <div className='border-2 border-[#3983fa] w-[40%] relative group cursor-pointer'>
-                    <img src={TemplateOne}></img>
+                    <img src={TemplateTwo}></img>
                     <button className='absolute bottom-[9%] left-24 bg-[#f1f8fe] px-[2.5rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300 hidden group-hover:block'>Use this Template</button>
                 </div>
             </div>
