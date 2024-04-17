@@ -11,6 +11,7 @@ import PersonalDetails from './components/ResumeDetails/Personal';
 import Skills from './components/ResumeDetails/Skills';
 import Links from './components/ResumeDetails/Links';
 import { useEffect, useState } from 'react';
+import ResumeView from './components/ResumeView';
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
       
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
-        <Route path="/login" element={<Login></Login>}></Route>
+        <Route path="/signin" element={<Login></Login>}></Route>
 
         <Route path='/resume-details' element={<ResumeDetails></ResumeDetails>}>
           
@@ -46,6 +47,8 @@ function App() {
           <Route path = 'links' element={<Links updateResumeDetails={updateResumeDetails}/>} />
 
         </Route>
+
+        <Route path='/view-resume' element={<ResumeView />} />
       </Routes>
 
     </div>

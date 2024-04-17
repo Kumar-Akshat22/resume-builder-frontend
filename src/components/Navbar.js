@@ -3,24 +3,28 @@ import Logo from '../assets/Logo.svg';
 
 function Navbar() {
     return (
-        <nav className="w-full shadow-md">
-            <div className="max-w-[1140px] mx-auto p-2 flex justify-between items-center">
+        <header className="w-full">
+            <div className="max-w-[1140px] mx-auto flex flex-row justify-between items-center p-3">
 
                 <div>
                     <img src={Logo} className="w-16 md:w-32 lg:w-43"></img>
                 </div>
 
+                <ul className="font-poppins flex gap-5">
+                    <li className="cursor-pointer">Home</li>
+                    <li className="cursor-pointer">Templates</li>
+                    <li className="cursor-pointer">About Us</li>
+                    <li className="cursor-pointer">Contact</li>
+                </ul>
+
+
                 <div>
-                    <p className="text-[2rem]">Resume Builder</p>
+                    <button className="font-poppins bg-[#f1f8fe] text-[#3983fa] rounded-full px-[1.5rem] py-[0.6rem] border border-[#f1f8fe] hover:bg-[#3989fa] hover:text-white transition-all duration-300"><span className="uppercase font-semibold ">My Account</span></button>
                 </div>
 
-                <div className="flex gap-4 cursor-pointer">
-                    <button className="border px-3 py-1">Sign In</button>
-                    <button className="border px-3 py-1">Sign Up</button>
-                </div>
             </div>
-            
-        </nav>
+
+        </header>
     );
 }
 
