@@ -4,7 +4,7 @@ import HeroImage from '../assets/HeroImage.png'
 function Hero() {
   return (
 
-    <section className="w-full border-b-2">
+    <section className="w-full border-b">
 
       <div className="container max-w-[1140px] mx-auto flex flex-row justify-between items-center py-24">
 

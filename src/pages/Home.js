@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
-import { StyleSheet } from '@react-pdf/renderer'
+import StepsSection from '../components/StepsSection'
 
 function Home() {
   
@@ -9,6 +9,7 @@ function Home() {
     <div>
         <Navbar></Navbar>
         <Hero></Hero>
+        <StepsSection />
     </div>
   )
 }
