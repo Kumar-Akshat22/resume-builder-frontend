@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import StepsSection from '../components/StepsSection'
+import Templates from '../components/Templates'
 
 function Home() {
   
@@ -10,6 +11,7 @@ function Home() {
         <Navbar></Navbar>
         <Hero></Hero>
         <StepsSection />
+        <Templates />
     </div>
   )
 }
