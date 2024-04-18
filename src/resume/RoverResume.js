@@ -9,7 +9,7 @@ import RobotoItalic from '../assets/roboto-font/Roboto-Italic.ttf';
 import RobotoLight from '../assets/roboto-font/Roboto-Light.ttf';
 
 
-function RoverResume() {
+function RoverResume({resumeDetails}) {
 
     Font.register({
         
@@ -271,7 +271,7 @@ function RoverResume() {
                 <View style={styles.header}>
 
                     <Text style={styles.heading}>
-                        Kumar Akshat
+                        {resumeDetails?.personalDetails?.firstName + resumeDetails?.personalDetails?.lastName}
                     </Text>
 
                     <View style={styles.headerLinks}>
@@ -279,7 +279,7 @@ function RoverResume() {
 
                         <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
                             <Image src={mail} style={styles.icons}></Image>
-                            <Text style={styles.headerLinkText}>kakshat247@gmail.com</Text>
+                            <Text style={styles.headerLinkText}>{"kumar@akshat" }</Text>
                         </Link>
 
                         <Link src='https://www.linkedin.com/in/kumar-akshat/' style={styles.headerLink}>

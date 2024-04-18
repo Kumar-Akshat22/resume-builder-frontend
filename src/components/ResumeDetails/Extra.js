@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { MdAddTask } from "react-icons/md";
 import BulletPoint from './BulletPoint';
+import axios from 'axios';
 
-function Extra({ updateResumeDetails }) {
+function Extra({ updateResumeDetails , resumeDetails}) {
 
   const [extraDetailsForm, setExtraDetailsForm] = useState({
 
@@ -63,6 +64,12 @@ function Extra({ updateResumeDetails }) {
 
   }
 
+  const generateResume = async () =>{
+    saveDetails();
+    const res  = await axios.post('/api/v1/users/upload-details',{ resumeDetails:JSON.stringify(resumeDetails)},{headers:{Authorization:localStorage.getItem('AccessToken')}} )
+    console.log(res);
+  }
+
   console.log(achievements);
 
   return (
@@ -79,7 +86,7 @@ function Extra({ updateResumeDetails }) {
           </div>
 
           <div>
-            <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={saveDetails}>Save & Continue</button>
+            <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={generateResume}>Save & Continue</button>
           </div>
         </div>
 
