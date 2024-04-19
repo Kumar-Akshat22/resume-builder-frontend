@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { MdAddTask } from "react-icons/md";
 import BulletPoint from './BulletPoint';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function Extra({ updateResumeDetails , resumeDetails}) {
 
@@ -63,11 +65,18 @@ function Extra({ updateResumeDetails , resumeDetails}) {
     updateResumeDetails('extras' , extraDetailsForm);
 
   }
-
+  
+  const navigate = useNavigate()
   const generateResume = async () =>{
     saveDetails();
     const res  = await axios.post('/api/v1/users/upload-details',{ resumeDetails:JSON.stringify(resumeDetails)},{headers:{Authorization:localStorage.getItem('AccessToken')}} )
     console.log(res);
+
+    if(res.data.statusCode === 200){
+
+      toast.success('Resume Details Successfully Saved');
+      navigate('/generate-resume')
+    }
   }
 
   console.log(achievements);

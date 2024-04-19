@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Document, Image, Link, Page, Text, View, Svg, Font } from '@react-pdf/renderer';
 import { StyleSheet } from '@react-pdf/renderer';
 import mail from '../assets/mail.png';
@@ -9,25 +9,29 @@ import RobotoItalic from '../assets/roboto-font/Roboto-Italic.ttf';
 import RobotoLight from '../assets/roboto-font/Roboto-Light.ttf';
 
 
-function RoverResume({resumeDetails}) {
+
+function RoverResume({ resumeData }) {
+
+    console.log("resume data", resumeData);
+
 
     Font.register({
-        
-        family:'Roboto',
-        fonts:[
-            
+
+        family: 'Roboto',
+        fonts: [
+
             {
-                src:RobotoBold,
-                fontWeight:'bold',
+                src: RobotoBold,
+                fontWeight: 'bold',
             },
 
             {
-                src:RobotoItalic,
-                fontStyle:'italic',
+                src: RobotoItalic,
+                fontStyle: 'italic',
             },
 
             {
-                src:RobotoLight,
+                src: RobotoLight,
             }
         ]
     })
@@ -40,8 +44,8 @@ function RoverResume({resumeDetails}) {
             display: 'flex',
             flexDirection: 'column',
             gap: 1,
-            padding:10,
-            fontFamily:'Roboto',
+            padding: 10,
+            fontFamily: 'Roboto',
         },
 
         section: {
@@ -126,7 +130,8 @@ function RoverResume({resumeDetails}) {
 
             display: 'flex',
             flexDirection: 'column',
-            gap: 15,
+            gap: 1,
+            marginTop:7,
 
 
         },
@@ -146,64 +151,64 @@ function RoverResume({resumeDetails}) {
             gap: 7,
         },
 
-        educationGrade:{
+        educationGrade: {
 
-            display:'flex',
-            flexDirection:'row',
-            gap:5        
-        
-        },
-        
-        skillsSection:{
-
-            display:'flex',
-            flexDirection:'column',
-            gap:5,
-        },
-
-        projectSection:{
-
-            display:'flex',
-            flexDirection:'column',
-            gap:3,
-        },
-
-        projectContent:{
-
-            display:'flex',
-            flexDirection:'column',
-            gap:3,
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 5
 
         },
 
-        projectLinks:{
+        skillsSection: {
 
-            display:'flex',
-            flexDirection:'row',
-            gap:2,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 5,
+        },
+
+        projectSection: {
+
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+        },
+
+        projectContent: {
+
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 3,
+
+        },
+
+        projectLinks: {
+
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 2,
 
 
         },
 
-        certificationSection:{
+        certificationSection: {
 
-            display:'flex',
-            flexDirection:'column',
-            gap:2,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
         },
 
-        certificationTitle:{
+        certificationTitle: {
 
-            display:'flex',
-            flexDirection:'row',
-            justifyContent:'space-between',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
         },
 
         contentTitle: {
 
             fontWeight: 700,
             fontSize: 12,
-            fontStyle:'italic'
+            fontStyle: 'italic'
 
 
         },
@@ -216,12 +221,12 @@ function RoverResume({resumeDetails}) {
             marginTop: 5,
         },
 
-        achievementBulletSection:{
+        achievementBulletSection: {
 
             display: 'flex',
             flexDirection: 'column',
             gap: 3,
-            marginTop:2,
+            marginTop: 2,
         },
 
 
@@ -271,23 +276,23 @@ function RoverResume({resumeDetails}) {
                 <View style={styles.header}>
 
                     <Text style={styles.heading}>
-                        {resumeDetails?.personalDetails?.firstName + resumeDetails?.personalDetails?.lastName}
+                        {resumeData?.personalDetails.firstName + " " + resumeData?.personalDetails.lastName}
                     </Text>
 
                     <View style={styles.headerLinks}>
 
 
-                        <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
+                        <Link src={`mailto:${resumeData?.personalDetails.email}`} style={styles.headerLink}>
                             <Image src={mail} style={styles.icons}></Image>
-                            <Text style={styles.headerLinkText}>{"kumar@akshat" }</Text>
+                            <Text style={styles.headerLinkText}>Email</Text>
                         </Link>
 
-                        <Link src='https://www.linkedin.com/in/kumar-akshat/' style={styles.headerLink}>
+                        <Link src={`${resumeData?.links.linkedIn}`} style={styles.headerLink}>
                             <Image src={linkedin} style={styles.icons}></Image>
                             <Text style={styles.headerLinkText}>LinkedIn</Text>
                         </Link>
 
-                        <Link src='https://github.com/Kumar-Akshat22' style={styles.headerLink}>
+                        <Link src={`https://${resumeData?.links.github}`} style={styles.headerLink}>
                             <Image src={github} style={styles.icons}></Image>
                             <Text style={styles.headerLinkText}>GitHub</Text>
                         </Link>
@@ -296,6 +301,73 @@ function RoverResume({resumeDetails}) {
                 </View>
 
                 {/* Experience Section */}
+
+                {
+                    resumeData.experience
+                        ?
+                        <View style={styles.section}>
+                            <Text style={styles.subheading}>
+                                Experience
+                            </Text>
+
+                            <View>
+                            
+
+                            {
+                                resumeData.experience.map((experienceDetails, index) => (
+
+                                    <View key={index} style={styles.jobSection}>
+
+
+                                        {/* Job 1 */}
+                                        <View style={styles.companyDescription}>
+
+                                            <Text style={styles.contentTitle}>
+                                                {experienceDetails.experienceDetails.employer}
+                                            </Text>
+
+                                            <Text style={styles.contentTitle}>
+                                            
+                                            {experienceDetails.experienceDetails.startDate.month}
+                                            '
+                                            {experienceDetails.experienceDetails.startDate.year} - 
+                                            {
+                                                (experienceDetails.experienceDetails.endDate.month && experienceDetails.experienceDetails.endDate.year) === '' 
+                                                ? 
+                                                ' Present '
+                                                : 
+                                                ` ${experienceDetails.experienceDetails.endDate.month}'${experienceDetails.experienceDetails.endDate.year} `
+
+                                            }
+                                            </Text>
+
+                                        </View>
+
+                                        <Text style={styles.content}>
+                                            {experienceDetails.experienceDetails.jobTitle}
+                                        </Text>
+
+
+                                        <View style={styles.bulletSection}>
+                                            <BulletPoints text='Developed web applications using React'></BulletPoints>
+                                            <BulletPoints text='Collaborated with team members on project tasks'></BulletPoints>
+                                            <BulletPoints text='Specialized in creating content related to NumPy and contributed 25+ articles to the companys website.'></BulletPoints>
+                                            <BulletPoints text='Significantly enhanced my communication skills as I used to seek my mentor’s review for my writing.'></BulletPoints>
+
+                                        </View>
+
+
+
+                                    </View>
+                                ))
+                            }
+
+                            </View>
+                        </View>
+
+                        :
+                        ''
+                }
                 <View style={styles.section}>
 
                     <Text style={styles.subheading}>
@@ -328,34 +400,6 @@ function RoverResume({resumeDetails}) {
                                 <BulletPoints text='Collaborated with team members on project tasks'></BulletPoints>
                                 <BulletPoints text='Specialized in creating content related to NumPy and contributed 25+ articles to the companys website.'></BulletPoints>
                                 <BulletPoints text='Significantly enhanced my communication skills as I used to seek my mentor’s review for my writing.'></BulletPoints>
-
-                            </View>
-
-                        </View>
-
-                        <View>
-
-                            {/* Job 2 */}
-                            <View style={styles.companyDescription}>
-
-                                <Text style={styles.contentTitle}>
-                                    Microsoft
-                                </Text>
-
-                                <Text style={styles.contentTitle}>April'22 - Dec'23</Text>
-
-                            </View>
-
-                            <Text style={styles.content}>
-                                Cloud Engineer
-                            </Text>
-
-
-                            <View style={styles.bulletSection}>
-                                <BulletPoints text='Developed web applications using React'></BulletPoints>
-                                <BulletPoints text='Collaborated with team members on project tasks'></BulletPoints>
-                                <BulletPoints text='Specialized in creating content related to NumPy and contributed 25+ articles to the companys website.'></BulletPoints>
-
 
                             </View>
 
@@ -481,30 +525,30 @@ function RoverResume({resumeDetails}) {
 
                         {/* Project - 1 */}
                         <View style={styles.projectContent}>
-                            
+
                             <View style={styles.companyDescription}>
 
-                            <Text style={styles.contentTitle}>Blog Website</Text>
+                                <Text style={styles.contentTitle}>Blog Website</Text>
 
-                            {/* Project Links */}
-                            <View style={styles.projectLinks}>
-                                <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
-                                <Text style={styles.headerLinkText}>[Website]</Text>
-                                </Link>
-                                
-                                <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
-                                <Text style={styles.headerLinkText}>[GitHub]</Text>
-                                </Link>
+                                {/* Project Links */}
+                                <View style={styles.projectLinks}>
+                                    <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
+                                        <Text style={styles.headerLinkText}>[Website]</Text>
+                                    </Link>
+
+                                    <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
+                                        <Text style={styles.headerLinkText}>[GitHub]</Text>
+                                    </Link>
+                                </View>
+
                             </View>
 
-                            </View>
-                            
                             {/* Single Line Description of Project */}
                             <Text style={styles.contentTitle}>A blog website built using the React.js library</Text>
 
                             {/* Bullet Points */}
                             <View style={styles.bulletSection}>
-                            
+
                                 <BulletPoints text='A single-page website that provides articles on different topics.'></BulletPoints>
                                 <BulletPoints text='Dark and Light mode functionality to help users read easily even at night.'></BulletPoints>
                                 <BulletPoints text='The website has routing between the pages which is implemented using react-router.'></BulletPoints>
@@ -519,20 +563,20 @@ function RoverResume({resumeDetails}) {
 
                 {/* Achievements Section */}
                 <View style={styles.section}>
-                    
+
                     <Text style={styles.subheading}>
                         Achievements
                     </Text>
 
                     <View style={styles.projectSection}>
-                        
+
                         {/* Achievement - 1 */}
                         <View>
                             <Text style={styles.contentTitle}>QuizInit Coding Competition</Text>
-                            
+
                             {/* Bullet Points */}
                             <View style={styles.achievementBulletSection}>
-                            
+
                                 <BulletPoints text='Secured 3rd Rank in the QuizInit coding competition organized by the coding club of my college'></BulletPoints>
 
                             </View>
@@ -541,10 +585,10 @@ function RoverResume({resumeDetails}) {
                         {/* Achievement - 2 */}
                         <View>
                             <Text style={styles.contentTitle}>Smart India Hackathon</Text>
-                            
+
                             {/* Bullet Points */}
                             <View style={styles.achievementBulletSection}>
-                            
+
                                 <BulletPoints text='Participated at the college level of the Smart India Hackathon with a team of 5 members.'></BulletPoints>
 
                             </View>
@@ -562,25 +606,25 @@ function RoverResume({resumeDetails}) {
 
                     {/* Multiple Certifications */}
                     <View style={styles.certificationSection}>
-                        
+
                         {/* Cartification - 1 */}
                         <View>
 
                             {/* Title and Link */}
                             <View style={styles.certificationTitle}>
                                 <Text style={styles.contentTitle}>
-                                Machine Learing - iNeuron.ai
+                                    Machine Learing - iNeuron.ai
                                 </Text>
 
                                 <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
-                                <Text style={styles.headerLinkText}>[Link]</Text>
+                                    <Text style={styles.headerLinkText}>[Link]</Text>
                                 </Link>
 
                             </View>
 
                             {/* Bullet Points */}
                             <View style={styles.achievementBulletSection}>
-                            
+
                                 <BulletPoints text='Completed the Machine Learning Course from iNeuron.ai'></BulletPoints>
 
                             </View>
@@ -593,18 +637,18 @@ function RoverResume({resumeDetails}) {
                             {/* Title and Link */}
                             <View style={styles.certificationTitle}>
                                 <Text style={styles.contentTitle}>
-                                MERN Stack Development - CodeHelp
+                                    MERN Stack Development - CodeHelp
                                 </Text>
 
                                 <Link src='www.google.com' style={styles.headerLink}>
-                                <Text style={styles.headerLinkText}>[Link]</Text>
+                                    <Text style={styles.headerLinkText}>[Link]</Text>
                                 </Link>
 
                             </View>
 
                             {/* Bullet Points */}
                             <View style={styles.achievementBulletSection}>
-                            
+
                                 <BulletPoints text='Completed the MERN Stack Development Course from CodeHelp'></BulletPoints>
 
                             </View>
@@ -616,7 +660,7 @@ function RoverResume({resumeDetails}) {
                 </View>
 
             </Page>
-        </Document>
+        </Document >
     )
 }
 
