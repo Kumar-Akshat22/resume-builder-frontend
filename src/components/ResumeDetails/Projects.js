@@ -31,7 +31,7 @@ function Projects({updateResumeDetails}) {
 
   const saveDetails = ()=>{
 
-    updateResumeDetails("project", {projects});
+    updateResumeDetails("project", projects);
   }
 
   // To populate the bullet points data that can be mapped to a bullet point

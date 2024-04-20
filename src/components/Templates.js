@@ -18,7 +18,7 @@ function Templates() {
 
         <div className='container max-w-[1140px] mx-auto flex flex-col items-center py-20'>
             {/* Title */}
-            <h1 className='text-[2.2rem] font-poppins pb-12'>Start by picking a template:</h1>
+            <h1 className='text-[2.2rem] font-poppins pb-12 bg-gradient-to-r from-[#5433FF] to-[#20BDFF] inline-block text-transparent bg-clip-text'>Start by picking a template:</h1>
 
             {/* Resume Cards */}
             <div className='w-full flex justify-around gap-9 py-12'>

@@ -131,7 +131,7 @@ function RoverResume({ resumeData }) {
             display: 'flex',
             flexDirection: 'column',
             gap: 1,
-            marginTop:7,
+            marginTop: 7,
 
 
         },
@@ -144,18 +144,26 @@ function RoverResume({ resumeData }) {
 
         },
 
-        educationSection: {
+        educations: {
 
             display: 'flex',
             flexDirection: 'column',
             gap: 7,
+
+        },
+
+        educationSection: {
+
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 0,
         },
 
         educationGrade: {
 
             display: 'flex',
             flexDirection: 'row',
-            gap: 5
+            gap: 5,
 
         },
 
@@ -241,9 +249,6 @@ function RoverResume({ resumeData }) {
         bulletDot: {
 
             fontSize: 13,
-            verticalAlign: 'super',
-            paddingTop: 3,
-            lineHeight: 0.5,
 
         },
 
@@ -311,56 +316,61 @@ function RoverResume({ resumeData }) {
                             </Text>
 
                             <View>
-                            
-
-                            {
-                                resumeData.experience.map((experienceDetails, index) => (
-
-                                    <View key={index} style={styles.jobSection}>
 
 
-                                        {/* Job 1 */}
-                                        <View style={styles.companyDescription}>
+                                {
+                                    resumeData.experience.map((experienceDetails, index) => (
 
-                                            <Text style={styles.contentTitle}>
-                                                {experienceDetails.experienceDetails.employer}
+                                        <View key={index} style={styles.jobSection}>
+
+
+                                            {/* Job 1 */}
+                                            <View style={styles.companyDescription}>
+
+                                                <Text style={styles.contentTitle}>
+                                                    {experienceDetails.experienceDetails.employer}
+                                                </Text>
+
+                                                <Text style={styles.contentTitle}>
+
+                                                    {experienceDetails.experienceDetails.startDate.month}
+                                                    '
+                                                    {experienceDetails.experienceDetails.startDate.year} -
+                                                    {
+                                                        (experienceDetails.experienceDetails.endDate.month && experienceDetails.experienceDetails.endDate.year) === ''
+                                                            ?
+                                                            ' Present '
+                                                            :
+                                                            ` ${experienceDetails.experienceDetails.endDate.month}'${experienceDetails.experienceDetails.endDate.year} `
+
+                                                    }
+                                                </Text>
+
+                                            </View>
+
+                                            <Text style={styles.content}>
+                                                {experienceDetails.experienceDetails.jobTitle}
                                             </Text>
 
-                                            <Text style={styles.contentTitle}>
-                                            
-                                            {experienceDetails.experienceDetails.startDate.month}
-                                            '
-                                            {experienceDetails.experienceDetails.startDate.year} - 
-                                            {
-                                                (experienceDetails.experienceDetails.endDate.month && experienceDetails.experienceDetails.endDate.year) === '' 
-                                                ? 
-                                                ' Present '
-                                                : 
-                                                ` ${experienceDetails.experienceDetails.endDate.month}'${experienceDetails.experienceDetails.endDate.year} `
 
+                                            {experienceDetails.experienceDetails.contributions
+                                                ?
+                                                <View style={styles.bulletSection}>
+                                                    {
+                                                        experienceDetails.experienceDetails.contributions.map((contribution) => (<BulletPoints key={contribution.id} text={contribution.text}></BulletPoints>))
+                                                    }
+
+                                                </View>
+                                                :
+                                                ''
                                             }
-                                            </Text>
 
-                                        </View>
-
-                                        <Text style={styles.content}>
-                                            {experienceDetails.experienceDetails.jobTitle}
-                                        </Text>
-
-
-                                        <View style={styles.bulletSection}>
-                                            <BulletPoints text='Developed web applications using React'></BulletPoints>
-                                            <BulletPoints text='Collaborated with team members on project tasks'></BulletPoints>
-                                            <BulletPoints text='Specialized in creating content related to NumPy and contributed 25+ articles to the companys website.'></BulletPoints>
-                                            <BulletPoints text='Significantly enhanced my communication skills as I used to seek my mentor’s review for my writing.'></BulletPoints>
-
-                                        </View>
 
 
 
-                                    </View>
-                                ))
-                            }
+                                        </View>
+                                    ))
+                                }
 
                             </View>
                         </View>
@@ -368,123 +378,50 @@ function RoverResume({ resumeData }) {
                         :
                         ''
                 }
-                <View style={styles.section}>
-
-                    <Text style={styles.subheading}>
-                        Experience
-                    </Text>
-
-                    <View style={styles.jobSection}>
-
-                        <View>
-
-
-                            {/* Job 1 */}
-                            <View style={styles.companyDescription}>
-
-                                <Text style={styles.contentTitle}>
-                                    Google
-                                </Text>
-
-                                <Text style={styles.contentTitle}>April'24 - Present</Text>
-
-                            </View>
-
-                            <Text style={styles.content}>
-                                Full Stack Web Developer
-                            </Text>
-
-
-                            <View style={styles.bulletSection}>
-                                <BulletPoints text='Developed web applications using React'></BulletPoints>
-                                <BulletPoints text='Collaborated with team members on project tasks'></BulletPoints>
-                                <BulletPoints text='Specialized in creating content related to NumPy and contributed 25+ articles to the companys website.'></BulletPoints>
-                                <BulletPoints text='Significantly enhanced my communication skills as I used to seek my mentor’s review for my writing.'></BulletPoints>
-
-                            </View>
-
-                        </View>
-
-                    </View>
-
-                </View>
 
                 {/* Education Section */}
-                <View style={styles.section}>
 
-                    <Text style={styles.subheading}>
-                        Education
-                    </Text>
+                {
+                    resumeData.educationDetails
+                        ?
+                        <View style={styles.section}>
+                            <Text style={styles.subheading}>
+                                Education
+                            </Text>
 
-                    <View style={styles.educationSection}>
+                            <View style={styles.educations}>
 
-                        {/* Education - 1 */}
-                        <View>
 
-                            {/* Education Title */}
-                            <View style={styles.companyDescription}>
+                                {
+                                    resumeData.educationDetails.map((educationDetails, index) => (
 
-                                <Text style={styles.contentTitle}>
-                                    B.Tech in Computer Science Engineering - Sarala Birla University, Ranchi
-                                </Text>
+                                        <View key={index} style={styles.educationSection}>
+                                            {/* Education Title */}
+                                            <View style={styles.companyDescription}>
 
-                                <Text style={styles.contentTitle}>Nov'21 - Present</Text>
+                                                <Text style={styles.contentTitle}>
+                                                    {educationDetails.educationDetails.degree} {educationDetails.educationDetails.fieldOfStudy} - {educationDetails.educationDetails.schoolName}, {educationDetails.educationDetails.city}
+                                                </Text>
 
-                            </View>
+                                                <Text style={styles.contentTitle}>March'20 - April'21</Text>
 
-                            <View style={styles.educationGrade}>
-                                <Text style={styles.content}>CGPA:</Text>
-                                <Text style={styles.content}>/10</Text>
-                            </View>
+                                            </View>
 
-                        </View>
+                                            <View style={styles.educationGrade}>
+                                                <Text style={styles.content}>{educationDetails.educationDetails.grade}:</Text>
+                                                <Text style={styles.content}>{educationDetails.educationDetails.marks}</Text>
 
-                        {/* Education - 2 */}
-                        <View>
+                                            </View>
+                                        </View>
 
-                            {/* Education Title */}
-                            <View style={styles.companyDescription}>
-
-                                <Text style={styles.contentTitle}>
-                                    Class XII - DAV Public School, Bariatu, Ranchi
-                                </Text>
-
-                                <Text style={styles.contentTitle}>March'20 - April'21</Text>
-
-                            </View>
-
-                            <View style={styles.educationGrade}>
-                                <Text style={styles.content}>Grade:</Text>
-                                <Text style={styles.content}>Value</Text>
-
+                                    ))
+                                }
                             </View>
 
                         </View>
-                        {/* Education - 3 */}
-                        <View>
-
-                            {/* Education Title */}
-                            <View style={styles.companyDescription}>
-
-                                <Text style={styles.contentTitle}>
-                                    Class X - DAV Public School, Bariatu, Ranchi
-                                </Text>
-
-                                <Text style={styles.contentTitle}>March'19 - April'20</Text>
-
-                            </View>
-
-                            <View style={styles.educationGrade}>
-                                <Text style={styles.content}>Grade:</Text>
-                                <Text style={styles.content}>Value</Text>
-
-                            </View>
-
-                        </View>
-
-                    </View>
-
-                </View>
+                        :
+                        ''
+                }
 
                 {/* Skills Section */}
                 <View style={styles.section}>
@@ -515,51 +452,82 @@ function RoverResume({ resumeData }) {
                 </View>
 
                 {/* Projects Section */}
-                <View style={styles.section}>
 
-                    <Text style={styles.subheading}>
-                        Projects
-                    </Text>
+                {
 
-                    <View style={styles.projectSection}>
+                    resumeData.project
+                        ?
+                        <View style={styles.section}>
 
-                        {/* Project - 1 */}
-                        <View style={styles.projectContent}>
+                            <Text style={styles.subheading}>
+                                Projects
+                            </Text>
 
-                            <View style={styles.companyDescription}>
+                            <View>
+                                {
+                                    resumeData.project.map((projectDetails, index) => (
 
-                                <Text style={styles.contentTitle}>Blog Website</Text>
+                                        <View key={index} style={styles.projectSection}>
 
-                                {/* Project Links */}
-                                <View style={styles.projectLinks}>
-                                    <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
-                                        <Text style={styles.headerLinkText}>[Website]</Text>
-                                    </Link>
+                                            <View style={styles.projectContent}>
 
-                                    <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
-                                        <Text style={styles.headerLinkText}>[GitHub]</Text>
-                                    </Link>
-                                </View>
+                                                <View style={styles.companyDescription}>
+                                                    
+                                                    {/* Title of the Project */}
+                                                    <Text style={styles.contentTitle}>{projectDetails.projectDetails.title}</Text>
 
+                                                    {/* Project Links */}
+                                                    <View style={styles.projectLinks}>
+                                                        <Link src={`${projectDetails.projectDetails.liveLink}`} style={styles.headerLink}>
+                                                            <Text style={styles.headerLinkText}>[Website]</Text>
+                                                        </Link>
+
+                                                        <Link src={`${projectDetails.projectDetails.githubLink}`} style={styles.headerLink}>
+                                                            <Text style={styles.headerLinkText}>[GitHub]</Text>
+                                                        </Link>
+                                                    </View>
+
+                                                </View>
+
+                                                {/* Single Line Description of Project */}
+                                                <Text style={styles.contentTitle}>{projectDetails.projectDetails.shortDescription}</Text>
+
+                                                {/* Bullet Points */}
+                                                {
+                                                    projectDetails.projectDetails.projectDescription
+                                                    ?
+
+                                                    <View style={styles.bulletSection}>
+
+                                                    {
+                                                        projectDetails.projectDetails.projectDescription.map((description)=>(
+                                                            
+                                                            <BulletPoints key={description.id} text={description.text}></BulletPoints>
+                                                        ))
+                                                    }
+
+                                                    </View>
+                                                    
+                                                    :
+                                                    ''
+
+                                                }
+
+                                            </View>
+                                        </View>
+
+                                    ))
+                                }
                             </View>
 
-                            {/* Single Line Description of Project */}
-                            <Text style={styles.contentTitle}>A blog website built using the React.js library</Text>
 
-                            {/* Bullet Points */}
-                            <View style={styles.bulletSection}>
-
-                                <BulletPoints text='A single-page website that provides articles on different topics.'></BulletPoints>
-                                <BulletPoints text='Dark and Light mode functionality to help users read easily even at night.'></BulletPoints>
-                                <BulletPoints text='The website has routing between the pages which is implemented using react-router.'></BulletPoints>
-                                <BulletPoints text='The website is completely responsive and works seamlessly across different devices.'></BulletPoints>
-
-                            </View>
 
                         </View>
-                    </View>
 
-                </View>
+                        :
+                        ''
+                }
+
 
                 {/* Achievements Section */}
                 <View style={styles.section}>

@@ -8,7 +8,7 @@ function ResumeDetails() {
     
   return (
     
-    <div className='w-full border border-blue-500 p-5'>
+    <div className='w-full border p-5'>
 
         <div className='max-w-[1140px] mx-auto text-center mb-8'>
             <p className='text-2xl'>Few more steps... </p>

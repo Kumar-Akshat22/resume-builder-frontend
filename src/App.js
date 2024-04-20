@@ -13,6 +13,7 @@ import Links from './components/ResumeDetails/Links';
 import { useEffect, useState } from 'react';
 import SignUp from './pages/SignUp';
 import GenerateResume from './pages/GenerateResume';
+import ResumeTemplates from './pages/ResumeTemplates';
 
 function App() {
 
@@ -49,7 +50,8 @@ function App() {
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/signin" element={<Login></Login>}></Route>
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/generate-resume' element={<GenerateResume />} />
+
+        <Route path='/templates' element={<ResumeTemplates />} />
 
         <Route path='/resume-details/:resumeName/' element={<ResumeDetails></ResumeDetails>}>
           {/* <Route index element={<PersonalDetails/>}/> */}
@@ -63,6 +65,7 @@ function App() {
 
         </Route>
 
+        <Route path='/generate-resume' element={<GenerateResume />} />
 
       </Routes>
 

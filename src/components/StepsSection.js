@@ -11,7 +11,7 @@ function StepsSection() {
       <div className='container max-w-[1140px] mx-auto flex flex-col items-center py-20'>
 
         {/* Title */}
-        <h1 className='text-[2.2rem] font-poppins pb-12'>Just four simple steps to download your resume:</h1>
+        <h1 className='text-[2.2rem] font-poppins pb-12 bg-gradient-to-r from-[#5433FF] to-[#20BDFF] inline-block text-transparent bg-clip-text'>Just four simple steps to download your resume:</h1>
 
         {/* Steps */}
         <div className='w-full mx-auto flex justify-around gap-6 py-16'>

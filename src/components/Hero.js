@@ -1,5 +1,6 @@
 import React from "react";
 import HeroImage from '../assets/HeroImage.png'
+import { ReactTyped } from "react-typed";
 
 function Hero() {
   return (
@@ -14,7 +15,21 @@ function Hero() {
 
           <div className="md:w-[80%]">
             
-            <h1 className="font-poppins text-[2.8rem] mt-0 leading-[3.6rem]">Online Resume Builder Quick, Easy & Free</h1>
+            <h1 className="font-poppins text-[2.8rem] mt-0 leading-[3.6rem]"><span className="">Online Resume Builder </span> 
+            That is {" "}
+            <ReactTyped strings={["Quick" , "Easy" , "Free to use"]}
+                        typeSpeed={200}
+                        loop
+                        backDelay={100}
+                        backSpeed={70}
+                        cursorChar="|"
+                        showCursor={true}
+                        className="text-[#3983fa]" />
+            </h1>
+
+            <h1>
+              
+            </h1>
 
             
             <p className="mt-[3rem] leading-8 font-poppins text-[18px] font-light">Our Perfect resume builder takes the hassle out of resume writing. Choose from several templates and follow easy prompts to create the perfect job-ready resume.</p>

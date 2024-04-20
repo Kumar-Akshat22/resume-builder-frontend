@@ -12,10 +12,18 @@ function Navbar() {
                 </div>
 
                 <ul className="font-poppins flex gap-5">
-                    <li className="cursor-pointer bg-[#f1f8fe] text-[#3983fa] rounded-full ">Home</li>
-                    <li className="cursor-pointer">Templates</li>
-                    <li className="cursor-pointer">About Us</li>
-                    <li className="cursor-pointer">Contact</li>
+
+                    <Link to={'/'}>
+                    <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">Home</li>
+                    </Link>
+
+                    <Link to={'/templates'}>
+
+                    <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">Templates</li>
+                    </Link>
+
+                    <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">About Us</li>
+                    <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">Contact</li>
                 </ul>
 
 

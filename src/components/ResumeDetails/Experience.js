@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import Save from './Save';
+import toast from 'react-hot-toast';
+
 
 function Experience({ updateResumeDetails }) {
 
@@ -21,37 +25,41 @@ function Experience({ updateResumeDetails }) {
             year: '',
         },
 
-        contributions:[]
+        contributions: []
 
     });
 
+    const [editingMode, setEditingMode] = useState(false);
+
+    const [selectedExperienceID , setSelectedExperienceID] = useState(null);
+
     const handleCheckBoxChange = () => {
-        
+
         setIsEndDateDisabled(!isEndDateDisabled);
-    
+
     }
-    
+
 
     const handleChange = (event) => {
 
         const { name, value } = event.target;
-    
-        setExperienceDetails({ ...experienceDetails, [name]: value});
+
+        setExperienceDetails({ ...experienceDetails, [name]: value });
     }
 
-    const handleStartDate = (event)=>{
+    const handleStartDate = (event) => {
 
-        const {name , value} = event.target;
-    
-        setExperienceDetails({...experienceDetails , startDate:{...experienceDetails.startDate , [name]:value}});
-    
+        const { name, value } = event.target;
+
+        setExperienceDetails({ ...experienceDetails, startDate: { ...experienceDetails.startDate, [name]: value } });
+
     }
 
     const handleEndDate = (event) => {
 
-        const {name , value} = event.target;
+        const { name, value } = event.target;
 
-        setExperienceDetails({...experienceDetails , endDate:{...experienceDetails.endDate , [name]:value}});
+        setExperienceDetails({ ...experienceDetails, endDate: { ...experienceDetails.endDate, [name]: value } });
     }
 
     // To handle the input text of the field
@@ -66,7 +74,7 @@ function Experience({ updateResumeDetails }) {
             text,
         }
 
-        setExperienceDetails({...experienceDetails , contributions:[...experienceDetails.contributions , newPoint]});
+        setExperienceDetails({ ...experienceDetails, contributions: [...experienceDetails.contributions, newPoint] });
         setText('');
 
     }
@@ -75,20 +83,120 @@ function Experience({ updateResumeDetails }) {
     function deletePoint(id) {
 
         const newContributions = experienceDetails.contributions.filter(contribution => contribution.id !== id);
-        setExperienceDetails({...experienceDetails , contributions:[...experienceDetails.contributions , newContributions]});
+        setExperienceDetails({ ...experienceDetails, contributions: [...newContributions] });
 
     }
 
     const addExperience = () => {
-        setExperiences([...experiences, {experienceDetails}])
+
+        if(experienceDetails.employer && experienceDetails.jobTitle){
+
+            setExperiences([...experiences, { id: Date.now(), data: experienceDetails }]);
+            setExperienceDetails({
+                employer: "",
+                jobTitle: "",
+                startDate: {
+                    month: '',
+                    year: '',
+                },
+                endDate: {
+    
+                    month: '',
+                    year: '',
+                },
+    
+                contributions: []
+            });
+            setIsEndDateDisabled(false);
+            toast.success('Experience added successfully');
+
+        } else{
+
+            toast.error('Please fill out some details to continue');
+        }
+
+        
+
+    }
+
+    const deleteExperience = (id) => {
+
+        const newExperience = experiences.filter((experience) => experience.id !== id);
+        setExperiences(newExperience);
+        toast.success('Experience removed successfully');
+        console.log('Delete Icon is Clicked');
+
+
+    }
+
+    const editExperience = (id) => {
+
+        const experienceToEdit = experiences.find((experience) => experience.id === id);
+
+        setExperienceDetails(experienceToEdit.data);
+        setEditingMode(true);
+        setSelectedExperienceID(id);
+        console.log('Editing Mode turned ON');
+    }
+
+    const updateExperience = ()=>{
+
+        console.log('Inside updateExperience method');
+        console.log(`Updating the experience with the ID:${selectedExperienceID}`);
+
+        if(selectedExperienceID !== null){
+
+            const updatedExperiences = experiences.map((experience)=> {
+
+                if(experience.id === selectedExperienceID){
+
+                    return {...experience , data:experienceDetails}
+                }
+
+                return experience;
+            })
+
+            setExperiences(updatedExperiences);
+            setExperienceDetails({
+                employer: "",
+                jobTitle: "",
+                startDate: {
+                    month: '',
+                    year: '',
+                },
+                endDate: {
+    
+                    month: '',
+                    year: '',
+                },
+    
+                contributions: []
+            });
+            setIsEndDateDisabled(false);
+            setEditingMode(false);
+            setSelectedExperienceID(null)
+            toast.success('Deatils updated successfully');
+        }
 
     }
 
     const saveDetails = () => {
-        updateResumeDetails("experience", experiences);
+        
+        if(experiences.length > 0){
+
+            updateResumeDetails("experience", experiences);
+            toast.success('Experience Details successfully saved')
+        
+        } else{
+
+            toast.error('Please click Add Experience to continue');
+        }
     }
 
-    // console.log('Printing the Experiences Array:',experiences);
+
+    console.log('Printing the Experiences array:', experiences);
+
+    // console.log('Before clicking the Delete Icon Printing the Experiences Array:', experiences);
 
     return (
         <div className='w-full p-5 mt-6'>
@@ -102,7 +210,7 @@ function Experience({ updateResumeDetails }) {
                         <span className='text-sm'>List your work experience, most recent first</span>
                     </div>
 
-                    <Save saveDetails={saveDetails}/>
+                    <Save saveDetails={saveDetails} />
 
                 </div>
 
@@ -246,7 +354,7 @@ function Experience({ updateResumeDetails }) {
 
                             {
                                 experienceDetails.contributions.map(
-                                    (contribution , index) => {
+                                    (contribution, index) => {
 
                                         return <BulletPoint key={index} {...contribution} deletePoint={deletePoint}></BulletPoint>
                                     }
@@ -256,14 +364,88 @@ function Experience({ updateResumeDetails }) {
 
                     </label>
 
-                    <div className="cursor-pointer mt-4">
-                        <button
-                            className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200" onClick={addExperience}>
-                            Add Experience
-                        </button>
-                    </div>
+                    {
+                        editingMode
+                            ? <div className="cursor-pointer mt-4">
+                                <button
+                                    className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200" onClick={updateExperience}>
+                                    Update Experience
+                                </button>
+                            </div>
+                            :
+                            <div className="cursor-pointer mt-4">
+                                <button
+                                    className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200" onClick={addExperience}>
+                                    Add Experience
+                                </button>
+                            </div>
+                    }
+
 
                 </div>
+
+
+                {
+                    experiences.length > 0
+                        &&
+                        (<div className='w-full mt-8 flex flex-col gap-5'>
+                            {
+                                experiences.map((experience) => (
+
+                                    <div key={experience.id} className='w-full p-5 border rounded-[14px] flex flex-col gap-5 transition-all duration-300 hover:shadow-md'>
+                                        <div className='w-full flex items-center justify-between'>
+                                            <div>
+                                                <h1 className='font-poppins font-semibold text-lg'>{experience.data?.employer}</h1>
+                                                <p className='font-poppins font-normal'>{experience.data?.jobTitle}</p>
+
+                                            </div>
+
+                                            <div className='flex flex-col gap-2'>
+
+
+                                                <p className='font-poppins'>
+                                                    {experience.data.startDate?.month}
+                                                    '
+                                                    {experience.data.startDate?.year} -
+                                                    {
+                                                        (experience.data.endDate?.month && experience.data.endDate?.year) === ''
+                                                            ?
+                                                            ' Present '
+                                                            :
+                                                            ` ${experience.data.endDate?.month}'${experience.data.endDate?.year} `
+
+                                                    }
+                                                </p>
+                                                <div className='flex justify-start gap-5' >
+                                                    <MdEdit size={19} className='cursor-pointer text-[#d2d2d2] hover:text-green-500 transition-all duration-200' onClick={()=> editExperience(experience.id)} disabled={editingMode}/>
+                                                    <MdDelete size={19} className='cursor-pointer text-[#d2d2d2] hover:text-red-500 transition-all duration-200' onClick={() => deleteExperience(experience.id)} disabled={editingMode}/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {
+                                            experience.data.contributions
+                                                ?
+                                                <div>
+                                                    <ul className='list-disc font-poppins'>
+                                                        {experience.data.contributions.map((contribution) => (
+                                                            <li className='ml-5 mt-0' key={contribution.id}>{contribution.text}</li>
+
+                                                        ))
+                                                        }
+                                                    </ul>
+                                                </div>
+                                                :
+                                                ''
+                                        }
+
+                                    </div>
+                                ))
+                            }
+                        </div>)
+
+                        
+                }
 
             </div>
 

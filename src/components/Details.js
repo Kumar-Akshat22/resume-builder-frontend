@@ -8,7 +8,7 @@ function Details() {
     <section className='w-full bg-gradient-to-t from-white to-[#0b77ed40]'>
       <div className='container max-w-[1140px] mx-auto flex flex-col items-center py-20'>
         {/* Title */}
-        <h1 className='text-[2.2rem] font-poppins pb-12'>Remove Headache of Creating a Resume!</h1>
+        <h1 className='text-[2.2rem] font-poppins pb-12 bg-gradient-to-r from-[#5433FF] to-[#ff20ec] inline-block text-transparent bg-clip-text'>Remove Headache of Creating a Resume!</h1>
 
         <div className='w-full flex py-20'>
           {/* Left Image */}
