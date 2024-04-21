@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react';
 import SignUp from './pages/SignUp';
 import GenerateResume from './pages/GenerateResume';
 import ResumeTemplates from './pages/ResumeTemplates';
+import Certifications from './components/ResumeDetails/Certifications';
+import Achievements from './components/ResumeDetails/Achievements';
 
 function App() {
 
@@ -58,10 +60,11 @@ function App() {
           <Route path = 'education' element={<Education updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'projects' element={<Projects updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'experience' element={<Experience updateResumeDetails={updateResumeDetails}/>} />
-          <Route path = 'extra' element={<Extra resumeDetails = {resumeDetails} updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'personaldetails' element={<PersonalDetails updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'skills' element={<Skills updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'links' element={<Links updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'certifications' element={<Certifications updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'achievements' element={<Achievements resumeDetails = {resumeDetails} updateResumeDetails={updateResumeDetails}/>} />
 
         </Route>
 

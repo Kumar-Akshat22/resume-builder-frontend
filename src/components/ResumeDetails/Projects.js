@@ -1,41 +1,112 @@
 import React, { useEffect, useState } from 'react'
 import BulletPoint from './BulletPoint';
 import { MdAddTask } from "react-icons/md";
+import { MdEdit } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
+import toast from 'react-hot-toast';
 import Save from './Save';
 
-function Projects({updateResumeDetails}) {
+function Projects({ updateResumeDetails }) {
 
-  const [projects , setProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   const [projectDetails, setProjectDetails] = useState({
     title: "",
     shortDescription: "",
     liveLink: "",
     githubLink: "",
-    
-    projectDescription:[]
+
+    projectDescription: []
 
   });
+
+  const resetFields = () => {
+
+    setProjectDetails({
+      title: "",
+      shortDescription: "",
+      liveLink: "",
+      githubLink: "",
+
+      projectDescription: []
+    })
+  }
+
+  const [editingMode, setEditingMode] = useState(false);
+  const [selectedProjectID, setSelectedProjectID] = useState(null);
 
   const handleChange = (event) => {
 
     const { name, value } = event.target;
 
-    setProjectDetails({ ...projectDetails, [name]: value});
+    setProjectDetails({ ...projectDetails, [name]: value });
   }
 
-  const addProject = ()=>{
-    setProjects([...projects, {projectDetails}])
+  const addProject = () => {
+
+    if (projectDetails.title && projectDetails.shortDescription) {
+
+      setProjects([...projects, { id: Date.now(), data: projectDetails }])
+      resetFields();
+      toast.success('Project added');
+
+    } else {
+
+      toast.error('Please fill out some details')
+    }
 
   }
 
-  const saveDetails = ()=>{
+  const deleteProject = (id) => {
 
-    updateResumeDetails("project", projects);
+    const newProjects = projects.filter((project) => project.id !== id);
+    setProjects(newProjects);
+    toast.success('Project removed successfully');
+    console.log('Delete Icon is Clicked');
   }
 
-  // To populate the bullet points data that can be mapped to a bullet point
-  const [bulletPoints, setBulletPoints] = useState([]);
+  const editProject = (id) => {
+
+    const projectToEdit = projects.find((project) => project.id === id);
+
+    setProjectDetails(projectToEdit.data);
+    setEditingMode(true);
+    setSelectedProjectID(id);
+    console.log('Editing Mode turned ON');
+
+
+  }
+
+  const updateProject = () => {
+
+    console.log(`Updating the Project with the ID:${selectedProjectID}`);
+
+    if (selectedProjectID !== null) {
+
+      const updatedProjects = projects.map((project) => {
+
+        if (project.id === selectedProjectID) {
+
+          return { ...project, data: projectDetails }
+        }
+
+        return project;
+      })
+
+      setProjects(updatedProjects);
+      resetFields();
+      setEditingMode(false);
+      setSelectedProjectID(null);
+      toast.success('Deatils updated successfully');
+    }
+
+  }
+
+  const saveDetails = () => {
+
+    updateResumeDetails("projects", projects);
+    toast.success('Education Details successfully saved')
+  }
 
   // To handle the input text of the field
   const [text, setText] = useState('');
@@ -44,7 +115,7 @@ function Projects({updateResumeDetails}) {
 
 
   // To add Bullet Points
-  function addPoint(text) {
+  const addPoint = (text) => {
 
     const newPoint = {
 
@@ -52,7 +123,7 @@ function Projects({updateResumeDetails}) {
       text,
     }
 
-    setProjectDetails({...projectDetails , projectDescription:[...projectDetails.projectDescription , newPoint]});
+    setProjectDetails({ ...projectDetails, projectDescription: [...projectDetails.projectDescription, newPoint] });
     setText('');
 
   }
@@ -60,18 +131,18 @@ function Projects({updateResumeDetails}) {
   // Function to delete a point
   function deletePoint(id) {
 
-    const newBulletPoints = bulletPoints.filter(bulletPoint => bulletPoint.id !== id);
-    setBulletPoints(newBulletPoints);
+    const newProjectPoints = projectDetails.projectDescription.filter(point => point.id !== id);
+    setProjectDetails({ ...projectDetails, projectDescription: [...newProjectPoints] });
 
   }
 
-  console.log('Printing the Projects Array',projects)
+  console.log('Printing the Projects Array', projects)
 
 
   return (
     <div className='w-full p-5 mt-6'>
 
-      <div className='max-w-[1140px] mx-auto'>
+      <div className='max-w-[1140px] mx-auto font-openSans'>
 
         <div className='w-full flex justify-between'>
 
@@ -81,7 +152,7 @@ function Projects({updateResumeDetails}) {
           </div>
 
           <Save saveDetails={saveDetails} />
-          
+
         </div>
 
 
@@ -92,7 +163,7 @@ function Projects({updateResumeDetails}) {
           <div className='flex gap-5 align-items-center justify-center'>
             <label className='w-[50%]'>
               <span className=''>Name</span>
-              <input type='text' name='title' value={projectDetails.title} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
+              <input type='text' name='title' value={projectDetails.title} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
             </label>
 
             <label className='w-[50%]'>
@@ -105,7 +176,7 @@ function Projects({updateResumeDetails}) {
           <div className='flex gap-5 align-items-center justify-center'>
             <label className='w-[50%]'>
               <span className=''>Live Link</span>
-              <input type='text' name='liveLink' value={projectDetails.liveLink} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
+              <input type='text' name='liveLink' value={projectDetails.liveLink} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
             </label>
 
             <label className='w-[50%]'>
@@ -133,7 +204,7 @@ function Projects({updateResumeDetails}) {
 
               {
                 projectDetails.projectDescription.map(
-                  (point , index) => {
+                  (point, index) => {
 
                     return <BulletPoint key={index} {...point} deletePoint={deletePoint}></BulletPoint>
                   }
@@ -143,14 +214,69 @@ function Projects({updateResumeDetails}) {
 
           </label>
 
-          <div className="cursor-pointer mt-4">
-              <button
-                className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200"
-                onClick={addProject}
-              >
-                Add Project
-              </button>
-            </div>   
+          {
+            editingMode
+              ?
+              <div className='mt-5'>
+                <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={updateProject}>Update Project</button>
+              </div>
+              :
+              <div className='mt-5'>
+                <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={addProject}>Add Project</button>
+              </div>
+          }
+
+          {
+            projects.length > 0
+            &&
+            (<div className='w-full mt-5 flex flex-col gap-5'>
+              {
+                projects.map((project) => (
+
+                  <div key={project.id} className='w-full p-5 border rounded-[14px] flex flex-col gap-5 transition-all duration-300 hover:shadow-md'>
+                    <div className='w-full flex items-center justify-between'>
+                      <div>
+                        <h1 className='font-openSans font-semibold text-lg'>{project.data?.title + " - " + project.data?.shortDescription}</h1>
+
+                        {
+                          project.data.projectDescription
+                            ?
+                            <div>
+                              <ul className='list-disc font-openSans'>
+                                {project.data.projectDescription.map((desc) => (
+                                  <li className='ml-5 mt-0' key={desc.id}>{desc.text}</li>
+
+                                ))
+                                }
+                              </ul>
+                            </div>
+                            :
+                            ''
+                        }
+
+                      </div>
+
+                      <div className='flex flex-col gap-2 items-center'>
+
+                        <div className='flex gap-3'>
+                          <a href={`${project.data?.liveLink}`} className='text-green-500'>Live Link</a>
+                          <a href={`${project.data?.githubLink}`} className='text-yellow-500'>Github</a>
+                        </div>
+
+                        <div className='flex justify-start gap-5' >
+                          <MdEdit size={19} className='cursor-pointer text-[#d2d2d2] hover:text-green-500 transition-all duration-200' onClick={() => editProject(project.id)} disabled={editingMode} />
+                          <MdDelete size={19} className='cursor-pointer text-[#d2d2d2] hover:text-red-500 transition-all duration-200' onClick={() => deleteProject(project.id)} disabled={editingMode} />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                ))
+              }
+            </div>)
+
+
+          }
 
         </div>
 

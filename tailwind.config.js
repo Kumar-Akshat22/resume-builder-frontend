@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       fontFamily:{
         poppins:["Poppins" , "sans-serif"],
+        openSans:["Open Sans" , "sans-serif"]
       },
 
       backgroundImage: {

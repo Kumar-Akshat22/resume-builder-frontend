@@ -297,7 +297,7 @@ function RoverResume({ resumeData }) {
                             <Text style={styles.headerLinkText}>LinkedIn</Text>
                         </Link>
 
-                        <Link src={`https://${resumeData?.links.github}`} style={styles.headerLink}>
+                        <Link src={`${resumeData?.links.github}`} style={styles.headerLink}>
                             <Image src={github} style={styles.icons}></Image>
                             <Text style={styles.headerLinkText}>GitHub</Text>
                         </Link>
@@ -319,7 +319,7 @@ function RoverResume({ resumeData }) {
 
 
                                 {
-                                    resumeData.experience.map((experienceDetails, index) => (
+                                    resumeData.experience.map((exp, index) => (
 
                                         <View key={index} style={styles.jobSection}>
 
@@ -328,20 +328,20 @@ function RoverResume({ resumeData }) {
                                             <View style={styles.companyDescription}>
 
                                                 <Text style={styles.contentTitle}>
-                                                    {experienceDetails.experienceDetails.employer}
+                                                    {exp.data.employer}
                                                 </Text>
 
                                                 <Text style={styles.contentTitle}>
 
-                                                    {experienceDetails.experienceDetails.startDate.month}
+                                                    {exp.data.startDate.month}
                                                     '
-                                                    {experienceDetails.experienceDetails.startDate.year} -
+                                                    {exp.data.startDate.year} -
                                                     {
-                                                        (experienceDetails.experienceDetails.endDate.month && experienceDetails.experienceDetails.endDate.year) === ''
+                                                        (exp.data.endDate.month && exp.data.endDate.year) === ''
                                                             ?
                                                             ' Present '
                                                             :
-                                                            ` ${experienceDetails.experienceDetails.endDate.month}'${experienceDetails.experienceDetails.endDate.year} `
+                                                            ` ${exp.data.endDate.month}'${exp.data.endDate.year} `
 
                                                     }
                                                 </Text>
@@ -349,15 +349,15 @@ function RoverResume({ resumeData }) {
                                             </View>
 
                                             <Text style={styles.content}>
-                                                {experienceDetails.experienceDetails.jobTitle}
+                                                {exp.data.jobTitle}
                                             </Text>
 
 
-                                            {experienceDetails.experienceDetails.contributions
+                                            {exp.data.contributions
                                                 ?
                                                 <View style={styles.bulletSection}>
                                                     {
-                                                        experienceDetails.experienceDetails.contributions.map((contribution) => (<BulletPoints key={contribution.id} text={contribution.text}></BulletPoints>))
+                                                        exp.data.contributions.map((contribution) => (<BulletPoints key={contribution.id} text={contribution.text}></BulletPoints>))
                                                     }
 
                                                 </View>

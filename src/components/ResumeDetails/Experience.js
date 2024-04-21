@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import Save from './Save';
 import toast from 'react-hot-toast';
+import { Tooltip } from '@mui/material';
 
 
 function Experience({ updateResumeDetails }) {
@@ -89,6 +90,7 @@ function Experience({ updateResumeDetails }) {
 
     const addExperience = () => {
 
+        console.log('Inside addExperience function')
         if(experienceDetails.employer && experienceDetails.jobTitle){
 
             setExperiences([...experiences, { id: Date.now(), data: experienceDetails }]);
@@ -181,16 +183,11 @@ function Experience({ updateResumeDetails }) {
     }
 
     const saveDetails = () => {
-        
-        if(experiences.length > 0){
 
             updateResumeDetails("experience", experiences);
             toast.success('Experience Details successfully saved')
         
-        } else{
-
-            toast.error('Please click Add Experience to continue');
-        }
+        
     }
 
 
@@ -201,12 +198,12 @@ function Experience({ updateResumeDetails }) {
     return (
         <div className='w-full p-5 mt-6'>
 
-            <div className='max-w-[1140px] mx-auto'>
+            <div className='max-w-[1140px] mx-auto font-openSans'>
 
                 <div className='w-full flex justify-between'>
 
                     <div className='mb-4'>
-                        <p className='uppercase text-xl'>Experience</p>
+                        <p className='uppercase text-2xl'>Experience</p>
                         <span className='text-sm'>List your work experience, most recent first</span>
                     </div>
 
@@ -220,7 +217,7 @@ function Experience({ updateResumeDetails }) {
                     <div className='flex gap-5 align-items-center justify-center'>
                         <label className='w-[50%]'>
                             <span className=''>Employer</span>
-                            <input type='text' name='employer' value={experienceDetails.employer} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1'></input>
+                            <input type='text' name='employer' value={experienceDetails.employer} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
                         </label>
 
                         <label className='w-[50%]'>
@@ -346,10 +343,13 @@ function Experience({ updateResumeDetails }) {
 
                                 <input type='text' value={text} onChange={(e) => { setText(e.target.value) }} placeholder='e.g. Led a team of 10 members' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
 
+                                <Tooltip title="Add point" arrow placement='top' className='text-lg'>
                                 <div className='flex items-center cursor-pointer' onClick={() => addPoint(text)}>
+                                    
                                     <MdAddTask color="#3983fa" size={30} />
+                                    
                                 </div>
-
+                                </Tooltip>
                             </div>
 
                             {
@@ -395,15 +395,15 @@ function Experience({ updateResumeDetails }) {
                                     <div key={experience.id} className='w-full p-5 border rounded-[14px] flex flex-col gap-5 transition-all duration-300 hover:shadow-md'>
                                         <div className='w-full flex items-center justify-between'>
                                             <div>
-                                                <h1 className='font-poppins font-semibold text-lg'>{experience.data?.employer}</h1>
-                                                <p className='font-poppins font-normal'>{experience.data?.jobTitle}</p>
+                                                <h1 className='font-openSans font-semibold text-lg'>{experience.data?.employer}</h1>
+                                                <p className='font-openSans font-normal'>{experience.data?.jobTitle}</p>
 
                                             </div>
 
                                             <div className='flex flex-col gap-2'>
 
 
-                                                <p className='font-poppins'>
+                                                <p className='font-openSans'>
                                                     {experience.data.startDate?.month}
                                                     '
                                                     {experience.data.startDate?.year} -
@@ -427,7 +427,7 @@ function Experience({ updateResumeDetails }) {
                                             experience.data.contributions
                                                 ?
                                                 <div>
-                                                    <ul className='list-disc font-poppins'>
+                                                    <ul className='list-disc font-openSans'>
                                                         {experience.data.contributions.map((contribution) => (
                                                             <li className='ml-5 mt-0' key={contribution.id}>{contribution.text}</li>
 
