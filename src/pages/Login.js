@@ -1,4 +1,5 @@
 import React from 'react'
+import SignIn from '../components/SignIn'
 
 function Login() {
   const getLogin = ()=>{
@@ -8,7 +9,7 @@ function Login() {
 
   return (
     <div>
-      <p>This is Login Page</p>
+      <SignIn />
     </div>
   )
 }

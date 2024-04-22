@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { MdAddTask } from "react-icons/md";
 import BulletPoint from './BulletPoint';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
-function Extra({ updateResumeDetails }) {
+function Extra({ updateResumeDetails , resumeDetails}) {
 
   const [extraDetailsForm, setExtraDetailsForm] = useState({
 
@@ -62,6 +65,19 @@ function Extra({ updateResumeDetails }) {
     updateResumeDetails('extras' , extraDetailsForm);
 
   }
+  
+  const navigate = useNavigate()
+  const generateResume = async () =>{
+    saveDetails();
+    const res  = await axios.post('/api/v1/users/upload-details',{ resumeDetails:JSON.stringify(resumeDetails)},{headers:{Authorization:localStorage.getItem('AccessToken')}} )
+    console.log(res);
+
+    if(res.data.statusCode === 200){
+
+      toast.success('Resume Details Successfully Saved');
+      navigate('/generate-resume')
+    }
+  }
 
   console.log(achievements);
 
@@ -79,7 +95,7 @@ function Extra({ updateResumeDetails }) {
           </div>
 
           <div>
-            <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={saveDetails}>Save & Continue</button>
+            <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={generateResume}>Save & Continue</button>
           </div>
         </div>
 

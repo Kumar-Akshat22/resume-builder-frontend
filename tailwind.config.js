@@ -7,6 +7,12 @@ module.exports = {
     extend: {
       fontFamily:{
         poppins:["Poppins" , "sans-serif"],
+        openSans:["Open Sans" , "sans-serif"]
+      },
+
+      backgroundImage: {
+
+        'template-pattern': "url(/src/assets/TemplateSectionImage.png)"
       }
     },
   },

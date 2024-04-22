@@ -28,7 +28,7 @@ function Links( {updateResumeDetails} ) {
 
     <div className="w-full p-5 mt-6">
 
-        <div className='max-w-[1140px] mx-auto flex flex-col gap-7'>
+        <div className='max-w-[1140px] mx-auto flex flex-col gap-7 font-openSans'>
 
             <div className='w-full flex justify-between'>
 
@@ -53,7 +53,7 @@ function Links( {updateResumeDetails} ) {
                         <input
                         type="text" name='linkedIn' value={linksFormData.linkedIn} onChange={handleChange}
                         placeholder="e.g. John"
-                        className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1"
+                        className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1"
                     ></input>
                     </label>
 
@@ -73,7 +73,7 @@ function Links( {updateResumeDetails} ) {
                         <input
                         type="text" name='website' value={linksFormData.website} onChange={handleChange}
                         placeholder="e.g. John"
-                        className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1"
+                        className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1"
                     ></input>
                     </label>
 
@@ -93,7 +93,7 @@ function Links( {updateResumeDetails} ) {
                         <input
                         type="text" name='github' value={linksFormData.github} onChange={handleChange}
                         placeholder="e.g. John"
-                        className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1"
+                        className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1"
                     ></input>
                     </label>
 

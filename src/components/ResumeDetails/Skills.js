@@ -3,11 +3,15 @@ import BulletPoint from './BulletPoint'
 import { MdAddTask } from "react-icons/md";
 import Save from './Save';
 
-function Skills( {updateResumeDetails} ) {
+function Skills({ updateResumeDetails }) {
 
-    const [skillFormDetails , setSkillFormDetails] = useState({});
+    const [skillDetails, setSkillDetails] = useState({
 
-    const [skillType , setSkillType] = useState('');
+        progLanguages:[],
+        frameworks:[],
+        tools:[],
+
+    });
 
     // To populate the bullet points data that can be mapped to a bullet point
     const [bulletPoints, setBulletPoints] = useState(() => {
@@ -63,10 +67,10 @@ function Skills( {updateResumeDetails} ) {
 
     }
 
-    const saveDetails = ()=>{
-        
+    const saveDetails = () => {
 
-        updateResumeDetails('skills' , bulletPoints)
+
+        updateResumeDetails('skills', bulletPoints)
 
     }
 
@@ -82,20 +86,15 @@ function Skills( {updateResumeDetails} ) {
 
     return (
         <div className="w-full p-5 mt-6">
-            <div className='max-w-[1140px] mx-auto'>
+            <div className='max-w-[1140px] mx-auto font-openSans'>
                 <div className='w-full flex justify-between items-center'>
 
                     <div className='mb-4'>
                         <p className='uppercase text-xl'>Skills</p>
                         <span className='text-sm'>Highlight 6-8 of your top skills.</span>
                     </div>
-                    
-                        <Save saveDetails={saveDetails}/>
 
-
-
-                
-
+                    <Save saveDetails={saveDetails} />
 
                 </div>
 
@@ -103,9 +102,12 @@ function Skills( {updateResumeDetails} ) {
 
 
 
-                    <div className='flex flex-col gap-6'>
-
+                    <div className='flex gap-6'>
+                        
+                        <label>
+                        <span>Prgramming Languages</span>
                         <div className='w-full flex align-items-center gap-5'>
+                            
 
                             <input type='text' value={text} onChange={(e) => { setText(e.target.value) }} placeholder='e.g. React' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
 
@@ -123,6 +125,7 @@ function Skills( {updateResumeDetails} ) {
                                 }
                             )
                         }
+                        </label>
                     </div>
 
                 </label>

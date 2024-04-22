@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Save from "./Save";
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
+import toast from "react-hot-toast";
 
 function Education({ updateResumeDetails }) {
-  
+
   const [educations, setEducations] = useState([]);
 
   const [isEndDateDisabled, setIsEndDateDisabled] = useState(false);
@@ -14,20 +17,44 @@ function Education({ updateResumeDetails }) {
     fieldOfStudy: "",
     grade: "",
     marks: "",
-    startDate:{
-      month:'',
-      year:'',
+    startDate: {
+      month: '',
+      year: '',
     },
-    endDate:{
+    endDate: {
 
-      month:'',
-      year:'',
+      month: '',
+      year: '',
     },
 
   });
-  
+
+  const resetFields = () => {
+
+    setEducationDetails({
+      schoolName: "",
+      city: "",
+      degree: "",
+      fieldOfStudy: "",
+      grade: "",
+      marks: "",
+      startDate: {
+        month: '',
+        year: '',
+      },
+      endDate: {
+
+        month: '',
+        year: '',
+      },
+    })
+  }
+
+  const [editingMode, setEditingMode] = useState(false);
+  const [selectedEducationID, setSelectedEducationID] = useState(null);
+
   const handleCheckBoxChange = () => {
-        
+
     setIsEndDateDisabled(!isEndDateDisabled);
 
   }
@@ -36,47 +63,102 @@ function Education({ updateResumeDetails }) {
 
     const { name, value } = event.target;
 
-    setEducationDetails({ ...educationDetails, [name]: value});
+    setEducationDetails({ ...educationDetails, [name]: value });
   }
 
-  const handleStartDate = (event)=>{
+  const handleStartDate = (event) => {
 
-    const {name , value} = event.target;
+    const { name, value } = event.target;
 
-    setEducationDetails({...educationDetails , startDate:{...educationDetails.startDate , [name]:value}});
+    setEducationDetails({ ...educationDetails, startDate: { ...educationDetails.startDate, [name]: value } });
 
   }
 
   const handleEndDate = (event) => {
 
-    const {name , value} = event.target;
+    const { name, value } = event.target;
 
-    if(isEndDateDisabled){
+    if (isEndDateDisabled) {
 
-      setEducationDetails({...educationDetails , endDate:{month:'' , year:''}});
+      setEducationDetails({ ...educationDetails, endDate: { month: '', year: '' } });
     }
 
-    else{
-      
-      setEducationDetails({...educationDetails , endDate:{...educationDetails.endDate , [name]:value}});
+    else {
+
+      setEducationDetails({ ...educationDetails, endDate: { ...educationDetails.endDate, [name]: value } });
     }
   }
 
   const addEducation = () => {
 
-    setEducations([...educations , {educationDetails}])
+    if (educationDetails.schoolName && educationDetails.city) {
+
+      setEducations([...educations, { id: Date.now(), data: educationDetails }])
+      resetFields();
+      toast.success('Education added');
+
+    } else {
+
+      toast.error('Please fill out some details')
+    }
+
+  }
+
+  const deleteEducation = (id) => {
+
+    const newEducations = educations.filter((education) => education.id !== id);
+    setEducations(newEducations);
+    toast.success('Education removed successfully');
+    console.log('Delete Icon is Clicked');
+  }
+
+  const editEducation = (id) => {
+
+    const educationToEdit = educations.find((education) => education.id === id);
+
+    setEducationDetails(educationToEdit.data);
+    setEditingMode(true);
+    setSelectedEducationID(id);
+    console.log('Editing Mode turned ON');
+
+
+  }
+
+  const updateEducation = () => {
+
+    console.log(`Updating the Education with the ID:${selectedEducationID}`);
+
+    if (selectedEducationID !== null) {
+
+      const updatedEducations = educations.map((education) => {
+
+        if (education.id === selectedEducationID) {
+
+          return { ...education, data: educationDetails }
+        }
+
+        return education;
+      })
+
+      setEducations(updatedEducations);
+      resetFields();
+      setEditingMode(false);
+      setSelectedEducationID(null);
+      toast.success('Deatils updated successfully');
+    }
 
   }
 
   const saveDetails = () => {
-    updateResumeDetails("educationDetails", educations);
+    updateResumeDetails("educations", educations);
+    toast.success('Education Details successfully saved')
   }
 
   console.log("Printing the Education Array:", educations);
 
   return (
     <div className="w-full p-5 mt-6">
-      <div className="max-w-[1140px] mx-auto">
+      <div className="max-w-[1140px] mx-auto font-openSans">
         <div className="w-full flex justify-between items-center">
           <div className="mb-4">
             <p className="uppercase text-xl">Education</p>
@@ -99,7 +181,7 @@ function Education({ updateResumeDetails }) {
                 value={educationDetails.schoolName}
                 onChange={handleChange}
                 placeholder="e.g. John"
-                className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] text-slate-400 mt-1"
+                className="w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1"
               ></input>
             </label>
 
@@ -182,6 +264,7 @@ function Education({ updateResumeDetails }) {
             </label>
           </div>
 
+          {/* Start Date & End Date */}
           <div>
             {/* Start Date, End Date, checkbox  */}
             <div className="flex gap-5 align-items-center justify-center">
@@ -283,16 +366,66 @@ function Education({ updateResumeDetails }) {
             </label>
           </div>
 
-          <div className="flex gap-2">
-            <div className="cursor-pointer mt-4">
-              <button
-                className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200"
-                onClick={addEducation}
-              >
-                Add Education
-              </button>
-            </div>
-          </div>
+          {
+            editingMode
+              ?
+              <div className='mt-5'>
+                <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={updateEducation}>Update Education</button>
+              </div>
+              :
+              <div className='mt-5'>
+                <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={addEducation}>Add Education</button>
+              </div>
+          }
+
+          {
+            educations.length > 0
+            &&
+            (<div className='w-full mt-5 flex flex-col gap-5'>
+              {
+                educations.map((education) => (
+
+                  <div key={education.id} className='w-full p-5 border rounded-[14px] flex flex-col gap-5 transition-all duration-300 hover:shadow-md'>
+                    <div className='w-full flex items-center justify-between'>
+                      <div>
+                        <h1 className='font-openSans font-semibold text-lg'>{education.data?.degree + " " + education.data?.fieldOfStudy}</h1>
+                        
+                        <p>{education.data?.schoolName + "," + education.data?.city}</p>
+
+                        <p>{education.data?.grade + ": " + education.data?.marks}</p>
+
+                      </div>
+
+                      <div className='flex flex-col gap-2'>
+
+
+                        <p className='font-openSans'>
+                          {education.data.startDate?.month}
+                          '
+                          {education.data.startDate?.year} -
+                          {
+                            (education.data.endDate?.month && education.data.endDate?.year) === ''
+                              ?
+                              ' Present '
+                              :
+                              ` ${education.data.endDate?.month}'${education.data.endDate?.year} `
+
+                          }
+                        </p>
+                        <div className='flex justify-start gap-5' >
+                          <MdEdit size={19} className='cursor-pointer text-[#d2d2d2] hover:text-green-500 transition-all duration-200' onClick={() => editEducation(education.id)} disabled={editingMode} />
+                          <MdDelete size={19} className='cursor-pointer text-[#d2d2d2] hover:text-red-500 transition-all duration-200' onClick={() => deleteEducation(education.id)} disabled={editingMode} />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                ))
+              }
+            </div>)
+
+
+          }
         </div>
       </div>
     </div>

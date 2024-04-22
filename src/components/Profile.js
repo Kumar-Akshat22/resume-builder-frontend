@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { FaEdit, FaExchangeAlt, FaSave } from 'react-icons/fa'
 import SideBar from './SideBar'
 import axios from 'axios'
+import toast from'react-hot-toast'
 
 const Profile = () => {
     const [password, setPassword] = useState({oldPassword:"", newPassword:""})
     const [isEditable, setIsEditable] = useState(false)
-    const [userDetailForm, setUserDetailForm] = useState({firstName:"Pranav", lastName:"Gupta", email:"pranav.gupta@resumebuilder.com", contact:"+91 98765 43210",profession:"", about:"hey there i am using resume builder", username:"user234", profession:"Engineer"})
+    const [userDetailForm, setUserDetailForm] = useState({})
 
     const formHandler = (e) => {
         setUserDetailForm((prev)=>({
@@ -16,8 +17,14 @@ const Profile = () => {
     
     const updateDetail = async ()=>{
         if(isEditable){
-            const res = await axios.post('/update-account-details', userDetailForm,{headers:{Authorization:localStorage.getItem('AccessToken')}})
+            console.log("userDetailForm",userDetailForm);
+            const res = await axios.post('/api/v1/users/update-account-details', {userData : JSON.stringify(userDetailForm)},{headers:{Authorization:localStorage.getItem('AccessToken')}})
             console.log(res);
+
+            if(res.data.statusCode === 200){
+                toast.success("Profile updated ")
+            }
+            
         }
     }
     const changePassword = async()=>{
@@ -25,27 +32,32 @@ const Profile = () => {
             return
         }
         
-        console.log('send');
+        const res = await axios.post('/api/v1/users/change-password', {oldPassword:password.oldPassword, newPassword:password.newPassword},{headers:{Authorization:localStorage.getItem('AccessToken')}})
+        console.log('passwords changed');
+
+        if(res.data.statusCode === 200){
+            toast.success("Password Updated ")
+        }
     }
     const getUserInfo = async () => {
-        const res = await axios.get('/get-user-info', {headers:{Authorization:localStorage.getItem('AccessToken')}})
+        const res = await axios.get('/api/v1/users/get-user-info', {headers:{Authorization:localStorage.getItem('AccessToken')}})
 
         console.log(res);
         setUserDetailForm(prev=>({
             ...prev, 
-            firstName: res.data.data.profileInfo.firstName,
-            lastName: res.data.data.profileInfo.lastName,
-            email: res.data.data.email,
-            contact: res.data.data.profileInfo.contact,
-            profession: res.data.data.profileInfo.profession,
-            about: res.data.data.profileInfo.about,
-            username: res.data.data.username
+            firstName: res.data.data.profileInfo.firstName||'',
+            lastName: res.data.data.profileInfo.lastName||"",
+            email: res.data.data.email || '',
+            contact: res.data.data.profileInfo.contact || '',
+            profession: res.data.data.profileInfo.profession || '',
+            about: res.data.data.profileInfo.about || ' ',
+            username: res.data.data.username|| ""
         }))
     }
 
     
     useEffect(()=>{
-        // getUserInfo()
+        getUserInfo()
     
     },[])
   return (
@@ -59,8 +71,8 @@ const Profile = () => {
                     </div>
                     <div className='flex items-center justify-between w-full '>
                         <div className='flex flex-col justify-center p-3'>
-                            <h4 className='font-semibold text-xl '>Pranay Gupta</h4>
-                            <h4>pranay.gupta@resumebuilder.com</h4>
+                            <h4 className='font-semibold text-xl '>{userDetailForm.firstName+ " "+userDetailForm.lastName} </h4>
+                            <h4>{userDetailForm.email}</h4>
                         </div>
                     </div>
                     
@@ -69,7 +81,7 @@ const Profile = () => {
                 <div className=' flex border flex-col bg-[#f1f8fe]  rounded-lg m-12  p-6  '>
                     <div className='flex justify-between w-full border-b-2 pb-6 border-stone-200 items-center'>
                         <h2 className='text-xl font-semibold'> Personal Details</h2>
-                        <button onClick={()=>setIsEditable(prev=>!prev)} className='bg-yellow-400 flex items-center gap-2 font-semibold px-4 py-2 rounded-xl h-min'>{isEditable? <div className='flex font-semibold items-center gap-2'> <FaEdit/> Save </div> : <div className='flex font-semibold items-center gap-2'> <FaSave/> Edit </div>}</button>
+                        <button onClick={()=>{setIsEditable(prev=>!prev);updateDetail()}} className='bg-yellow-400 flex items-center gap-2 font-semibold px-4 py-2 rounded-xl h-min'>{isEditable? <div className='flex font-semibold items-center gap-2'> <FaEdit/> Save </div> : <div className='flex font-semibold items-center gap-2'> <FaSave/> Edit </div>}</button>
                     </div>
 
                     <div className='p-2 grid grid-cols-2 gap-8'>
