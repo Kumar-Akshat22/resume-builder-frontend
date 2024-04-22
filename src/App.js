@@ -12,6 +12,9 @@ import Skills from './components/ResumeDetails/Skills';
 import Links from './components/ResumeDetails/Links';
 import { useEffect, useState } from 'react';
 import ResumeView from './components/ResumeView';
+import Profile from './components/Profile';
+import Setting from './pages/Setting';
+import SavedResume from './components/SavedResume';
 
 function App() {
 
@@ -35,6 +38,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/signin" element={<Login></Login>}></Route>
+
+        <Route path="/setting" element={<Setting/>}>
+
+          <Route path = 'profile' element={<Profile/>} />
+          <Route path = 'saved-resume' element={<SavedResume/>} />
+
+
+        </Route>
 
         <Route path='/resume-details' element={<ResumeDetails></ResumeDetails>}>
           
