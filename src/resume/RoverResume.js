@@ -281,23 +281,23 @@ function RoverResume({ resumeData }) {
                 <View style={styles.header}>
 
                     <Text style={styles.heading}>
-                        {resumeData?.personalDetails.firstName + " " + resumeData?.personalDetails.lastName}
+                        {resumeData.personalDetails?.firstName + " " + resumeData.personalDetails?.lastName}
                     </Text>
 
                     <View style={styles.headerLinks}>
 
 
-                        <Link src={`mailto:${resumeData?.personalDetails.email}`} style={styles.headerLink}>
+                        <Link src={`mailto:${resumeData.personalDetails?.email}`} style={styles.headerLink}>
                             <Image src={mail} style={styles.icons}></Image>
                             <Text style={styles.headerLinkText}>Email</Text>
                         </Link>
 
-                        <Link src={`${resumeData?.links.linkedIn}`} style={styles.headerLink}>
+                        <Link src={`${resumeData.links?.linkedIn}`} style={styles.headerLink}>
                             <Image src={linkedin} style={styles.icons}></Image>
                             <Text style={styles.headerLinkText}>LinkedIn</Text>
                         </Link>
 
-                        <Link src={`${resumeData?.links.github}`} style={styles.headerLink}>
+                        <Link src={`${resumeData.links?.github}`} style={styles.headerLink}>
                             <Image src={github} style={styles.icons}></Image>
                             <Text style={styles.headerLinkText}>GitHub</Text>
                         </Link>
@@ -328,20 +328,20 @@ function RoverResume({ resumeData }) {
                                             <View style={styles.companyDescription}>
 
                                                 <Text style={styles.contentTitle}>
-                                                    {exp.data.employer}
+                                                    {exp.data?.employer}
                                                 </Text>
 
                                                 <Text style={styles.contentTitle}>
 
-                                                    {exp.data.startDate.month}
+                                                    {exp.data.startDate?.month}
                                                     '
-                                                    {exp.data.startDate.year} -
+                                                    {exp.data.startDate?.year} -
                                                     {
-                                                        (exp.data.endDate.month && exp.data.endDate.year) === ''
+                                                        (exp.data.endDate?.month && exp.data.endDate?.year) === ''
                                                             ?
                                                             ' Present '
                                                             :
-                                                            ` ${exp.data.endDate.month}'${exp.data.endDate.year} `
+                                                            ` ${exp.data.endDate?.month}'${exp.data.endDate?.year} `
 
                                                     }
                                                 </Text>
@@ -349,7 +349,7 @@ function RoverResume({ resumeData }) {
                                             </View>
 
                                             <Text style={styles.content}>
-                                                {exp.data.jobTitle}
+                                                {exp.data?.jobTitle}
                                             </Text>
 
 
@@ -382,7 +382,7 @@ function RoverResume({ resumeData }) {
                 {/* Education Section */}
 
                 {
-                    resumeData.educationDetails
+                    resumeData.educations
                         ?
                         <View style={styles.section}>
                             <Text style={styles.subheading}>
@@ -393,23 +393,35 @@ function RoverResume({ resumeData }) {
 
 
                                 {
-                                    resumeData.educationDetails.map((educationDetails, index) => (
+                                    resumeData.educations.map((education, index) => (
 
                                         <View key={index} style={styles.educationSection}>
                                             {/* Education Title */}
                                             <View style={styles.companyDescription}>
 
                                                 <Text style={styles.contentTitle}>
-                                                    {educationDetails.educationDetails.degree} {educationDetails.educationDetails.fieldOfStudy} - {educationDetails.educationDetails.schoolName}, {educationDetails.educationDetails.city}
+                                                    {education.data?.degree} {education.data?.fieldOfStudy} - {education.data?.schoolName}, {education.data?.city}
                                                 </Text>
 
-                                                <Text style={styles.contentTitle}>March'20 - April'21</Text>
+                                                <Text style={styles.contentTitle}>
+                                                    {education.data.startDate?.month}
+                                                    '
+                                                    {education.data.startDate?.year} -
+                                                    {
+                                                        (education.data.endDate?.month && education.data.endDate?.year) === ''
+                                                            ?
+                                                            ' Present '
+                                                            :
+                                                            ` ${education.data.endDate?.month}'${education.data.endDate?.year} `
+
+                                                    }
+                                                </Text>
 
                                             </View>
 
                                             <View style={styles.educationGrade}>
-                                                <Text style={styles.content}>{educationDetails.educationDetails.grade}:</Text>
-                                                <Text style={styles.content}>{educationDetails.educationDetails.marks}</Text>
+                                                <Text style={styles.content}>{education.data?.grade}:</Text>
+                                                <Text style={styles.content}>{education.data?.marks}</Text>
 
                                             </View>
                                         </View>
@@ -455,7 +467,7 @@ function RoverResume({ resumeData }) {
 
                 {
 
-                    resumeData.project
+                    resumeData.projects
                         ?
                         <View style={styles.section}>
 
@@ -465,24 +477,24 @@ function RoverResume({ resumeData }) {
 
                             <View>
                                 {
-                                    resumeData.project.map((projectDetails, index) => (
+                                    resumeData.projects.map((project, index) => (
 
                                         <View key={index} style={styles.projectSection}>
 
                                             <View style={styles.projectContent}>
 
                                                 <View style={styles.companyDescription}>
-                                                    
+
                                                     {/* Title of the Project */}
-                                                    <Text style={styles.contentTitle}>{projectDetails.projectDetails.title}</Text>
+                                                    <Text style={styles.contentTitle}>{project.data?.title}</Text>
 
                                                     {/* Project Links */}
                                                     <View style={styles.projectLinks}>
-                                                        <Link src={`${projectDetails.projectDetails.liveLink}`} style={styles.headerLink}>
+                                                        <Link src={`${project.data?.liveLink}`} style={styles.headerLink}>
                                                             <Text style={styles.headerLinkText}>[Website]</Text>
                                                         </Link>
 
-                                                        <Link src={`${projectDetails.projectDetails.githubLink}`} style={styles.headerLink}>
+                                                        <Link src={`${project.data?.githubLink}`} style={styles.headerLink}>
                                                             <Text style={styles.headerLinkText}>[GitHub]</Text>
                                                         </Link>
                                                     </View>
@@ -490,26 +502,26 @@ function RoverResume({ resumeData }) {
                                                 </View>
 
                                                 {/* Single Line Description of Project */}
-                                                <Text style={styles.contentTitle}>{projectDetails.projectDetails.shortDescription}</Text>
+                                                <Text style={styles.contentTitle}>{project.data?.shortDescription}</Text>
 
                                                 {/* Bullet Points */}
                                                 {
-                                                    projectDetails.projectDetails.projectDescription
-                                                    ?
+                                                    project.data.projectDescription
+                                                        ?
 
-                                                    <View style={styles.bulletSection}>
+                                                        <View style={styles.bulletSection}>
 
-                                                    {
-                                                        projectDetails.projectDetails.projectDescription.map((description)=>(
-                                                            
-                                                            <BulletPoints key={description.id} text={description.text}></BulletPoints>
-                                                        ))
-                                                    }
+                                                            {
+                                                                project.data.projectDescription.map((description) => (
 
-                                                    </View>
-                                                    
-                                                    :
-                                                    ''
+                                                                    <BulletPoints key={description.id} text={description.text}></BulletPoints>
+                                                                ))
+                                                            }
+
+                                                        </View>
+
+                                                        :
+                                                        ''
 
                                                 }
 
@@ -530,102 +542,103 @@ function RoverResume({ resumeData }) {
 
 
                 {/* Achievements Section */}
-                <View style={styles.section}>
+                {
+                    resumeData.achievements
+                        ?
+                        <View style={styles.section}>
+                            <Text style={styles.subheading}>
+                                Achievements
+                            </Text>
 
-                    <Text style={styles.subheading}>
-                        Achievements
-                    </Text>
+                            <View>
+                                {
+                                    resumeData.achievements.map((achievement, index) => (
 
-                    <View style={styles.projectSection}>
+                                        <View key={index} style={styles.projectSection}>
 
-                        {/* Achievement - 1 */}
-                        <View>
-                            <Text style={styles.contentTitle}>QuizInit Coding Competition</Text>
 
-                            {/* Bullet Points */}
-                            <View style={styles.achievementBulletSection}>
+                                            {/* Achievement */}
+                                            <View>
+                                                <Text style={styles.contentTitle}>{achievement.data.achievementTitle}</Text>
 
-                                <BulletPoints text='Secured 3rd Rank in the QuizInit coding competition organized by the coding club of my college'></BulletPoints>
+                                                {/* Bullet Points */}
+                                                <View style={styles.achievementBulletSection}>
+
+                                                    {
+                                                        achievement.data.achievementPoints.map((point) => (
+
+                                                            <BulletPoints key={point.id} text={point.text}></BulletPoints>
+                                                        ))
+                                                    }
+
+                                                </View>
+                                            </View>
+                                        </View>
+
+                                    ))
+
+
+                                }
 
                             </View>
                         </View>
+                        :
+                        ''
+                }
 
-                        {/* Achievement - 2 */}
-                        <View>
-                            <Text style={styles.contentTitle}>Smart India Hackathon</Text>
-
-                            {/* Bullet Points */}
-                            <View style={styles.achievementBulletSection}>
-
-                                <BulletPoints text='Participated at the college level of the Smart India Hackathon with a team of 5 members.'></BulletPoints>
-
-                            </View>
-                        </View>
-
-                    </View>
-
-                </View>
 
                 {/* Certifications */}
-                <View style={styles.section}>
-                    <Text style={styles.subheading}>
-                        Certifications
-                    </Text>
+                {
+                    resumeData.certifications
+                        ?
+                        <View style={styles.section}>
+                            <Text style={styles.subheading}>
+                                Certifications
+                            </Text>
 
-                    {/* Multiple Certifications */}
-                    <View style={styles.certificationSection}>
+                            <View>
+                                {
+                                    resumeData.certifications.map((certification, index) => (
 
-                        {/* Cartification - 1 */}
-                        <View>
+                                        <View key={index} style={styles.projectSection}>
 
-                            {/* Title and Link */}
-                            <View style={styles.certificationTitle}>
-                                <Text style={styles.contentTitle}>
-                                    Machine Learing - iNeuron.ai
-                                </Text>
+                                            {/* Multiple Certifications */}
+                                            <View style={styles.certificationSection}>
 
-                                <Link src='mailto:kakshat247@gmail.com' style={styles.headerLink}>
-                                    <Text style={styles.headerLinkText}>[Link]</Text>
-                                </Link>
+                                                {/* Cartification - 1 */}
+                                                <View>
 
+                                                    {/* Title and Link */}
+                                                    <View style={styles.certificationTitle}>
+                                                        <Text style={styles.contentTitle}>
+                                                            {certification.data?.title}
+                                                        </Text>
+
+                                                        <Link src={`${certification.data?.certificationLink}`} style={styles.headerLink}>
+                                                            <Text style={styles.headerLinkText}>[Link]</Text>
+                                                        </Link>
+
+                                                    </View>
+
+                                                    {/* Bullet Points */}
+                                                    <View style={styles.achievementBulletSection}>
+
+                                                        <BulletPoints text={certification.data?.certificateDescription}></BulletPoints>
+
+                                                    </View>
+
+                                                </View>
+                                            </View>
+                                        </View>
+
+                                    ))
+                                }
                             </View>
-
-                            {/* Bullet Points */}
-                            <View style={styles.achievementBulletSection}>
-
-                                <BulletPoints text='Completed the Machine Learning Course from iNeuron.ai'></BulletPoints>
-
-                            </View>
-
                         </View>
 
-                        {/* Cartification - 2 */}
-                        <View>
-
-                            {/* Title and Link */}
-                            <View style={styles.certificationTitle}>
-                                <Text style={styles.contentTitle}>
-                                    MERN Stack Development - CodeHelp
-                                </Text>
-
-                                <Link src='www.google.com' style={styles.headerLink}>
-                                    <Text style={styles.headerLinkText}>[Link]</Text>
-                                </Link>
-
-                            </View>
-
-                            {/* Bullet Points */}
-                            <View style={styles.achievementBulletSection}>
-
-                                <BulletPoints text='Completed the MERN Stack Development Course from CodeHelp'></BulletPoints>
-
-                            </View>
-
-                        </View>
-
-
-                    </View>
-                </View>
+                        :
+                        ''
+                }
 
             </Page>
         </Document >

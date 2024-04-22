@@ -86,7 +86,7 @@ function Skills({ updateResumeDetails }) {
 
     return (
         <div className="w-full p-5 mt-6">
-            <div className='max-w-[1140px] mx-auto font-openSans'>
+            <div className='max-w-[1140px] flex flex-col mx-auto font-openSans'>
                 <div className='w-full flex justify-between items-center'>
 
                     <div className='mb-4'>
@@ -102,9 +102,9 @@ function Skills({ updateResumeDetails }) {
 
 
 
-                    <div className='flex gap-6'>
+                    <div className='flex flex-col gap-8'>
                         
-                        <label>
+                        <label className='flex flex-col gap-6'>
                         <span>Prgramming Languages</span>
                         <div className='w-full flex align-items-center gap-5'>
                             

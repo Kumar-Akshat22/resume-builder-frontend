@@ -30,6 +30,8 @@ function Achievements({ resumeDetails , updateResumeDetails }) {
     const [editingMode, setEditingMode] = useState(false);
     const [selectedAchievementID, setSelectedAchievementID] = useState(null);
 
+    const [isAchievmentDetailsSaved , setIsAchievementDetailsSaved] = useState(false);
+
     const handleChange = (event) => {
 
         const { name, value } = event.target;
@@ -123,13 +125,13 @@ function Achievements({ resumeDetails , updateResumeDetails }) {
     const saveDetails = () => {
 
         updateResumeDetails('achievements', achievements);
+        setIsAchievementDetailsSaved(true);
         toast.success('Achievement details saved successfully');
     }
 
     const navigate = useNavigate();
     const generateResume = async () => {
 
-        saveDetails();
         const res = await axios.post('/api/v1/users/upload-details', { resumeDetails: JSON.stringify(resumeDetails) }, { headers: { Authorization: localStorage.getItem('AccessToken') } })
         console.log(res);
 
@@ -152,9 +154,17 @@ function Achievements({ resumeDetails , updateResumeDetails }) {
                         <span className="text-sm">Add about your Achievements</span>
                     </div>
 
-                    <div>
-                        <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={generateResume}>Save & Continue</button>
-                    </div>
+                    {
+                        isAchievmentDetailsSaved
+                        ?
+                        <div>
+                            <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={generateResume}>Continue</button>
+                        </div>
+                        :
+                        <div>
+                            <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={saveDetails}>Save</button>
+                        </div>
+                    }
                 </div>
 
                 <div className='flex flex-col gap-5'>

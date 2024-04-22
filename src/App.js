@@ -6,7 +6,6 @@ import ResumeDetails from './pages/ResumeDetails';
 import Education from './components/ResumeDetails/Education';
 import Projects from './components/ResumeDetails/Projects';
 import Experience from './components/ResumeDetails/Experience';
-import Extra from './components/ResumeDetails/Extra';
 import PersonalDetails from './components/ResumeDetails/Personal';
 import Skills from './components/ResumeDetails/Skills';
 import Links from './components/ResumeDetails/Links';
@@ -26,16 +25,6 @@ function App() {
 
     setResumeDetails((prevDetails)=> ({...prevDetails , [key]:value}));
   };
-
-  // const getData = async () => {
-  //   const res = await axios.get("/api/v1/users/get-user-info", {
-  //     headers: { Authorization: localStorage.getItem("AccessToken") },
-  //   });
-  //   console.log(res.data);
-  //   if (res.data.statusCode == 200) {
-  //     setResumeData(res.data.data.resumeDatails);
-  //   }
-  // };
 
   useEffect(()=>{
     console.log(resumeDetails);

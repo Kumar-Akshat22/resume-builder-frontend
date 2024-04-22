@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Save from './Save';
+import toast from 'react-hot-toast';
 
 
 function PersonalDetails( {updateResumeDetails} ) {
@@ -28,6 +29,7 @@ function PersonalDetails( {updateResumeDetails} ) {
   const saveDetails = ()=>{
 
     updateResumeDetails('personalDetails', personalDetailsFormData);
+    toast.success('Personal details successfully saved');
   }
 
   return (

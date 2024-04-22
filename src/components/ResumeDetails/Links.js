@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Save from './Save'
+import toast from 'react-hot-toast';
 
 function Links( {updateResumeDetails} ) {
 
@@ -21,7 +22,8 @@ function Links( {updateResumeDetails} ) {
 
     const saveDetails = ()=>{
 
-        updateResumeDetails('links' , linksFormData)
+        updateResumeDetails('links' , linksFormData);
+        toast.success('Link Details successfully saved');
     }
 
   return (

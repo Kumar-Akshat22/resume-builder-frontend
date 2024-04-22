@@ -10,12 +10,7 @@ function ResumeDetails() {
     
     <div className='w-full border p-5'>
 
-        <div className='max-w-[1140px] mx-auto text-center mb-8'>
-            <p className='text-2xl'>Few more steps... </p>
-
-        </div>
-
-        <div className='max-w-[1140px] mx-auto flex flex-row justify-between'>
+        <div className='max-w-[1140px] mx-auto flex flex-row justify-between mt-10'>
             
             <NavLink to={`/resume-details/${resumeName}/personaldetails`}>
                 <span className={
