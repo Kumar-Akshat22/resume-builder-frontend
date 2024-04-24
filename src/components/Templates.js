@@ -7,8 +7,8 @@ function Templates() {
 
     const [resumeName , setResumeName] = useState('');
     const navigate = useNavigate()
-    const handleResumeChange = () =>{
-        localStorage.setItem("resumeName", "RoverResume" )
+    const handleResumeChange = (resumeName) =>{
+        localStorage.setItem("resumeName", resumeName )
         navigate(`/resume-details/${localStorage.getItem('resumeName')}/personalDetails`)
     }
 
@@ -26,14 +26,14 @@ function Templates() {
                 <div className='border-2 border-[#3983fa] w-[40%] relative group cursor-pointer'>
                     <img src={TemplateOne}></img>
                 
-                    <button className='absolute bottom-[9%] left-24 bg-[#f1f8fe] px-[2.5rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300 hidden group-hover:block' onClick= {handleResumeChange}>Use this Template</button>
+                    <button className='absolute bottom-[9%] left-24 bg-[#f1f8fe] px-[2.5rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300 hidden group-hover:block' onClick= {()=>{handleResumeChange('roverResume')}}>Use this Template</button>
                     
                 </div>
 
                 <div className='border-2 border-[#3983fa] w-[40%] relative group cursor-pointer'>
                     <img src={TemplateTwo}></img>
 
-                    <button className='absolute bottom-[9%] left-24 bg-[#f1f8fe] px-[2.5rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300 hidden group-hover:block' onClick={handleResumeChange}>Use this Template</button>
+                    <button onClick={()=>{handleResumeChange('resume-slash')}} className='absolute bottom-[9%] left-24 bg-[#f1f8fe] px-[2.5rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300 hidden group-hover:block' >Use this Template</button>
 
                 </div>
             </div>

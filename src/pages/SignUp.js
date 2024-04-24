@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import SignInImage from '../assets/SignInImage.svg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import toast from 'react-hot-toast'
+import { TailSpin } from 'react-loader-spinner'
 
 function SignUp() {
 
+    const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
     const [signUpFormData , setSignUpFormData] = useState({
 
         username:'',
@@ -13,7 +17,14 @@ function SignUp() {
     })
 
     const signIn = async ()=>{
+        setIsLoading(true)
         const res = await axios.post('/api/v1/users/signup', signUpFormData)
+        if(res.data.statusCode === 201){
+            setIsLoading(false)
+            toast.success('Logged In Successfully')
+            navigate('/signin')
+        }
+        setIsLoading(false)
         console.log(res);
     }
 
@@ -51,7 +62,13 @@ function SignUp() {
 
                 {/* Sign In Button */}
                 <div className='w-[70%]'>
-                    <button onClick={signIn} className="w-full mt-[1rem] bg-[#f1f8fe] px-[3rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300">Sign Up</button>
+                    <button onClick={signIn} className="w-full flex justify-center items-center mt-[1rem] bg-[#f1f8fe] px-[3rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300">
+                    {
+                            isLoading?
+                            <TailSpin color='white' height={30} strokeWidth={8}/>:
+                            "Sign In"
+                        }
+                    </button>
                 </div>
 
                 {/* Footer */}

@@ -21,6 +21,7 @@ import GenerateResume from './pages/GenerateResume';
 import ResumeTemplates from './pages/ResumeTemplates';
 import Certifications from './components/ResumeDetails/Certifications';
 import Achievements from './components/ResumeDetails/Achievements';
+import PreviewSavedResume from './components/PreviewSavedResume';
 // >>>>>>> origin/main
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
         </Route>
 
         <Route path='/generate-resume' element={<GenerateResume />} />
+        <Route path='/setting/saved-resume/:resumeName/preview' element={<PreviewSavedResume />} />
 
       </Routes>
 

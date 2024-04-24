@@ -11,6 +11,9 @@ import mail from '../assets/mail.png';
 const Resume1 = ({resumeData}) => {
     let githubLink = resumeData.links.github.match(/github\.com\/([^\/]+)\/?$/)
     let linkedInLink = resumeData.links.linkedIn.match(/\/([^\/]+)\/?$/)
+
+    githubLink = githubLink && githubLink[1]? githubLink[1]: null
+    githubLink = linkedInLink && linkedInLink[1]? linkedInLink[1]:null
     
 
     Font.register({
@@ -152,7 +155,7 @@ const Resume1 = ({resumeData}) => {
                             {
                                 resumeData.educations.map(edu=>(
 
-                                        <View style={styles.subComponent}>
+                                        <View key={edu.data.schoolName} style={styles.subComponent}>
                                     <Text style={styles.subHeading}>{edu.data.degree} in {edu.data.fieldOfStudy}</Text>
                                     <Text style={styles.content}>{edu.data.schoolName}</Text>
                                     <Text style={styles.content}>{edu.data.grade} : {edu.data.marks}</Text>
@@ -175,14 +178,14 @@ const Resume1 = ({resumeData}) => {
                                 
                                 <Link href={resumeData.links.linkedIn} style={styles.content}>
                                     <Image src={linkedin} style={styles.icons}></Image>
-                                    <Text> /{linkedInLink[1]}</Text>
+                                    <Text> /{linkedInLink?githubLink:''}</Text>
                                     </Link>:''
                             }
                             {
                                 resumeData.links.github ?
                                 <Link href={resumeData.links.github} style={styles.content}>
                                 <Image src={github} style={styles.icons}></Image>
-                                <Text> /{githubLink[1]}</Text>
+                                <Text> /{githubLink?githubLink:""}</Text>
                                 </Link>:''
                         }
                             {/* } */}

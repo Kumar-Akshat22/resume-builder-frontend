@@ -42,11 +42,15 @@ function GenerateResume() {
         <div>Loading</div>
         :
 
+
           <PDFViewer className="w-full min-h-screen">
             
-            {/* <RoverResume resumeData={resumeData} /> */}
-            <Resume1 resumeData={resumeData}/>
-      
+            {
+              localStorage.getItem('resumeName')=='roverResume'?
+              <RoverResume resumeData={resumeData} />:
+              
+              <Resume1 resumeData={resumeData}/>
+            }
           </PDFViewer>
       }
   

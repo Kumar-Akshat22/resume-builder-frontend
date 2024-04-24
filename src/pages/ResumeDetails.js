@@ -69,6 +69,7 @@ function ResumeDetails() {
                 ? 'bg-[#3983fa] text-white border'
                 : 'bg-transparent'} font-openSans text-xl rounded-md px-4 py-1 transition duration-200 ease-in-out`} onClick={()=>{setDetailType('achievements')}}>Achievements</span>
             </NavLink>
+   
 
             
         </div>

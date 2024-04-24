@@ -132,7 +132,7 @@ function Achievements({ resumeDetails , updateResumeDetails }) {
     const navigate = useNavigate();
     const generateResume = async () => {
 
-        const res = await axios.post('/api/v1/users/upload-details', { resumeDetails: JSON.stringify(resumeDetails) }, { headers: { Authorization: localStorage.getItem('AccessToken') } })
+        const res = await axios.post('/api/v1/users/upload-details', { resumeDetails: JSON.stringify(resumeDetails), resumeName:localStorage.getItem('resumeName') }, { headers: { Authorization: localStorage.getItem('AccessToken') } })
         console.log(res);
 
         if (res.data.statusCode === 200) {
