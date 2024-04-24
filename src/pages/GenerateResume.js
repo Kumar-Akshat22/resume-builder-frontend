@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RoverResume from "../resume/RoverResume";
+import Resume1 from "../resume/Resume1";
 import { PDFViewer } from "@react-pdf/renderer";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -42,7 +43,10 @@ function GenerateResume() {
         :
 
           <PDFViewer className="w-full min-h-screen">
-            <RoverResume resumeData={resumeData} />
+            
+            {/* <RoverResume resumeData={resumeData} /> */}
+            <Resume1 resumeData={resumeData}/>
+      
           </PDFViewer>
       }
   

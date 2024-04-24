@@ -10,11 +10,18 @@ import PersonalDetails from './components/ResumeDetails/Personal';
 import Skills from './components/ResumeDetails/Skills';
 import Links from './components/ResumeDetails/Links';
 import { useEffect, useState } from 'react';
+// <<<<<<< HEAD
+// import ResumeView from './components/ResumeView';
+import Profile from './components/Profile';
+import Setting from './pages/Setting';
+import SavedResume from './components/SavedResume';
+// =======
 import SignUp from './pages/SignUp';
 import GenerateResume from './pages/GenerateResume';
 import ResumeTemplates from './pages/ResumeTemplates';
 import Certifications from './components/ResumeDetails/Certifications';
 import Achievements from './components/ResumeDetails/Achievements';
+// >>>>>>> origin/main
 
 function App() {
 
@@ -42,10 +49,23 @@ function App() {
         <Route path="/signin" element={<Login></Login>}></Route>
         <Route path='/signup' element={<SignUp />} />
 
+{/* <<<<<<< HEAD */}
+        <Route path="/setting" element={<Setting/>}>
+
+          <Route path = 'profile' element={<Profile/>} />
+          <Route path = 'saved-resume' element={<SavedResume/>} />
+
+
+        </Route>
+
+        <Route path='/resume-details' element={<ResumeDetails></ResumeDetails>}/>
+          
+{/* ======= */}
         <Route path='/templates' element={<ResumeTemplates />} />
 
         <Route path='/resume-details/:resumeName/' element={<ResumeDetails></ResumeDetails>}>
-          {/* <Route index element={<PersonalDetails/>}/> */}
+          <Route index element={<PersonalDetails/>}/>
+{/* >>>>>>> origin/main */}
           <Route path = 'education' element={<Education updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'projects' element={<Projects updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'experience' element={<Experience updateResumeDetails={updateResumeDetails}/>} />
