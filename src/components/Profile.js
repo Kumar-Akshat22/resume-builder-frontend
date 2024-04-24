@@ -67,7 +67,7 @@ const Profile = () => {
             <h2 className='text-3xl font-semibold mt-10'>My Profile</h2>
                 <div className=' flex border  bg-[#f1f8fe]  bg-opacity-40 rounded-lg m-12  p-6  '>
                     <div>
-                        <img className='aspect-square w-20 object-cover rounded-full' src='https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg' alt='profile'/>
+                        <img className='aspect-square w-20 object-cover rounded-full' src='https://media.licdn.com/dms/image/D4D03AQEKI8XETAsrgg/profile-displayphoto-shrink_400_400/0/1706711902721?e=1719446400&v=beta&t=6iBlPhxd4NWLv_6Gjui9WWkJRFFDM71Ljp9APsCgHag' alt='profile'/>
                     </div>
                     <div className='flex items-center justify-between w-full '>
                         <div className='flex flex-col justify-center p-3'>
