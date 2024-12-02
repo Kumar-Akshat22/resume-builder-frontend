@@ -36,13 +36,13 @@ const SideBar = () => {
         
         <NavLink to={'/setting/saved-resume'} style={sideBarStyle} className='bg-yellow-400 py-3 font-semibold flex items-center text-xl gap-2 px-6 '>
             <BsSave2 />
-            Saved Resumés
+            Saved Resumes
         </NavLink>
 
-        <NavLink onClick={handleSignOut} style={sideBarStyle} className='bg-yellow-400 py-3 font-semibold flex items-center text-xl gap-2 px-6 '>
+        <p onClick={handleSignOut}  className='text-white py-3 font-semibold flex items-center text-xl gap-2 px-6 '>
             <PiSignOut />
             Sign Out
-        </NavLink>
+        </p>
     </div>
   )
 }

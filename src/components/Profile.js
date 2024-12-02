@@ -39,10 +39,12 @@ const Profile = () => {
             toast.success("Password Updated ")
         }
     }
+    const [profilePicture, setProfilePicture] = useState()
     const getUserInfo = async () => {
         const res = await axios.get('/api/v1/users/get-user-info', {headers:{Authorization:localStorage.getItem('AccessToken')}})
 
         console.log(res);
+        setProfilePicture(res.data.data.profileInfo.profilePicture)
         setUserDetailForm(prev=>({
             ...prev, 
             firstName: res.data.data.profileInfo.firstName||'',
@@ -67,7 +69,7 @@ const Profile = () => {
             <h2 className='text-3xl font-semibold mt-10'>My Profile</h2>
                 <div className=' flex border  bg-[#f1f8fe]  bg-opacity-40 rounded-lg m-12  p-6  '>
                     <div>
-                        <img className='aspect-square w-20 object-cover rounded-full' src='https://media.licdn.com/dms/image/D4D03AQEKI8XETAsrgg/profile-displayphoto-shrink_400_400/0/1706711902721?e=1719446400&v=beta&t=6iBlPhxd4NWLv_6Gjui9WWkJRFFDM71Ljp9APsCgHag' alt='profile'/>
+                        <img className='aspect-square w-20 object-cover rounded-full' src={profilePicture} alt='profile'/>
                     </div>
                     <div className='flex items-center justify-between w-full '>
                         <div className='flex flex-col justify-center p-3'>

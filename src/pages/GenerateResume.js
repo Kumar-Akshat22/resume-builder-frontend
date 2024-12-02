@@ -35,7 +35,7 @@ function GenerateResume() {
 
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen ">
       <div className="max-w-[1140px] mx-auto p-4">
       {
         isLoading?
