@@ -110,16 +110,18 @@
             "location": "New York, NY",
             "startDate": "2018-08-01",
             "endDate": "2022-05-15",
-            "degree": "Bachelor's in Computer Science",
-            "specialization": "Software Development"
+            "degree": "Bachelor's in Technology",
+            "specialization": "Computer Science",
+            "imageUrl": "https://www.thoughtco.com/thmb/PCVPjqDcfiY4az_kycvn-EJA-e8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/swarthmore-college-Eric-Behrens-flickr-5706ffe35f9b581408d48cb3.jpg"
         },
         {
             "instituteName": "ABC College",
             "location": "San Francisco, CA",
             "startDate": "2015-08-01",
             "endDate": "2018-05-15",
-            "degree": "Associate's Degree",
-            "specialization": "Information Technology"
+            "degree": "Intermediate in Science",
+            "specialization": "Computer Science",
+            "imageUrl": "https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,g_xy_center,h_659,q_75,w_640,x_515,y_290/v1/clients/milledgeville/20230731VisitMilledgevilleHistoricDay_38_40abded5-5541-4d16-ab67-8631611fb77e.jpg"
         }
     ],
     "experience": [
@@ -128,7 +130,7 @@
             "companyName": "TechCorp",
             "startDate": "2022-06-01",
             "endDate": "2023-09-30",
-            "description": [
+            "responsibilities": [
                 "Developed scalable web applications and APIs, improving performance by 20%.",
                 "Collaborated with cross-functional teams to deliver high-quality software.",
                 "Led the migration of legacy systems to modern frameworks, reducing downtime."
@@ -139,7 +141,7 @@
             "companyName": "CreativeWeb",
             "startDate": "2020-09-01",
             "endDate": "2022-05-30",
-            "description": [
+            "responsibilities": [
                 "Designed and implemented user-friendly interfaces for e-commerce platforms.",
                 "Optimized web pages to improve load time and user retention.",
                 "Worked closely with UX designers to ensure design consistency."
@@ -150,7 +152,7 @@
             "companyName": "Innovate Solutions",
             "startDate": "2019-06-01",
             "endDate": "2019-08-30",
-            "description": [
+            "responsibilities": [
                 "Contributed to the development of UI components for a mobile app.",
                 "Conducted testing and debugging to ensure smooth functionality.",
                 "Prepared detailed technical documentation for the project."

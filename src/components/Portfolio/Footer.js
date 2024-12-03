@@ -36,13 +36,16 @@ const Footer = ({data}) => {
           <p className="font-bold">Keep Rising ⚡ Connect with me over live chat!</p>
         </div>
 
-        <div className="mb-4 md:mb-0 max-w-screen-xl">
+        <div className="mb-4 md:mb-0 flex justify-center max-w-screen-xl ">
+          <div className='w-32'>
+
           <h3 className="font-bold text-lg pb-2">Quick Links</h3>
           <ul className="space-y-2">
             {navItems.map(item=>(
-                <li className='flex gap-2 items-center'><FaChevronCircleRight/><a href="#" className="hover:text-yellow-400">{item.title}</a></li>
+              <li className='flex gap-2 items-center'><FaChevronCircleRight/><a href="#" className="hover:text-yellow-400">{item.title}</a></li>
             ))}
           </ul>
+            </div>
         </div>
 
         <div className='max-w-screen-xl'>

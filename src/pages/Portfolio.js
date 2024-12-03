@@ -15,11 +15,11 @@ const Portfolio = () => {
     <div>
         <Header data={dummyData}/>
         <HeroSection userInfo={dummyData.personalInfo} socialLinks = {dummyData.socialLinks}/>
-        <About/>
+        <About  userInfo={dummyData.personalInfo}/>
         <Skills skills = {dummyData.skills}/>
-        <Education/>
-        <Experience/>
-        <Projects/>
+        <Education educationData={dummyData.education}/>
+        <Experience experienceData={dummyData.experience}/>
+        <Projects />
         <Contact/>
         <Footer data={dummyData}/>
     </div>

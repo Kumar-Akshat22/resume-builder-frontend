@@ -49,7 +49,7 @@ border: 1px solid rgba(0, 7, 255, 0.3);
 
 .glass-bg-2{
   /* From https://css.glass */
-background: rgba(0, 0, 0, 0.226);
+background: rgba(0, 0, 0, 0.537);
 border-radius: 16px;
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(7.2px);
