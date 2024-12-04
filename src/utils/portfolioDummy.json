@@ -130,6 +130,7 @@
             "companyName": "TechCorp",
             "startDate": "2022-06-01",
             "endDate": "2023-09-30",
+            "location": "Hyderabad, India",
             "responsibilities": [
                 "Developed scalable web applications and APIs, improving performance by 20%.",
                 "Collaborated with cross-functional teams to deliver high-quality software.",
@@ -141,6 +142,7 @@
             "companyName": "CreativeWeb",
             "startDate": "2020-09-01",
             "endDate": "2022-05-30",
+            "location": "Hyderabad, India",
             "responsibilities": [
                 "Designed and implemented user-friendly interfaces for e-commerce platforms.",
                 "Optimized web pages to improve load time and user retention.",
@@ -150,6 +152,7 @@
         {
             "jobRole": "Intern",
             "companyName": "Innovate Solutions",
+            "location": "Hyderabad, India",
             "startDate": "2019-06-01",
             "endDate": "2019-08-30",
             "responsibilities": [
@@ -178,7 +181,9 @@
                 "Integrated user authentication and message encryption."
             ],
             "startDate": "2023-01-01",
-            "endDate": "2023-03-30"
+            "endDate": "2023-03-30",
+            "title": "Full Stack Chatting Application",
+            "imageUrl": "https://images.websiteplanet.com/wp-content/uploads/2019/06/line-850x435.jpg"
         },
         {
             "liveURL": "https://myportfolio.com/project2",
@@ -198,7 +203,9 @@
                 "Enabled dynamic prioritization and real-time updates."
             ],
             "startDate": "2023-04-01",
-            "endDate": "2023-06-30"
+            "endDate": "2023-06-30",
+            "title": "Full Stack Task Management System",
+            "imageUrl": "https://cdn.dribbble.com/users/1615584/screenshots/15571949/media/7e95f0fddb7957220033569815613b10.jpg"
         },
         {
             "liveURL": "https://myportfolio.com/project3",
@@ -215,10 +222,16 @@
             ],
             "description": [
                 "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
                 "Integrated SEO tools and analytics dashboards."
             ],
             "startDate": "2023-07-01",
-            "endDate": "2023-09-30"
+            "endDate": "2023-09-30",
+            "title": "Full Stack Blogging Platform",
+            "imageUrl": "https://assets.hongkiat.com/uploads/bloggers-writers-android-apps/9-android-apps-writers-bloggers.jpg"
         }
     ]
 }

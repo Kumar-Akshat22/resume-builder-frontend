@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaGraduationCap, FaUserGraduate } from 'react-icons/fa6';
+import { formatDateRange } from '../../utils/dateFormatter';
 
 const EducationCard = ({ institute, location, startDate, endDate, degree, specialization, imageUrl }) => {
   return (
@@ -16,7 +17,7 @@ const EducationCard = ({ institute, location, startDate, endDate, degree, specia
       <div className="p-6 font-poppins">
         <h4 className="text-2xl font-bold mb-2 text-indigo-900 flex gap-2 items-center"><FaUserGraduate/>{degree}</h4>
         <p className="text-gray-800 mb-4 text-xl  font-bold">{specialization}</p>
-        <p className="text-lg text-green-700 font-bold mb-2">{startDate} - {endDate}</p>
+        <p className="text-lg text-green-700 font-bold mb-2">{formatDateRange(startDate, endDate)}</p>
       </div>
     </div>
   );
@@ -24,7 +25,7 @@ const EducationCard = ({ institute, location, startDate, endDate, degree, specia
 
 const Education = ({educationData}) => {
   return (
-    <div className="flex flex-col gap-6  m-7">
+    <div id='education' className="flex scroll-mt-20  flex-col gap-6  m-7">
       <div className='font-bold text-4xl flex gap-2 font-poppins justify-center items-center my-4'><FaGraduationCap/> <span>Education</span></div>
       {educationData.map((education, index) => (
         <EducationCard

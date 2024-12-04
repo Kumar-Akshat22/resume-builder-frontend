@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { FaChevronCircleRight } from 'react-icons/fa';
+import { FaChevronCircleRight, FaDev, FaGithub, FaInstagram, FaMedium, FaTwitter } from 'react-icons/fa';
+import { FaLinkedin, FaYoutube } from 'react-icons/fa6';
+import { SiGmail, SiLeetcode } from 'react-icons/si';
 
 const Footer = ({data}) => {
     const [navItems, setNavItems] = useState([
@@ -53,28 +55,40 @@ const Footer = ({data}) => {
           <p>{data?.personalInfo?.contact}</p>
           <p>{data?.personalInfo?.email}</p>
           <p>{data?.personalInfo?.location}</p>
-          <div className="flex space-x-4 mt-4">
-            <a href="#" className="hover:text-yellow-400">
-              <i className="fab fa-linkedin"></i>
-            </a>
-            <a href="#" className="hover:text-yellow-400">
-              <i className="fab fa-github"></i>
-            </a>
-            <a href="#" className="hover:text-yellow-400">
-              <i className="far fa-envelope"></i>
-            </a>
-            <a href="#" className="hover:text-yellow-400">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#" className="hover:text-yellow-400">
-              <i className="fab fa-telegram"></i>
-            </a>
-          </div>
-        </div>
+          <div className='flex gap-3 my-5'>
+                {data?.socialLinks?.linkedin &&
+                    <div className={`hover:bg-blue-600 bg-gray-200 text-black  w-10 h-10 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaLinkedin/></div>
+                }
+                {data?.socialLinks?.github &&
+                    <div className={`hover:bg-violet-600 bg-gray-200 text-black  w-10 h-10 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaGithub/></div>
+                }
+                {data?.socialLinks?.twitter &&
+                    <div className={`hover:bg-blue-600 bg-gray-200 text-black  w-10 h-10 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaTwitter/></div>
+                }
+                {data?.socialLinks?.instagram &&
+                    <div className={`hover:bg-pink-500 bg-gray-200 text-black  w-10 h-10 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaInstagram/></div>
+                }
+                {data?.socialLinks.leetcode &&
+                    <div className={`hover:bg-orange-600 bg-gray-200 text-black  w-10 h-10 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><SiLeetcode/></div>
+                }
+                {data?.socialLinks?.dev &&
+                    <div className={`hover:bg-black bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaDev/></div>
+                }
+                {data?.socialLinks.medium &&
+                    <div className={`hover:bg-black bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaMedium/></div>
+                }
+                {data?.socialLinks.mail &&
+                    <div className={`hover:bg-red-500 bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><SiGmail/></div>
+                }
+                {data?.socialLinks.youtube &&
+                    <div className={`hover:bg-red-500 bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaYoutube/></div>
+                }
+            </div>
+            </div>
       </div>
       <div className="text-center mt-6 mx-auto max-w-screen-xl">
         <hr className='border-gray-400'/>
-        <p className='pt-4'>Designed With ❤ By <strong>Team Null Pointers</strong></p>
+        <p className='pt-4'>Designed and Developed With ❤ By <strong>Team Null Pointers</strong></p>
       </div>
     </footer>
   );

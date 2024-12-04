@@ -5,7 +5,7 @@ import { FaHeadphonesSimple } from 'react-icons/fa6'
 
 const Contact = () => {
   return (
-    <div className=' min-h-screen flex flex-col justify-evenly items-center  bg-cyan-100/50'>
+    <div id='contact' className=' scroll-mt-20  min-h-screen flex flex-col justify-evenly items-center  bg-cyan-100/50'>
                     <h3 className='font-extrabold text-4xl font-poppins flex gap-3 pt-5'><FaHeadphonesSimple/>Get in<span className='text-[#a833cf]'>Touch</span></h3>
         <div class="mt-6 shadow-gray shadow-2xl max-w-6xl max-lg:max-w-3xl mx-auto bg-[#ffffff] rounded-lg">
             <div class="grid lg:grid-cols-2 items-center gap-14 sm:p-8 p-4 font-[sans-serif]">

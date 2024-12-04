@@ -28,6 +28,9 @@
   color: #61dafb;
 }
 
+section {
+  scroll-margin-top: 68px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -36,7 +39,9 @@
     transform: rotate(360deg);
   }
 }
-
+*{
+  scroll-behavior: smooth !important;
+}
 .glass-bg{
   /* From https://css.glass */
 background: rgba(0, 76, 255, 0.294);

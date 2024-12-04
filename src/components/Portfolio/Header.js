@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import UserAvatar from './UserAvatar';
 
 const Header = ({data}) => {
     const [navItems, setNavItems] = useState([
@@ -47,7 +48,11 @@ const Header = ({data}) => {
   return (
     <div className='w-full py-4 sticky top-0 bg-white z-[1000] '>
         <div className='max-w-screen-xl justify-between mx-auto flex'>
-            <div>logo</div>
+            <div><UserAvatar
+            className='font-poppins font-bold' 
+            size='xl'
+                name={`${data?.personalInfo?.firstName} ${data?.personalInfo?.lastName}`}
+            /></div>
             <div className='flex'>
                 {
                     navItems.map((item, index) => (

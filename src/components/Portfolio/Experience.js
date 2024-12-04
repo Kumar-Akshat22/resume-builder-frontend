@@ -1,29 +1,29 @@
 // import React from 'react'
 import { FaBriefcase, FaCalendar, FaMapPin } from 'react-icons/fa6';
-
-
+import { formatDateRange } from '../../utils/dateFormatter'
 
 const ExperienceCard = ({ 
   company, 
   position, 
-  duration, 
+  startDate,
+  endDate, 
   location, 
   responsibilities = [], 
   technologies = [] 
 }) => {
   return (
-    <div className="bg-white mx-auto w-full max-w-screen-lg shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+    <div className="bg-yellow-400 font-poppins mx-auto w-full max-w-screen-lg shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-300">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="text-xl font-bold text-gray-800">{position}</h3>
           <h4 className="text-lg text-gray-600">{company}</h4>
         </div>
         <div className="text-right">
-          <div className="flex items-center text-gray-500 mb-1">
+          <div className="flex items-center text-gray-800 mb-1">
             <FaCalendar className="w-4 h-4 mr-2" />
-            <span className="text-sm">{duration}</span>
+            <span className="text-sm">{formatDateRange(startDate, endDate)}</span>
           </div>
-          <div className="flex items-center text-gray-500">
+          <div className="flex items-center text-gray-800">
             <FaMapPin className="w-4 h-4 mr-2" />
             <span className="text-sm">{location}</span>
           </div>
@@ -58,7 +58,7 @@ const ExperienceCard = ({
 
 const Experience = ({experienceData}) => {
   return (
-  <div className="flex flex-col gap-6  m-7">
+  <div id='work' className="flex scroll-mt-20 flex-col gap-6  m-7">
   <div className='font-bold text-4xl flex gap-2 font-poppins justify-center items-center my-4'><FaBriefcase/> <span>Experience</span></div>
   {experienceData.map((experience, index) => (
     <ExperienceCard

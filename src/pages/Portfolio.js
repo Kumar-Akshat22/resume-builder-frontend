@@ -19,7 +19,7 @@ const Portfolio = () => {
         <Skills skills = {dummyData.skills}/>
         <Education educationData={dummyData.education}/>
         <Experience experienceData={dummyData.experience}/>
-        <Projects />
+        <Projects projectData={dummyData.projects}/>
         <Contact/>
         <Footer data={dummyData}/>
     </div>

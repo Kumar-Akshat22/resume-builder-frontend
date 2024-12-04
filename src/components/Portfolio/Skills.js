@@ -3,7 +3,7 @@ import { FaCode } from 'react-icons/fa6'
 
 const Skills = ({skills}) => {
   return (
-    <div id='skills' className='bg-gradient-to-r   scroll-smooth gap-3 min-h-[90vh] flex flex-col justify-between p-4 items-stretch text-white  from-violet-800 to-indigo-700'>
+    <div id='skills' className=' scroll-mt-20 bg-gradient-to-r   scroll-smooth gap-3 min-h-[90vh] flex flex-col justify-between p-4 items-stretch text-white  from-violet-800 to-indigo-700'>
         <div className='flex text-4xl pt-5 font-extrabold justify-center items-center font-poppins gap-3 '><FaCode strokeWidth={32} size={32}/>Skills</div>
         <div className='glass-bg-2 mx-auto max-w-screen-xl w-full grid grid-cols-6 gap-4 p-7'>
             {/* <div className='col-span-6 justify-center items-center text-center font-poppins font-extrabold'>Technical Skills</div> */}
