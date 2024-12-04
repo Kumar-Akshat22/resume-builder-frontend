@@ -1,5 +1,5 @@
 import React from 'react'
-import dummyData from '../utils/portfolioDummy.json'
+import dummyData from '../utils/portfolioDummy2.json'
 import Header from '../components/Portfolio/Header'
 import HeroSection from '../components/Portfolio/HeroSection'
 import About from '../components/Portfolio/About'
@@ -16,11 +16,28 @@ const Portfolio = () => {
         <Header data={dummyData}/>
         <HeroSection userInfo={dummyData.personalInfo} socialLinks = {dummyData.socialLinks}/>
         <About  userInfo={dummyData.personalInfo}/>
-        <Skills skills = {dummyData.skills}/>
-        <Education educationData={dummyData.education}/>
-        <Experience experienceData={dummyData.experience}/>
-        <Projects projectData={dummyData.projects}/>
-        <Contact/>
+        {
+          dummyData?.skills && 
+          dummyData.skills.technicalSkills &&
+          dummyData.skills.technicalSkills.length > 0 &&
+          <Skills skills = {dummyData.skills}/>
+        }
+        {
+          dummyData?.education && 
+          dummyData.education.length > 0 && 
+          <Education educationData={dummyData.education}/>
+        }
+        {
+          dummyData?.experience && 
+          dummyData.experience.length > 0 && 
+          <Experience experienceData={dummyData.experience}/>
+        }
+        {
+          dummyData?.projects && 
+          dummyData.projects.length > 0 && 
+          <Projects projectData={dummyData.projects}/>  
+        }
+        <Contact email={dummyData?.personalInfo?.email}/>
         <Footer data={dummyData}/>
     </div>
   )

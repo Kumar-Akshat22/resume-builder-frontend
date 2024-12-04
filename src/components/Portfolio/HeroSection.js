@@ -22,39 +22,47 @@ const HeroSection = ({userInfo, socialLinks}) => {
                 /></strong>
             </div>
             <div>
-                <button className='bg-indigo-800  shadow-md shadow-indigo-600 text-xl font-medium text-white flex justify-center items-center rounded-3xl px-8 py-3 gap-1'>About Me <FaChevronCircleDown/></button>
+                <button onClick={()=>window.location.replace('#about')} className='bg-indigo-800  shadow-md shadow-indigo-600 text-xl font-medium text-white flex justify-center items-center rounded-3xl px-8 py-3 gap-1'>About Me <FaChevronCircleDown/></button>
             </div>
             <div className='flex gap-3'>
                 {socialLinks?.linkedin &&
-                    <div className={`hover:bg-blue-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaLinkedin/></div>
+                    <div onClick={()=>window.open(socialLinks?.linkedin , "_black")} className={`hover:bg-blue-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaLinkedin/></div>
                 }
                 {socialLinks?.github &&
-                    <div className={`hover:bg-violet-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaGithub/></div>
+                    <div onClick={()=>window.open(socialLinks?.github , "_black")} className={`hover:bg-violet-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaGithub/></div>
                 }
                 {socialLinks?.twitter &&
-                    <div className={`hover:bg-blue-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaTwitter/></div>
+                    <div onClick={()=>window.open(socialLinks?.twitter , "_black")} className={`hover:bg-blue-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaTwitter/></div>
                 }
                 {socialLinks?.instagram &&
-                    <div className={`hover:bg-pink-500 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaInstagram/></div>
+                    <div onClick={()=>window.open(socialLinks?.instagram , "_black")} className={`hover:bg-pink-500 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaInstagram/></div>
                 }
                 {socialLinks.leetcode &&
-                    <div className={`hover:bg-orange-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><SiLeetcode/></div>
+                    <div onClick={()=>window.open(socialLinks?.leetcode , "_black")} className={`hover:bg-orange-600 bg-black text-cyan-500 w-12 h-12 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><SiLeetcode/></div>
                 }
                 {socialLinks?.dev &&
-                    <div className={`hover:bg-black bg-black text-cyan-500 w-12 h-12 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaDev/></div>
+                    <div onClick={()=>window.open(socialLinks?.dev , "_black")} className={`hover:bg-black bg-black text-cyan-500 w-12 h-12 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaDev/></div>
                 }
                 {socialLinks.medium &&
-                    <div className={`hover:bg-black bg-black text-cyan-500 w-12 h-12 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaMedium/></div>
+                    <div onClick={()=>window.open(socialLinks?.medium , "_black")} className={`hover:bg-black bg-black text-cyan-500 w-12 h-12 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaMedium/></div>
                 }
                 {socialLinks.mail &&
-                    <div className={`hover:bg-red-500 bg-black text-cyan-500 w-12 h-12 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><SiGmail/></div>
+                    <div onClick={()=>window.open(socialLinks?.mail , "_black")} className={`hover:bg-red-500 bg-black text-cyan-500 w-12 h-12 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><SiGmail/></div>
+                }
+                {socialLinks.youtube &&
+                    <div onClick={()=>window.open(socialLinks?.youtube , "_black")} className={`hover:bg-red-500 bg-black text-cyan-500 w-12 h-12 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><SiGmail/></div>
                 }
             </div>
         </div>
         <div className='flex mr-20 justify-center items-center'>
-                <div className='rounded-full bg-yellow-500'>
-                    <img src={bitEmoji}  />
-                </div>
+            <div className="rounded-full w-72 aspect-square bg-yellow-500 overflow-hidden">
+                <img
+                    className="w-full h-full object-cover"
+                    src={userInfo?.profilePhoto || bitEmoji}
+                    alt="Profile"
+            />
+            </div>
+
         </div>
     </div>
   )
