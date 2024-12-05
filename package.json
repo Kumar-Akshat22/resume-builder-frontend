@@ -2,38 +2,46 @@
   "name": "buildresume",
   "version": "0.1.0",
   "private": true,
-  "proxy" : "http://localhost:5050",
-
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-scroll-area": "^1.2.1",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.1",
     "@react-pdf/renderer": "^3.4.2",
     "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.12.0",
+    "lucide-react": "^0.462.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.0.1",
     "react-loader-spinner": "^6.1.6",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.22.3",
-    "react-scripts": "5.0.1",
     "react-typed": "^2.0.12",
+    "shadcn": "^2.1.6",
     "styled-components": "^6.1.8",
     "tailwind-scrollbar": "^3.1.0",
     "typewriter-effect": "^2.21.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "tsc && vite build"
   },
   "eslintConfig": {
     "extends": [
@@ -54,9 +62,11 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^3.4.3",
+    "vite": "^6.0.2"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "postcss.config.js",
