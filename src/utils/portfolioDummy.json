@@ -1,0 +1,237 @@
+{
+    "socialLinks": {
+        "linkedin": "https://www.linkedin.com/in/johndoe/",
+        "twitter": "https://twitter.com/johndoe",
+        "dev": "https://dev.to/johndoe",
+        "mediam": "https://medium.com/@johndoe",
+        "instagram": "https://www.instagram.com/johndoe/",
+        "github": "https://github.com/johndoe"
+    },
+    "personalInfo": {
+        "jobProfiles": [
+            "Full Stack Developer",
+            "UI/UX Designer",
+            "Cloud Engineer"
+        ],
+        "firstName":"John",
+        "lastName":"Doe",
+        "userSummery": "Dedicated developer with a knack for creating efficient and user-friendly web solutions.",
+        "majorProfile": "Full Stack Developer",
+        "email": "johndoe@example.com",
+        "phone": "+1234567890",
+        "location": "San Francisco, CA",
+        "gDriveResumeLink": "https://drive.google.com/file/d/1234567890/view"
+    },
+    "skills": {
+        "technicalSkills": [
+            {
+                "label": "JavaScript",
+                "emoji": "💻"
+            },
+            {
+                "label": "React",
+                "emoji": "⚛️"
+            },
+            {
+                "label": "Node.js",
+                "emoji": "🟢"
+            },
+            {
+                "label": "MongoDB",
+                "emoji": "🍃"
+            },
+            {
+                "label": "Docker",
+                "emoji": "🐳"
+            },
+            {
+                "label": "Kubernetes",
+                "emoji": "☸️"
+            },
+            {
+                "label": "AWS",
+                "emoji": "☁️"
+            },
+            {
+                "label": "TypeScript",
+                "emoji": "📘"
+            },
+            {
+                "label": "GraphQL",
+                "emoji": "🔗"
+            },
+            {
+                "label": "Python",
+                "emoji": "🐍"
+            },
+            {
+                "label": "PostgreSQL",
+                "emoji": "🐘"
+            },
+            {
+                "label": "HTML5",
+                "emoji": "📄"
+            },
+            {
+                "label": "CSS3",
+                "emoji": "🎨"
+            },
+            {
+                "label": "Firebase",
+                "emoji": "🔥"
+            },
+            {
+                "label": "Git",
+                "emoji": "🔧"
+            }
+        ],
+        "softSkills": [
+            {
+                "label": "Teamwork",
+                "emoji": "🤝"
+            },
+            {
+                "label": "Problem Solving",
+                "emoji": "🧠"
+            },
+            {
+                "label": "Communication",
+                "emoji": "🗣️"
+            },
+            {
+                "label": "Adaptability",
+                "emoji": "🌟"
+            }
+        ]
+    },
+    "education": [
+        {
+            "instituteName": "XYZ University",
+            "location": "New York, NY",
+            "startDate": "2018-08-01",
+            "endDate": "2022-05-15",
+            "degree": "Bachelor's in Technology",
+            "specialization": "Computer Science",
+            "imageUrl": "https://www.thoughtco.com/thmb/PCVPjqDcfiY4az_kycvn-EJA-e8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/swarthmore-college-Eric-Behrens-flickr-5706ffe35f9b581408d48cb3.jpg"
+        },
+        {
+            "instituteName": "ABC College",
+            "location": "San Francisco, CA",
+            "startDate": "2015-08-01",
+            "endDate": "2018-05-15",
+            "degree": "Intermediate in Science",
+            "specialization": "Computer Science",
+            "imageUrl": "https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,g_xy_center,h_659,q_75,w_640,x_515,y_290/v1/clients/milledgeville/20230731VisitMilledgevilleHistoricDay_38_40abded5-5541-4d16-ab67-8631611fb77e.jpg"
+        }
+    ],
+    "experience": [
+        {
+            "jobRole": "Software Engineer",
+            "companyName": "TechCorp",
+            "startDate": "2022-06-01",
+            "endDate": "2023-09-30",
+            "location": "Hyderabad, India",
+            "responsibilities": [
+                "Developed scalable web applications and APIs, improving performance by 20%.",
+                "Collaborated with cross-functional teams to deliver high-quality software.",
+                "Led the migration of legacy systems to modern frameworks, reducing downtime."
+            ]
+        },
+        {
+            "jobRole": "Frontend Developer",
+            "companyName": "CreativeWeb",
+            "startDate": "2020-09-01",
+            "endDate": "2022-05-30",
+            "location": "Hyderabad, India",
+            "responsibilities": [
+                "Designed and implemented user-friendly interfaces for e-commerce platforms.",
+                "Optimized web pages to improve load time and user retention.",
+                "Worked closely with UX designers to ensure design consistency."
+            ]
+        },
+        {
+            "jobRole": "Intern",
+            "companyName": "Innovate Solutions",
+            "location": "Hyderabad, India",
+            "startDate": "2019-06-01",
+            "endDate": "2019-08-30",
+            "responsibilities": [
+                "Contributed to the development of UI components for a mobile app.",
+                "Conducted testing and debugging to ensure smooth functionality.",
+                "Prepared detailed technical documentation for the project."
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "liveURL": "https://myportfolio.com/project1",
+            "githubLink": "https://github.com/johndoe/project1",
+            "techStack": [
+                {
+                    "title": "React",
+                    "emoji": "⚛️"
+                },
+                {
+                    "title": "Node.js",
+                    "emoji": "🟢"
+                }
+            ],
+            "description": [
+                "Built a real-time chat application with WebSocket support.",
+                "Integrated user authentication and message encryption."
+            ],
+            "startDate": "2023-01-01",
+            "endDate": "2023-03-30",
+            "title": "Full Stack Chatting Application",
+            "imageUrl": "https://images.websiteplanet.com/wp-content/uploads/2019/06/line-850x435.jpg"
+        },
+        {
+            "liveURL": "https://myportfolio.com/project2",
+            "githubLink": "https://github.com/johndoe/project2",
+            "techStack": [
+                {
+                    "title": "Angular",
+                    "emoji": "🅰️"
+                },
+                {
+                    "title": "Firebase",
+                    "emoji": "🔥"
+                }
+            ],
+            "description": [
+                "Developed a task management system for small teams.",
+                "Enabled dynamic prioritization and real-time updates."
+            ],
+            "startDate": "2023-04-01",
+            "endDate": "2023-06-30",
+            "title": "Full Stack Task Management System",
+            "imageUrl": "https://cdn.dribbble.com/users/1615584/screenshots/15571949/media/7e95f0fddb7957220033569815613b10.jpg"
+        },
+        {
+            "liveURL": "https://myportfolio.com/project3",
+            "githubLink": "https://github.com/johndoe/project3",
+            "techStack": [
+                {
+                    "title": "Django",
+                    "emoji": "🐍"
+                },
+                {
+                    "title": "PostgreSQL",
+                    "emoji": "🐘"
+                }
+            ],
+            "description": [
+                "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
+                "Created a blogging platform with advanced content management features.",
+                "Integrated SEO tools and analytics dashboards."
+            ],
+            "startDate": "2023-07-01",
+            "endDate": "2023-09-30",
+            "title": "Full Stack Blogging Platform",
+            "imageUrl": "https://assets.hongkiat.com/uploads/bloggers-writers-android-apps/9-android-apps-writers-bloggers.jpg"
+        }
+    ]
+}

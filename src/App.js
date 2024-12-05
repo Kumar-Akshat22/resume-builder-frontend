@@ -22,6 +22,7 @@ import ResumeTemplates from './pages/ResumeTemplates';
 import Certifications from './components/ResumeDetails/Certifications';
 import Achievements from './components/ResumeDetails/Achievements';
 import PreviewSavedResume from './components/PreviewSavedResume';
+import Portfolio from './pages/Portfolio'
 // >>>>>>> origin/main
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/signin" element={<Login></Login>}></Route>
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/portfolio/:username' element={<Portfolio />} />
 
 {/* <<<<<<< HEAD */}
         <Route path="/setting" element={<Setting/>}>
