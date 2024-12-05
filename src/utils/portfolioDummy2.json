@@ -17,7 +17,7 @@
         "firstName":"John",
         "lastName":"Doe",
         "userSummery": "Dedicated developer with a knack for creating efficient and user-friendly web solutions.",
-        "majorProfile": "Full Stack Developer",
+        "majorJobProfile": "Full Stack Developer",
         "email": "johndoe@example.com",
         "phone": "+1234567890",
         "location": "San Francisco, CA",

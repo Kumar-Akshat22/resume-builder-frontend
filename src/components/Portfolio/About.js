@@ -17,8 +17,8 @@ const About = ({userInfo}) => {
     <div>I'm {userInfo.firstName} {userInfo.lastName}</div>
   )}
   
-  {userInfo?.majorProfile && (
-    <div className='font-bold'>{userInfo.majorProfile}</div>
+  {userInfo?.majorJobProfile && (
+    <div className='font-bold'>{userInfo.majorJobProfile}</div>
   )}
   
   {userInfo?.userSummery && (
