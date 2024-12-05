@@ -1,5 +1,5 @@
 import React from 'react'
-import dummyData from '../utils/portfolioDummy2.json'
+import dummyData from '../utils/portfolioDummy4.json'
 import Header from '../components/Portfolio/Header'
 import HeroSection from '../components/Portfolio/HeroSection'
 import About from '../components/Portfolio/About'
