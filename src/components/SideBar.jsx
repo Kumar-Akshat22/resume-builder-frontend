@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPerson, BsSave2 } from "react-icons/bs";
 import { PiSignOut } from "react-icons/pi";
 import { FaRegFileLines, FaGraduationCap } from "react-icons/fa6";
@@ -14,6 +14,7 @@ const SideBar = () => {
   const navigate = useNavigate();
 
   const [sectionId, setSectionId] = useState();
+  const [isProfileCompleted , setIsProfileCompleted] = useState(true)
 
   const handleSectionClick = (id) => {
     setSectionId(id);
@@ -40,6 +41,12 @@ const SideBar = () => {
     { id: "myResumes", label: "My Resumes", icon:  FileText, path: '/setting/myResume' },
   ];
 
+  useEffect(()=>{
+
+    //TODO: Backend API call
+
+  },[])
+
   return (
     <div className="w-64 fixed top-0 left-0 bg-white border-r h-screen py-5">
       <div className="sticky top-0 bg-white border-b flex items-center gap-3 p-2">
@@ -59,6 +66,7 @@ const SideBar = () => {
 
           <button
             key={id}
+            disabled = {!isProfileCompleted}
             onClick={() => handleSectionClick(id)}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
               sectionId === id

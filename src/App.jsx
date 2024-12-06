@@ -48,7 +48,7 @@ function App() {
         <Route path="/signin" element={<Login></Login>}></Route>
         <Route path='/signup' element={<SignUp />} />
 
-        <Route path="/setting/" element={<Setting/>}>
+        <Route path="/dashboard/" element={<Setting/>}>
 
           <Route path = 'personal-details' element={<Profile/>} />
           <Route path = 'education' element={<Education updateResumeDetails={updateResumeDetails}/>} />

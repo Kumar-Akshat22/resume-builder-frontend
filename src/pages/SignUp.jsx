@@ -3,7 +3,7 @@ import SignInImage from '../assets/SignInImage.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { TailSpin } from 'react-loader-spinner'
+import { TailSpin, Triangle } from 'react-loader-spinner'
 
 function SignUp() {
 
@@ -16,16 +16,41 @@ function SignUp() {
         email:'',
     })
 
-    const signIn = async ()=>{
-        setIsLoading(true)
-        const res = await axios.post('/api/v1/users/signup', signUpFormData)
-        if(res.data.statusCode === 201){
-            setIsLoading(false)
-            toast.success('Logged In Successfully')
-            navigate('/signin')
+    const validateForm = ()=>{
+
+        const {username , password , email} = signUpFormData;
+        if(!username || !password || !email){
+            toast.error("All the fields are required");
+            return false;
         }
-        setIsLoading(false)
-        console.log(res);
+        return true;
+    }
+
+    const signIn = async ()=>{
+        if(validateForm() === false){
+
+            return ;
+        }
+
+        setIsLoading(true)
+        try{
+
+            const res = await axios.post('/api/v1/users/signup', signUpFormData)
+            console.log(res);
+            if(res.data.statusCode === 201){
+                toast.success('Account Created Successfully! Please Sign In');
+                navigate('/signin')
+            }else{
+                toast.error(res.data.message || "Something went wrong! Please try again")
+            }
+        }
+        catch(error){
+
+            const errorMessage = error.response?.data?.message || "Failed to create account. Please try again";
+            toast.error(errorMessage);
+        } finally{
+            setIsLoading(false)
+        }
     }
 
   return (
@@ -37,7 +62,7 @@ function SignUp() {
 
                 <div className='w-full flex flex-col items-center mt-5'>
                     <img src={SignInImage} height='190' width='160'></img>
-                    <h2 className='mt-6 text-[24px] font-poppins'>Sign-up for Your Account</h2>
+                    <h2 className='mt-6 text-[24px] font-poppins'>Create Your Account</h2>
                 </div>
 
                 {/* Input Form  */}
@@ -62,11 +87,11 @@ function SignUp() {
 
                 {/* Sign In Button */}
                 <div className='w-[70%]'>
-                    <button onClick={signIn} className="w-full flex justify-center items-center mt-[1rem] bg-[#f1f8fe] px-[3rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300">
+                    <button onClick={signIn} disabled={isLoading} className="w-full flex justify-center items-center mt-[1rem] bg-[#f1f8fe] px-[3rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300">
                     {
                             isLoading?
-                            <TailSpin color='white' height={30} strokeWidth={8}/>:
-                            "Sign In"
+                            <TailSpin color='white' height={30} width={30} strokeWidth={8}/>:
+                            "Sign Up"
                         }
                     </button>
                 </div>

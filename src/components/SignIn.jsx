@@ -10,18 +10,41 @@ function SignIn() {
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
-    const signIn =async ()=>{
-        setIsLoading(true)
-        const res = await axios.post('/api/v1/users/signin', signInData)
-        console.log(res.data);  
-        if(res.data.statusCode === 202){
-            localStorage.setItem('AccessToken', res.data.data.AccessToken)
-            localStorage.setItem('RefreshToken', res.data.data.RefreshToken)
-            setIsLoading(false)
-            toast.success('Logged In Successfully')
-            navigate('/')
+    const validateForm = () => {
+        const { usernameORemail, password } = signInData;
+        if (!usernameORemail || !password) {
+            toast.error("Please fill in both fields.");
+            return false;
         }
-        setIsLoading(false)
+        return true;
+    }
+
+    const signIn = async ()=>{
+        if (!validateForm()) return;
+
+        setIsLoading(true)
+
+        try{
+
+            const res = await axios.post('/api/v1/users/signin', signInData)
+            console.log(res.data);  
+            if(res.data.statusCode === 202){
+                localStorage.setItem('AccessToken', res.data.data.AccessToken)
+                localStorage.setItem('RefreshToken', res.data.data.RefreshToken)
+                toast.success('Logged In Successfully')
+                navigate('/dashboard/personal-details')
+            } else {
+                toast.error(res.data.message || 'Failed to sign in. Please try again.');
+            }
+        } catch (error) {
+            console.log(error);
+            const errorMessage = error.response?.data?.message || 'An error occurred. Please try again later.';
+            toast.error(errorMessage);
+        }
+        finally{
+            setIsLoading(false)
+
+        }
     }
   return (
     <section className='w-full bg-[#f1f6fb]'>
@@ -51,7 +74,7 @@ function SignIn() {
 
                 {/* Sign In Button */}
                 <div className='w-[60%]'>
-                    <button onClick={signIn} className={ `${isLoading?'bg-[#3983fa]':''} w-full flex items-center justify-center mt-[1rem] bg-[#f1f8fe] px-[3rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300  `}>
+                    <button onClick={signIn} disabled={isLoading} className={ `${isLoading?'bg-[#3983fa]':''} w-full flex items-center justify-center mt-[1rem] bg-[#f1f8fe] px-[3rem] py-[0.6rem] rounded-full text-lg uppercase font-poppins text-[#3983fa] font-semibold hover:bg-[#3983fa] hover:text-white transition-all duration-300  `}>
                         {
                             isLoading?
                             <TailSpin color='white' height={30} strokeWidth={8}/>:
