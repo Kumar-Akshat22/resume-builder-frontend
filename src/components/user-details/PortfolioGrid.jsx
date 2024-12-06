@@ -12,23 +12,14 @@ const PortfolioGrid = () => {
 
     // Return mock data
     return [
-      { id: 1, title: "John's Portfolio", image: PortfolioImage },
-      { id: 2, title: "Sarah's Designs", image: "../assets/Protfolio.png" },
-      { id: 3, title: "Tech Innovator", image: "../assets/Protfolio.png" },
-      { id: 4, title: "Creative Minds", image: "../assets/Protfolio.png" },
-      { id: 5, title: "Digital Artist", image: "../assets/Protfolio.png" },
-      {
-        id: 6,
-        title: "Web Developer",
-        image: "/placeholder.svg?height=200&width=300",
-      },
+      { id: 1, title: "My Portfolio", image: PortfolioImage },
+      
     ];
   }
 
   const portfolios = [
-    { id: 1, title: "John's Portfolio", image: PortfolioImage },
-    { id: 2, title: "Sarah's Designs", image: PortfolioImage },
-    { id: 3, title: "Tech Innovator", image: PortfolioImage },
+    { id: 1, title: "My Portfolio", image: PortfolioImage },
+    
   ];
 
   return (

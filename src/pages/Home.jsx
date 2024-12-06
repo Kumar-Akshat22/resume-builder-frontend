@@ -17,14 +17,13 @@ function Home() {
     <div>
         <Navbar></Navbar>
         <Hero></Hero>
-{/* <<<<<<< HEAD */}
-{/* ======= */}
+
         <StepsSection />
         <Templates />
         <Details />
         <OurTeam/>
         <Footer />
-{/* >>>>>>> origin/main */}
+
     </div>
   )
 }

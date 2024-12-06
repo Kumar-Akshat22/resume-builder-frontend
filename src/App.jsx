@@ -19,6 +19,7 @@ import Skills from './components/user-details/Skills';
 import ResumeAnalysis from './pages/ResumeAnalysis';
 import MyPortfolio from './components/user-details/MyPortfolio';
 import MyResume from './components/user-details/MyResume';
+import Portfolio from './pages/Portfolio';
 
 
 function App() {
@@ -47,24 +48,23 @@ function App() {
         <Route path="/signin" element={<Login></Login>}></Route>
         <Route path='/signup' element={<SignUp />} />
 
-{/* <<<<<<< HEAD */}
         <Route path="/setting/" element={<Setting/>}>
 
           <Route path = 'personal-details' element={<Profile/>} />
-          <Route path = 'education' element={<Education/>} />
-          <Route path = 'project' element={<Projects/>} />
-          <Route path = 'work-expr' element={<WorkExp/>} />
-          <Route path = 'skills' element={<Skills/>} />
+          <Route path = 'education' element={<Education updateResumeDetails={updateResumeDetails}/>} />
+          <Route path = 'project' element={<Projects/>} updateResumeDetails={updateResumeDetails}/>
+          <Route path = 'work-expr' element={<WorkExp/>} updateResumeDetails={updateResumeDetails}/>
+          <Route path = 'skills' element={<Skills/>} updateResumeDetails={updateResumeDetails}/>
           <Route path='myPortfolio' element={<MyPortfolio />} />
           <Route path='myResume' element={<MyResume />} />
 
 
         </Route>
+        <Route path='/portfolio/:username' element={<Portfolio />} />
           
-{/* ======= */}
         {/* <Route path='/templates' element={<ResumeTemplates />} /> */}
         <Route path='/resume-analysis' element={<ResumeAnalysis />} />
-        <Route path='/generate-resume' element={<GenerateResume />} />
+        <Route path='/generate-resume/:resumeName/' element={<GenerateResume />} />
         <Route path='/setting/saved-resume/:resumeName/preview' element={<PreviewSavedResume />} />
 
       </Routes>

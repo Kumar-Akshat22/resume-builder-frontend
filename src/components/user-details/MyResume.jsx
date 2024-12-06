@@ -8,8 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, PlusCircle, Wand2 } from "lucide-react";
+import { FileText, PlusCircle, Wand2 , BarChart2, Plus } from "lucide-react";
 import { motion } from "framer-motion"
+import { useNavigate } from "react-router-dom";
+import { Create } from "@mui/icons-material";
 
 // I will get the following data from Backend
 const mockResumes = [
@@ -20,6 +22,14 @@ const mockResumes = [
 
 function MyResume() {
   const [resumes, setResumes] = useState(mockResumes);
+  const navigate = useNavigate();
+
+  const handleAnalyzeResume = ()=>{
+
+    navigate('/resume-analysis');
+  }
+
+  // API Data   
 
   const handleCreateNewResume = () => {
     // Implement create new resume logic
@@ -36,6 +46,15 @@ function MyResume() {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">My Resume</h1>
+          <div className="space-x-2">
+
+          <Button className="mt-4 bg-white text-black hover:bg-slate-50">
+            <PlusCircle className="mr-2 h-4 w-4" /> Generate Your Resume
+          </Button>
+          <Button className="mt-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white" onClick={handleAnalyzeResume}>
+            <BarChart2 className="mr-2 h-4 w-4" /> Analyze Your Resume
+          </Button>
+          </div>
         </div>
       </header>
       {resumes.length === 0 ? (
