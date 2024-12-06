@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import dummyData from '../utils/portfolioDummy4.json'
 import Header from '../components/Portfolio/Header'
 import HeroSection from '../components/Portfolio/HeroSection'
@@ -9,36 +9,55 @@ import Projects from '../components/Portfolio/Projects'
 import Contact from '../components/Portfolio/Contact'
 import Footer from '../components/Portfolio/Footer'
 import Skills from '../components/Portfolio/Skills'
+import { useQuery } from 'react-query'
+import { getPortfolio } from '@/services/portfolioService'
+import { useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const Portfolio = () => {
+  const [isLinkValid, setIsLinkValid] = useState(true)
+  const {link} = useParams()
+  const {data:portfolioData, isLoading, isError} = useQuery({
+    queryKey: ['portfolio', link.split('#')[0]],
+    queryFn: ()=> getPortfolio(link.split('#')[0]),
+    onSuccess:res=>console.log(res),
+    onError:(err)=>{console.log(err); setIsLinkValid(false)}
+  })
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+  if(!isLinkValid){
+    return <div>Invalid Link</div>
+  }
   return (
     <div>
-        <Header data={dummyData}/>
-        <HeroSection userInfo={dummyData.personalInfo} socialLinks = {dummyData.socialLinks}/>
-        <About  userInfo={dummyData.personalInfo}/>
+        <Header data={portfolioData}/>
+        <HeroSection userInfo={portfolioData.personalInfo} socialLinks = {portfolioData.socialLinks}/>
+        <About  userInfo={portfolioData.personalInfo}/>
         {
-          dummyData?.skills && 
-          dummyData.skills.technicalSkills &&
-          dummyData.skills.technicalSkills.length > 0 &&
-          <Skills skills = {dummyData.skills}/>
+          portfolioData?.skills && 
+          portfolioData.skills.technicalSkills &&
+          portfolioData.skills.technicalSkills.length > 0 &&
+          <Skills skills = {portfolioData.skills}/>
         }
         {
-          dummyData?.education && 
-          dummyData.education.length > 0 && 
-          <Education educationData={dummyData.education}/>
+          portfolioData?.education && 
+          portfolioData.education.length > 0 && 
+          <Education educationData={portfolioData.education}/>
         }
         {
-          dummyData?.experience && 
-          dummyData.experience.length > 0 && 
-          <Experience experienceData={dummyData.experience}/>
+          portfolioData?.experience && 
+          portfolioData.experience.length > 0 && 
+          <Experience experienceData={portfolioData.experience}/>
         }
         {
-          dummyData?.projects && 
-          dummyData.projects.length > 0 && 
-          <Projects projectData={dummyData.projects}/>  
+          portfolioData?.projects && 
+          portfolioData.projects.length > 0 && 
+          <Projects projectData={portfolioData.projects}/>  
         }
-        <Contact email={dummyData?.personalInfo?.email}/>
-        <Footer data={dummyData}/>
+        <Contact email={portfolioData?.personalInfo?.email}/>
+        <Footer data={portfolioData}/>
     </div>
   )
 }
