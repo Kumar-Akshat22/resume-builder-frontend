@@ -7,7 +7,6 @@ function PortfolioDataUpload({ isOpen, onClose, onSubmit, baseUrl }) {
     const [formData, setFormData] = useState({
     file: null,
     url: "",
-    useProfileData: false,
   });
 
   const handleFileChange = (e) => {
@@ -113,7 +112,7 @@ function PortfolioDataUpload({ isOpen, onClose, onSubmit, baseUrl }) {
           </div>
 
           {/* Use Current Data Checkbox */}
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <input
               type="checkbox"
               id="use-current-data"
@@ -133,7 +132,7 @@ function PortfolioDataUpload({ isOpen, onClose, onSubmit, baseUrl }) {
               <CheckCircle2 className="h-4 w-4 text-blue-500" />
               Use current resume data
             </label>
-          </div>
+          </div> */}
 
           {/* Submit Button */}
           <button
