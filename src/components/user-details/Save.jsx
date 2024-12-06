@@ -6,7 +6,7 @@ function Save({saveDetails}) {
     <div>
             <button className='flex items-center gap-2 bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={saveDetails}>
             Save
-            <IoIosSave size={12}/>
+            <IoIosSave size={20}/>
             </button>
     </div>
   )
