@@ -9,12 +9,13 @@ import {
 import { Badge } from "../ui/badge";
 
 function AdditionalFeedback({ mockData }) {
+  console.log(mockData);
   const grammarErrors = mockData.grammarErrors;
   const repetitiveWords = mockData.repetitiveWords;
 
   return (
     <div>
-      <Card className>
+      <Card>
         <CardHeader>
           <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
             Additional Feedback
@@ -39,7 +40,7 @@ function AdditionalFeedback({ mockData }) {
               <h3 className="text-lg font-semibold text-gray-800 mb-3">Repetitive Words:</h3>
               <div className="flex flex-wrap gap-2">
                 {repetitiveWords.map((word, index) => (
-                  <Badge key={index} variant="secondary" className="bg-purple-100 text-sm">
+                  <Badge key={index} variant="secondary" className="bg-yellow-100 text-base text-black cursor-pointer">
                     {word}
                   </Badge>
                 ))}

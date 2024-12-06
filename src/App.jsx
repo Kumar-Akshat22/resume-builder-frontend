@@ -20,6 +20,7 @@ import ResumeAnalysis from './pages/ResumeAnalysis';
 import MyPortfolio from './components/user-details/MyPortfolio';
 import MyResume from './components/user-details/MyResume';
 import Portfolio from './pages/Portfolio';
+import ProfileCompletion from './components/user-details/ProfileCompletion';
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
 
         <Route path="/dashboard/" element={<Setting/>}>
 
+          <Route path='profile-completion' element={<ProfileCompletion />} />
           <Route path = 'personal-details' element={<Profile/>} />
           <Route path = 'education' element={<Education updateResumeDetails={updateResumeDetails}/>} />
           <Route path = 'project' element={<Projects/>} updateResumeDetails={updateResumeDetails}/>

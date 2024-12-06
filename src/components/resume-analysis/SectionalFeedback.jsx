@@ -1,43 +1,32 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "../ui/badge";
 
 function SectionalFeedback({ mockData }) {
 
     const sectionFeedback = mockData.sectionFeedback;
     console.log(sectionFeedback);
   return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sectionFeedback.map((section, index) => (
-          <Card key={index}>
-            <CardHeader>
-              <CardTitle className="flex justify-between items-center">
-                <span>{section.section}</span>
-                <Badge variant={section.score >= 80 ? "default" : "secondary"}>
-                  {section.score}%
-                </Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4">{section.feedback}</p>
-              <h4 className="font-semibold mb-2">Key Improvements:</h4>
-              <ul className="list-disc list-inside text-sm">
-                {section.keyImprovements.map((improvement, idx) => (
-                  <li key={idx}>{improvement}</li>
-                ))}
-              </ul>
-              <Progress value={section.score} className="mt-4" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+    <div className="">
+    <h3 className="text-lg font-semibold text-gray-800 mb-4">Section Scores</h3>
+    <div className="space-y-4">
+      {sectionFeedback.map((sectionData, index) => (
+        <div key={index} className="space-y-2 shadow-sm rounded-lg px-4 py-2 border">
+          <div className="flex justify-between items-center">
+            <span className="font-medium text-gray-700">{sectionData.section}</span>
+            <span className="text-sm font-medium text-gray-600">
+              {sectionData.score}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className={`h-2 rounded-full ${sectionData.score >= 90 ? "bg-green-500": sectionData.score>=70 ? "bg-yellow-400": "bg-indigo-300  "}`}
+              style={{ width: `${sectionData.score}%` }}
+            />
+          </div>
+          <p className="text-sm text-gray-600 mt-1">{sectionData.feedback}</p>
+        </div>
+      ))}
+    </div>
+  </div>
   );
 }
 

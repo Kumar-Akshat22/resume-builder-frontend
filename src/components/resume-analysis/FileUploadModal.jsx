@@ -12,6 +12,7 @@ function FileUploadModal({
   const handleFileChange = (e) => {
     const file = e.target.files?.[0] || null;
     setIsFileSelected(file);
+    toast.success("File Selected Successfully")
   };
 
   const handleDataUpload = async (e) => {
