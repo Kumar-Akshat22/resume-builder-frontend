@@ -72,7 +72,7 @@ function App() {
           
         {/* <Route path='/templates' element={<ResumeTemplates />} /> */}
         <Route path='/resume-analysis' element={<ResumeAnalysis />} />
-        <Route path='/generate-resume/:resumeName/' element={<GenerateResume />} />
+        <Route path='/resume/:resumeId/' element={<GenerateResume />} />
         <Route path='/setting/saved-resume/:resumeName/preview' element={<PreviewSavedResume />} />
 
       </Routes>

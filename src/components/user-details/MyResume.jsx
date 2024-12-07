@@ -97,7 +97,7 @@ function MyResume() {
                   </p>}
                 </CardContent>
                 <CardFooter className="p-4 pt-0 flex justify-between">
-                  <Button variant="outline">
+                  <Button  onClick={()=>navigate(`/resume/${resume.resumeId}`)}  variant="outline">
                     View
                   </Button>
                   {resume.generatedWithAi && <div

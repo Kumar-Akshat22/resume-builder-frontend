@@ -41,9 +41,20 @@ const analyzeResume = async (resume) => {
     })
     return res.data.data
 }
+
+const getResumeById = async (resumeId) => {
+    const token = localStorage.getItem('AccessToken')
+    const res = await axios.get(`${resumeEndpoint.GET_RESUME_BY_ID}${resumeId}`, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+        }
+    })
+    return res.data.data
+}
 export {
     generateResume,
     generateResumeWithAI,
     getAllResume,
-    analyzeResume
+    analyzeResume,
+    getResumeById
 }
