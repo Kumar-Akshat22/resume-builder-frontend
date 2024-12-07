@@ -32,13 +32,13 @@ const SideBar = () => {
     }
   };
   const sections = [
-    { id: "personal-details", label: "Personal Details", icon: BsPerson , path: '/setting/personal-details' },
-    { id: "education", label: "Education", icon: FaGraduationCap , path: '/setting/education'  },
-    { id: "project", label: "Projects", icon: LuFolderGit2 , path: '/setting/project' },
-    { id: "work-expr", label: "Work Experience", icon: IoBriefcase , path: '/setting/work-expr' },
-    { id: "skills", label: "Skills", icon: FaMedal , path: '/setting/skills' },
-    { id: "myPortfolio", label: "My Portfolio", icon:  ContactRound, path: '/setting/myPortfolio' },
-    { id: "myResumes", label: "My Resumes", icon:  FileText, path: '/setting/myResume' },
+    { id: "personal-details", label: "Personal Details", icon: BsPerson , path: '/dashboard/personal-details' },
+    { id: "education", label: "Education", icon: FaGraduationCap , path: '/dashboard/education'  },
+    { id: "project", label: "Projects", icon: LuFolderGit2 , path: '/dashboard/project' },
+    { id: "work-expr", label: "Work Experience", icon: IoBriefcase , path: '/dashboard/work-expr' },
+    { id: "skills", label: "Skills", icon: FaMedal , path: '/dashboard/skills' },
+    { id: "myPortfolio", label: "My Portfolio", icon:  ContactRound, path: '/dashboard/myPortfolio' },
+    { id: "myResumes", label: "My Resumes", icon:  FileText, path: '/dashboard/myResume' },
   ];
 
   useEffect(()=>{

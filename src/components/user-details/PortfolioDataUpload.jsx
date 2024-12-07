@@ -1,14 +1,26 @@
-import React, { useState } from "react";
-import { X, Upload, Link, CheckCircle2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { X, Upload, Link, CheckCircle2, Ban } from "lucide-react";
 import UploadModal from "./UploadModal";
+import { Block } from "@mui/icons-material";
+import { BsLockFill } from "react-icons/bs";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
+import { generatePortfolio, getLinkAvailability } from "@/services/portfolioService";
+import toast from "react-hot-toast";
 
-function PortfolioDataUpload({ isOpen, onClose, onSubmit, baseUrl }) {
+function PortfolioDataUpload({ isOpen, onClose, baseUrl }) {
   
     const [formData, setFormData] = useState({
     file: null,
     url: "",
   });
-
+  const [isGenerating, setIsGenerating] = useState(false)
+  // const [isGenerating, setIsGenerating] = 
+  const {data: isLinkAvailable} = useQuery({
+    queryKey: ['link-available', formData.url],
+    queryFn: ()=>getLinkAvailability(formData.url),
+    enabled:formData.url.length>0,
+    onSuccess:()=>{console.log(isLinkAvailable)}
+  })
   const handleFileChange = (e) => {
 
     const file = e.target.files?.[0] || null;
@@ -16,19 +28,33 @@ function PortfolioDataUpload({ isOpen, onClose, onSubmit, baseUrl }) {
 
   };
 
+  const queryClient = useQueryClient();
+  const generatePortfolioMutation = useMutation({
+    mutationFn: (data) => generatePortfolio(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userPortfolio'])
+      setIsGenerating(false)
+      toast.success("Portfolio generated successfully")
+      onClose()
+    },
+    onError: (err) => {
+      console.error("Error generating portfolio", err);
+      setIsGenerating(false)
+      toast.error("Error generating portfolio: "+ err.message)
+    },
+  })
   const handleSubmit = (e) => {
     e.preventDefault();
     const sendFormData = new FormData();
     sendFormData.append('file', formData.file);
     sendFormData.append('url', formData.url);
     sendFormData.append('useProfileData', formData.useProfileData);
-    //TODO: send request to backend
-    onSubmit(formData);
-    onClose();
+    setIsGenerating(true)
+    generatePortfolioMutation.mutate(formData);
 
   };
 
-
+  useEffect(()=>{console.log("is link availabke",isLinkAvailable)},[isLinkAvailable])
   return (
     <UploadModal isOpen={isOpen} onClose={onClose}>
       <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md p-6 transform transition-all">
@@ -109,37 +135,18 @@ function PortfolioDataUpload({ isOpen, onClose, onSubmit, baseUrl }) {
                 className="flex-1 min-w-0 block w-full px-3 py-2 rounded-r-md border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               />
             </div>
+            <div className="flex min-h-8 gap-2 font-bold text-sm items-center">
+            {isLinkAvailable &&  <><CheckCircle2 fill="green"  color="white"/>
+              <span className="font-poppins text-green-700"> Link Available</span>
+              </>}</div>
           </div>
 
-          {/* Use Current Data Checkbox */}
-          {/* <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="use-current-data"
-              checked={formData.useProfileData}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  useProfileData: e.target.checked,
-                }))
-              }
-              className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label
-              htmlFor="use-current-data"
-              className="text-sm text-gray-700 select-none flex items-center gap-2"
-            >
-              <CheckCircle2 className="h-4 w-4 text-blue-500" />
-              Use current resume data
-            </label>
-          </div> */}
-
-          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            disabled={!isLinkAvailable && !formData.file}
+            className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${(isLinkAvailable && formData.file)?'bg-blue-600 hover:bg-blue-700':'bg-blue-400 cursor-not-allowed'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors`}
           >
-            Generate Portfolio
+            {isGenerating?"Generating...":"Generate Portfolio"}
           </button>
         </form>
       </div>

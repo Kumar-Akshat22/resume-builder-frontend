@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Card , CardContent , CardFooter } from '../ui/card';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
+import PortfolioImage from "./Images/Portfolio.png";
 
 function PortfolioCard({portfolio}) {
     console.log('Inside Portfolio Card Componenet');
@@ -10,7 +11,7 @@ function PortfolioCard({portfolio}) {
 
     const handleOpenPortfolio = ()=>{
 
-      navigate('/portfolio/akshat')
+      navigate(`/portfolio/${portfolio}`)
     }
   return (
     <div>
@@ -21,17 +22,17 @@ function PortfolioCard({portfolio}) {
     >
       <Card className="overflow-hidden">
         <img
-          src={portfolio.image}
-          alt={portfolio.title}
+          src={PortfolioImage}
+          alt={portfolio}
           width={300}
           height={200}
           className="w-full h-48 object-cover"
         />
         <CardContent className="p-4">
-          <h2 className="text-xl font-semibold text-foreground mb-2">{portfolio.title}</h2>
+          <h2 className="text-xl font-semibold text-foreground mb-2">{portfolio}</h2>
         </CardContent>
         <CardFooter className="flex justify-between p-4">
-          <Button variant="outline">Edit Portfolio</Button>
+          <Button variant="outline" onClick={()=>navigate(`/dashboard/portfolio/${portfolio}/edit`)}>Edit Portfolio</Button>
           <Button className='bg-indigo-500 hover:bg-indigo-700 text-white' onClick={handleOpenPortfolio}>View Portfolio</Button>
         </CardFooter>
       </Card>

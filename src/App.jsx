@@ -20,10 +20,13 @@ import ResumeAnalysis from './pages/ResumeAnalysis';
 import MyPortfolio from './components/user-details/MyPortfolio';
 import MyResume from './components/user-details/MyResume';
 import Portfolio from './pages/Portfolio';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import PortfolioPage from './components/PortfolioPage';
 
 
 function App() {
 
+  const queryClient = new QueryClient();
   const [resumeDetails , setResumeDetails] = useState({});
 
 
@@ -42,7 +45,7 @@ function App() {
   return (
 
     <div className="">
-      
+      <QueryClientProvider client={queryClient} >
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/signin" element={<Login></Login>}></Route>
@@ -56,11 +59,12 @@ function App() {
           <Route path = 'work-expr' element={<WorkExp/>} updateResumeDetails={updateResumeDetails}/>
           <Route path = 'skills' element={<Skills/>} updateResumeDetails={updateResumeDetails}/>
           <Route path='myPortfolio' element={<MyPortfolio />} />
+          <Route path='portfolio/:link/edit' element={<PortfolioPage />} />
           <Route path='myResume' element={<MyResume />} />
 
 
         </Route>
-        <Route path='/portfolio/:username' element={<Portfolio />} />
+        <Route path='/portfolio/:link' element={<Portfolio />} />
           
         {/* <Route path='/templates' element={<ResumeTemplates />} /> */}
         <Route path='/resume-analysis' element={<ResumeAnalysis />} />
@@ -68,7 +72,7 @@ function App() {
         <Route path='/setting/saved-resume/:resumeName/preview' element={<PreviewSavedResume />} />
 
       </Routes>
-
+      </QueryClientProvider>
     </div>
   );
 }
