@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import PortfolioForm from './PortfolioForm'
-import dummyData from '../utils/portfolioDummy.json'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { getAuthorizedPortfolio, updatePortfolio } from '@/services/portfolioService'
