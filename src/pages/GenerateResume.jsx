@@ -80,6 +80,7 @@ const Resume = ({ data }) => (
 );
 
 function GenerateResume() {
+  
   const [isGenerating, setIsGenerating] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -177,6 +178,8 @@ function GenerateResume() {
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-8">
+
+
       {isLoading ? (
         <div className="flex flex-col space-y-3 mt-5">
           <h1 className="text-4xl font-bold text-gray-800 mb-8">
@@ -208,20 +211,6 @@ function GenerateResume() {
                     Resume Preview
                   </h2>
                   <div className="space-x-4">
-                    <Button
-                      onClick={handleGenerate}
-                      disabled={isGenerating || isLoading}
-                      className="bg-purple-500 hover:bg-purple-600 text-white"
-                    >
-                      {isGenerating ? (
-                        <>
-                          <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                          Generating...
-                        </>
-                      ) : (
-                        "Generate Resume"
-                      )}
-                    </Button>
 
                     <Button
                       onClick={handleDownload}
