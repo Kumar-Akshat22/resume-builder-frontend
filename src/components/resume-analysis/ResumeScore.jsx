@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { Progress } from "../ui/progress";
 
-function ResumeScore({ score = 9 }) {
+function ResumeScore({ score }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {

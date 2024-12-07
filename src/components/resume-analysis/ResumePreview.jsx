@@ -91,16 +91,6 @@ function ResumePreview() {
       }
   
   
-    const handleDownload = async () => {
-      const blob = await pdf(<Resume />).toBlob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "resume.pdf";
-      link.click();
-      URL.revokeObjectURL(url);
-    };
-  
     // const handleGenerate = () => {
     //   setIsGenerating(true)
     //   // Simulate generation process
@@ -137,16 +127,6 @@ function ResumePreview() {
                     <h2 className="text-2xl font-semibold text-gray-700">
                       Resume Preview
                     </h2>
-                    <div className="space-x-4">
-  
-                      <Button
-                        onClick={handleDownload}
-                        className="bg-blue-500 hover:bg-blue-600 text-white"
-                      >
-                        <Download className="mr-2 h-4 w-4" />
-                        Download PDF
-                      </Button>
-                    </div>
                   </div>
   
                   <div
@@ -155,7 +135,8 @@ function ResumePreview() {
                   >
                     {resumeData ? (
                       <PDFViewer width="100%" height="100%">
-                        <Resume data={resumeData}/>
+                      <Resume data={resumeData}/>
+                        
                       </PDFViewer>
                     ) : (
                       <div className="flex items-center justify-center h-full bg-gray-100">
