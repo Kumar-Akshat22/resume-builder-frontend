@@ -17,132 +17,14 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getResumeById } from "@/services/resumeService";
 
-// Define styles for PDF
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    backgroundColor: "#FFFFFF",
-    padding: 30,
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  text: {
-    fontSize: 12,
-    marginBottom: 5,
-  },
-});
-
-// Define the Resume component
-const Resume = ({ data }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.title}>{data.name}</Text>
-        <Text style={styles.subtitle}>{data.title}</Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Experience</Text>
-        {data.experience.map((exp, index) => (
-          <View key={index}>
-            <Text style={styles.text}>
-              {exp.company} - {exp.position}
-            </Text>
-            <Text style={styles.text}>{exp.duration}</Text>
-            <Text style={styles.text}>{exp.description}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Education</Text>
-        <Text style={styles.text}>{data.education.degree}</Text>
-        <Text style={styles.text}>
-          {data.education.school}, {data.education.year}
-        </Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Skills</Text>
-        <Text style={styles.text}>{data.skills.join(", ")}</Text>
-      </View>
-    </Page>
-  </Document>
-);
 
 function GenerateResume() {
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isClient, setIsClient] = useState(false);
 
-  const [resumeData, setResumeData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // const [resumeName, setResumeName] = useState(localStorage.getItem(resumeName))
-
-  // const fetchData = async () => {
-  //   setIsLoading(true);
-  //   const res = await axios.get("/api/v1/users/get-user-info", {
-  //     headers: { Authorization: localStorage.getItem("AccessToken") },
-  //   });
-
-  //   console.log(res.data);
-  //   if (res.data.statusCode === 200) {
-  //     setResumeData(res.data.data.resumeDetails);
-  //     toast.success("Successfully Fetched the Resume Data");
-  //     setIsLoading(false);
-  //     console.log(res.data.resumeData);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  const fetchResumeData = async () => {
-    setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setResumeData({
-      name: "John Doe",
-      title: "Software Engineer",
-      experience: [
-        {
-          company: "Tech Corp",
-          position: "Senior Developer",
-          duration: "2018 - Present",
-          description: "Led development of multiple high-impact projects.",
-        },
-        {
-          company: "Startup Inc",
-          position: "Junior Developer",
-          duration: "2015 - 2018",
-          description:
-            "Contributed to the development of innovative web applications.",
-        },
-      ],
-      education: {
-        degree: "Bachelor of Science in Computer Science",
-        school: "University of Technology",
-        year: "2015",
-      },
-      skills: ["JavaScript", "React", "Node.js", "Python", "SQL"],
-    });
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    setIsClient(true);
-    fetchResumeData();
-  }, []);
+  const {resumeId} = useParams();
 
   const handleDownload = async () => {
     if (!resumeData) {
@@ -151,7 +33,7 @@ function GenerateResume() {
     }
 
     try {
-      const blob = await pdf(<Resume data={resumeData} />).toBlob();
+      const blob = await pdf(<Resume1 resumeData={resumeData} />).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -164,23 +46,43 @@ function GenerateResume() {
     }
   };
 
-  const handleGenerate = () => {
-    setIsGenerating(true);
-    // Simulate generation process
-    setTimeout(() => {
-      setIsGenerating(false);
-      fetchResumeData();
-    }, 2000);
-  };
+  const {data: resumeData, isLoading, error} = useQuery({
+    queryKey: ["resume", resumeId],
+    queryFn:  () => getResumeById(resumeId) ,
+    onError: (error) => {
+      console.error("Error in fetching resume data", error);
+      toast.error("Failed to fetch Resume data");
+    },
+  })
 
-  console.log(resumeData);
+
+  useEffect(()=>{
+    console.log("resume data", resumeData);
+    
+  },[resumeData])
+  if(error){
+    toast.error("Failed to fetch Resume data");
+    return <div>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8">
+        Failed to fetch Resume data : {error.data}
+      </h1>
+      <Button
+        className="w-full"
+        onClick={() => {
+          window.location.href = "/";
+        }}
+      >
+        Return to Home
+      </Button>
+    </div>
+  }
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-8">
       {isLoading ? (
         <div className="flex flex-col space-y-3 mt-5">
           <h1 className="text-4xl font-bold text-gray-800 mb-8">
-            Hold On, Generating your Resume
+            Hold On, Fetching your Resume...
           </h1>
           <Skeleton className="h-[325px] w-[100%] rounded-xl" />
           <div className="space-y-2">
@@ -208,20 +110,6 @@ function GenerateResume() {
                     Resume Preview
                   </h2>
                   <div className="space-x-4">
-                    <Button
-                      onClick={handleGenerate}
-                      disabled={isGenerating || isLoading}
-                      className="bg-purple-500 hover:bg-purple-600 text-white"
-                    >
-                      {isGenerating ? (
-                        <>
-                          <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                          Generating...
-                        </>
-                      ) : (
-                        "Generate Resume"
-                      )}
-                    </Button>
 
                     <Button
                       onClick={handleDownload}
@@ -237,9 +125,9 @@ function GenerateResume() {
                   className="border rounded-lg overflow-hidden"
                   style={{ height: "70vh" }}
                 >
-                  {isClient && resumeData ? (
+                  { resumeData ? (
                     <PDFViewer width="100%" height="100%">
-                      <Resume data={resumeData} />
+                      <Resume1 resumeData={resumeData} />
                     </PDFViewer>
                   ) : (
                     <div className="flex items-center justify-center h-full bg-gray-100">
