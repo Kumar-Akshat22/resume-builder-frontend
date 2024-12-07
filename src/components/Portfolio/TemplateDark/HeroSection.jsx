@@ -3,7 +3,7 @@ import { FaChevronCircleDown } from 'react-icons/fa'
 import { FaDev, FaGithub, FaInstagram, FaLinkedin, FaMedium, FaTwitter } from 'react-icons/fa6'
 import {SiGmail, SiLeetcode} from 'react-icons/si'
 import Typewrite from 'typewriter-effect'
-import bitEmoji from '../../assets/bitmoji.png'
+import bitEmoji from '../../../assets/bitmoji.png'
 
 const HeroSection = ({userInfo, socialLinks}) => {
   return (

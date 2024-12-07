@@ -1,6 +1,5 @@
 import React from 'react'
 import { FaCode, FaFileImage, FaGithub, FaImage, FaImages, FaLink, FaRegFileImage, FaRegImage, FaRegImages } from 'react-icons/fa'
-import { formatDateRange } from '../../utils/dateFormatter';
 
 const ProjectCard = ({ 
   imageUrl, 

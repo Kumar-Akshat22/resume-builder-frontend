@@ -18,7 +18,7 @@ const resumeEndpoint = {
     GENERATE_RESUME_WITH_AI : '/api/v1/resume/generate-with-ai',
     DELETE_RESUME : '/api/v1/resume',
     GET_ALL_RESUMES : '/api/v1/resume',
-    RESUME_ANALYTICS : '/api/v1/resume/anazyle'
+    RESUME_ANALYTICS : '/api/v1/resume/analyze'
 }
 export {
     portfolioEndPoint,

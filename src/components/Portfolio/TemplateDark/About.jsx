@@ -1,6 +1,6 @@
 import React from "react";
 import { MdPerson } from "react-icons/md";
-import bitEmoji from "../../assets/bitmoji.png";
+import bitEmoji from "../../../assets/bitmoji.png";
 import { FaDownload } from "react-icons/fa6";
 
 const About = ({ userInfo }) => {

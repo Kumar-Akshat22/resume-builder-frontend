@@ -23,6 +23,7 @@ import Portfolio from './pages/Portfolio';
 import ProfileCompletion from './components/user-details/ProfileCompletion';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import PortfolioPage from './components/PortfolioPage';
+import PortfolioDark from './components/Portfolio/TemplateDark/PortfolioDark';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/signin" element={<Login></Login>}></Route>
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/test' element={<PortfolioDark />} />
 
         <Route path="/dashboard/" element={<Setting/>}>
 

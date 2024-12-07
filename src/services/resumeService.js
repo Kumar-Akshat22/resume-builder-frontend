@@ -29,9 +29,21 @@ const getAllResume = async () => {
     })
     return res.data.data
 }
+
+const analyzeResume = async (resume) => {
+    const token = localStorage.getItem('AccessToken')
+    const res = await axios.post(resumeEndpoint.RESUME_ANALYTICS, resume, {
+        headers:{
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data"
+        },
+        timeout: 60000
+    })
+    return res.data.data
+}
 export {
     generateResume,
     generateResumeWithAI,
     getAllResume,
- 
+    analyzeResume
 }

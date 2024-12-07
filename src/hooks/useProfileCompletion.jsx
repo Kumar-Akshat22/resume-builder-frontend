@@ -11,13 +11,21 @@ function useProfileCompletion(url) {
     const fetchData = async ()=>{
 
         setIsLoading(true);
+        const status = localStorage.getItem('status');
+        if(status){
+            setProfileCompletionData(JSON.parse(status));
+            return;
+        }
 
         try{
 
             const response = await axios.get(url);
             if(response.status === 200){
 
-                setProfileCompletionData(response.data);
+                setProfileCompletionData(response.data.data);
+                // TODO: check if its work or not
+                localStorage.setItem('status', JSON.stringify(response.data.data));
+
                 toast.success("Profile Data loaded successfully");
             } else {
                 throw new Error(`Unexpected response: ${response.status}`);
@@ -38,9 +46,7 @@ function useProfileCompletion(url) {
         }
     }
 
-    useEffect(()=>{
-        fetchData();
-    },[url]);
+    useEffect(()=>{fetchData()},[])
 
   return (
     {profileCompletionData , isLoading , error} 

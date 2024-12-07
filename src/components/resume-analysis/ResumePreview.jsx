@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     </Document>
   );  
 
-function ResumePreview() {
+function ResumePreview({file}) {
 
     const [isLoading , setIsLoading] = useState(false)
     const resumeData = {
@@ -89,16 +89,7 @@ function ResumePreview() {
         },
         skills: ["JavaScript", "React", "Node.js", "Python", "SQL"]
       }
-  
-  
-    // const handleGenerate = () => {
-    //   setIsGenerating(true)
-    //   // Simulate generation process
-    //   setTimeout(() => {
-    //     setIsGenerating(false)
-    //     fetchResumeData()
-    //   }, 2000)
-    // }
+ 
   
     return (
       <div className="w-full">
@@ -133,11 +124,18 @@ function ResumePreview() {
                     className="border rounded-lg overflow-hidden"
                     style={{ height: "70vh" }}
                   >
-                    {resumeData ? (
-                      <PDFViewer width="100%" height="100%">
-                      <Resume data={resumeData}/>
-                        
-                      </PDFViewer>
+                    {file ? (
+                  <div style={{ marginTop: "20px" }}>
+                    <iframe
+                      src={file}
+                      title="PDF Preview"
+                      width="100%"
+                      height="600px"
+                      style={{ border: "1px solid #ccc" }}
+                    ></iframe>
+                    {/* Alternative: Use <embed> */}
+                    {/* <embed src={pdfFile} width="100%" height="600px" type="application/pdf" /> */}
+                  </div>
                     ) : (
                       <div className="flex items-center justify-center h-full bg-gray-100">
                         <FileText className="h-16 w-16 text-gray-400" />
