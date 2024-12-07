@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import UserAvatar from './UserAvatar';
+import UserAvatar from '../UserAvatar';
 
 const Header = ({data}) => {
     const [activeSection, setActiveSection] = useState('');

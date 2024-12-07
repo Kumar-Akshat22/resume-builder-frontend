@@ -1,6 +1,6 @@
 // import React from 'react'
 import { FaBriefcase, FaCalendar, FaMapPin } from 'react-icons/fa6';
-import { formatDateRange } from '../../utils/dateFormatter'
+import { formatDateRange } from '../../../utils/dateFormatter'
 
 const ExperienceCard = ({ 
   company, 

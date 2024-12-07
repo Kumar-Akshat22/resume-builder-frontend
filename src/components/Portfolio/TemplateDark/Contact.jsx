@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import contactImage from '../../assets/contact.png';
-import { FaHeadphones } from 'react-icons/fa';
+import contactImage from '../../../assets/contact.png';
 import { FaHeadphonesSimple } from 'react-icons/fa6';
 import { useMutation } from 'react-query';
 import { sendEmail } from '@/services/portfolioService';

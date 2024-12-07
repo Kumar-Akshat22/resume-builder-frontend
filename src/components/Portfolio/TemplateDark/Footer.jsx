@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FaChevronCircleRight, FaDev, FaGithub, FaInstagram, FaMedium, FaTwitter } from 'react-icons/fa';
 import { FaLinkedin, FaYoutube } from 'react-icons/fa6';
 import { SiGmail, SiLeetcode } from 'react-icons/si';
-import {Link} from 'react-router-dom'
 const Footer = ({data}) => {
   const [navItems, setNavItems] = useState([
     {

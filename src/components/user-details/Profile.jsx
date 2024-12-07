@@ -19,6 +19,7 @@ const Profile = () => {
             console.log("userDetailForm",userDetailForm);
             const res = await axios.post('/api/v1/users/update-account-details', {userData : JSON.stringify(userDetailForm)},{headers:{Authorization:localStorage.getItem('AccessToken')}})
             console.log(res);
+            localStorage.removeItem('status')
 
             if(res.data.statusCode === 200){
                 toast.success("Profile updated ")

@@ -3,33 +3,37 @@ import { X, Upload, Link, CheckCircle2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 function FileUploadModal({
-  isFileSelected,
-  setIsFileSelected,
+  file,
+  setFile,
   isDataUploading,
-  startAnalysis,
-  setIsModalOpen
+  setIsModalOpen,
+  onUpload,
+  isAnalyzing,
+  setIsAnalyzing,
+  setPdfPreviewUrl
+
 }) {
   const handleFileChange = (e) => {
-    const file = e.target.files?.[0] || null;
-    setIsFileSelected(file);
+    const resume = e.target.files?.[0] || null;
+    console.log(resume);
+    setPdfPreviewUrl(URL.createObjectURL(resume));
+
+    setFile(resume);
     toast.success("File Selected Successfully")
   };
 
   const handleDataUpload = async (e) => {
     e.preventDefault();
-    if (isFileSelected) {
-      await startAnalysis(isFileSelected);
+    if (file) {
+      setIsAnalyzing(true)
+      onUpload(file)
     } else {
       toast.error("Please Select a file to proceed");
     }
 
-    // Back End api request
-
-    // If the response status code is OK
     
   };
 
-  console.log(isFileSelected);
 
   return (
    
@@ -61,7 +65,7 @@ function FileUploadModal({
               <label
                 htmlFor="file"
                 className={`flex items-center justify-center w-full p-4 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-                  isFileSelected
+                  file
                     ? "border-blue-500 bg-blue-50"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
@@ -69,12 +73,12 @@ function FileUploadModal({
                 <div className="flex items-center gap-2 text-sm">
                   <Upload
                     className={`h-5 w-5 ${
-                      isFileSelected ? "text-blue-500" : "text-gray-400"
+                      file ? "text-blue-500" : "text-gray-400"
                     }`}
                   />
-                  {isFileSelected ? (
+                  {file ? (
                     <span className="text-blue-500 font-medium">
-                      {isFileSelected.name}
+                      {file?.name}
                     </span>
                   ) : (
                     <span className="text-gray-500">Choose PDF file</span>
@@ -85,9 +89,9 @@ function FileUploadModal({
               <button
                 type="submit"
                 className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors mt-2`}
-                disabled={!isFileSelected || isDataUploading}
+                disabled={!file || isAnalyzing}
               >
-                {isDataUploading ? "Uploading.." : "Analyze with AI"}
+                {isAnalyzing ? "Anazyzing..." : "Analyze with AI"}
               </button>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaGraduationCap, FaUserGraduate } from 'react-icons/fa6';
-import { formatDateRange } from '../../utils/dateFormatter';
-import universityImage from '../../assets/university.avif'
+import { formatDateRange } from '../../../utils/dateFormatter';
+import universityImage from '../../../assets/university.avif'
 const EducationCard = ({ institute, location, startDate, endDate, degree, specialization, imageUrl }) => {
   if(!degree)return
   return (
