@@ -5,13 +5,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { PlusCircle } from 'lucide-react'
+import { PlusCircle, Trash2 } from 'lucide-react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function PortfolioForm({
   isEditable,
   initialData,
-  onSave,
-  isSaving
+  onSave
 }) {
   const [formData, setFormData] = useState({
     ...initialData,
@@ -20,6 +20,8 @@ export default function PortfolioForm({
       softSkills: initialData.skills?.softSkills || []
     }
   });
+
+  const [template, setTemplate] = useState(formData.template);
 
   const handleInputChange = (section, field, value) => {
     setFormData(prev => ({
@@ -77,6 +79,27 @@ export default function PortfolioForm({
         return {
           ...prev,
           [section]: [...(prev[section]), getEmptyEntry(section)]
+        };
+      }
+      return prev;
+    });
+  };
+
+  const deleteEntry = (section, index, skillType) => {
+    setFormData(prev => {
+      if (section === 'skills') {
+        const skillsSection = skillType === 'technical' ? 'technicalSkills' : 'softSkills';
+        return {
+          ...prev,
+          skills: {
+            ...prev.skills,
+            [skillsSection]: prev.skills[skillsSection].filter((_, i) => i !== index)
+          }
+        };
+      } else if (Array.isArray(prev[section])) {
+        return {
+          ...prev,
+          [section]: (prev[section]).filter((_, i) => i !== index)
         };
       }
       return prev;
@@ -145,6 +168,13 @@ export default function PortfolioForm({
     </div>
   )
 
+  const handleTemplateChange = (value) => {
+    setTemplate(value);
+    // Here you would typically apply the template changes to your form data
+    setFormData(prev=>({...prev, template:value}))
+    console.log(`Template changed to: ${value}`);
+  };
+
   return (
     (<form onSubmit={(e) => { e.preventDefault(); onSave(formData); }}>
       <Tabs defaultValue="socialLinks" className="w-full">
@@ -155,6 +185,7 @@ export default function PortfolioForm({
           <TabsTrigger value="education">Education</TabsTrigger>
           <TabsTrigger value="experience">Experience</TabsTrigger>
           <TabsTrigger value="projects">Projects</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
 
         <TabsContent value="socialLinks">
@@ -164,9 +195,7 @@ export default function PortfolioForm({
             </CardHeader>
             <CardContent>
               {Object.entries(formData.socialLinks).map(([key, value]) => (
-                <div key={key}>
-                {renderInput(key, value, (newValue) => handleInputChange('socialLinks', key, newValue))}
-                </div>
+                renderInput(key, value, (newValue) => handleInputChange('socialLinks', key, newValue))
               ))}
             </CardContent>
           </Card>
@@ -215,7 +244,7 @@ export default function PortfolioForm({
             <CardContent>
               <h3 className="text-lg font-semibold mb-2">Technical Skills</h3>
               {(formData.skills?.technicalSkills || []).map((skill, index) => (
-                <div key={index} className="mb-4">
+                <div key={index} className="mb-4 relative">
                   {renderInput(
                     `Technical Skill ${index + 1}`,
                     skill.label,
@@ -232,17 +261,30 @@ export default function PortfolioForm({
                     (newValue) => handleArrayInputChange('skills.technicalSkills', index, 'logoUrl', newValue)
                   )}
                   {renderImagePreview(skill.logoUrl, `Technical Skill ${index + 1} Logo`)}
+                  {isEditable && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-0 right-0"
+                      onClick={() => deleteEntry('skills', index, 'technical')}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               ))}
               {isEditable && (
-                <Button type="button" onClick={() => addNewEntry('skills', 'technical')} className="mt-4">
+                <Button
+                  type="button"
+                  onClick={() => addNewEntry('skills', 'technical')}
+                  className="mt-4">
                   <PlusCircle className="mr-2 h-4 w-4" /> Add New Technical Skill
                 </Button>
               )}
 
               <h3 className="text-lg font-semibold mb-2 mt-8">Soft Skills</h3>
               {(formData.skills?.softSkills || []).map((skill, index) => (
-                <div key={index} className="mb-4">
+                <div key={index} className="mb-4 relative">
                   {renderInput(
                     `Soft Skill ${index + 1}`,
                     skill.label,
@@ -253,10 +295,23 @@ export default function PortfolioForm({
                     skill.emoji,
                     (newValue) => handleArrayInputChange('skills.softSkills', index, 'emoji', newValue)
                   )}
+                  {isEditable && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-0 right-0"
+                      onClick={() => deleteEntry('skills', index, 'soft')}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               ))}
               {isEditable && (
-                <Button type='button' onClick={() => addNewEntry('skills', 'soft')} className="mt-4">
+                <Button
+                  type="button"
+                  onClick={() => addNewEntry('skills', 'soft')}
+                  className="mt-4">
                   <PlusCircle className="mr-2 h-4 w-4" /> Add New Soft Skill
                 </Button>
               )}
@@ -271,7 +326,7 @@ export default function PortfolioForm({
             </CardHeader>
             <CardContent>
               {formData.education.map((edu, index) => (
-                <div key={index} className="mb-8 border-b pb-4">
+                <div key={index} className="mb-8 border-b pb-4 relative">
                   <h3 className="text-lg font-semibold mb-2">Education {index + 1}</h3>
                   {Object.entries(edu).map(([key, value]) => (
                     <React.Fragment key={key}>
@@ -293,10 +348,20 @@ export default function PortfolioForm({
                       )}
                     </React.Fragment>
                   ))}
+                  {isEditable && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-0 right-0"
+                      onClick={() => deleteEntry('education', index)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               ))}
               {isEditable && (
-                <Button type='button' onClick={() => addNewEntry('education')} className="mt-4">
+                <Button type="button" onClick={() => addNewEntry('education')} className="mt-4">
                   <PlusCircle className="mr-2 h-4 w-4" /> Add New Education
                 </Button>
               )}
@@ -311,7 +376,7 @@ export default function PortfolioForm({
             </CardHeader>
             <CardContent>
               {formData.experience.map((exp, index) => (
-                <div key={index} className="mb-8 border-b pb-4">
+                <div key={index} className="mb-8 border-b pb-4 relative">
                   <h3 className="text-lg font-semibold mb-2">Experience {index + 1}</h3>
                   {Object.entries(exp).map(([key, value]) => (
                     <React.Fragment key={key}>
@@ -341,10 +406,20 @@ export default function PortfolioForm({
                       )}
                     </React.Fragment>
                   ))}
+                  {isEditable && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-0 right-0"
+                      onClick={() => deleteEntry('experience', index)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               ))}
               {isEditable && (
-                <Button type='button' onClick={() => addNewEntry('experience')} className="mt-4">
+                <Button type="button" onClick={() => addNewEntry('experience')} className="mt-4">
                   <PlusCircle className="mr-2 h-4 w-4" /> Add New Experience
                 </Button>
               )}
@@ -359,24 +434,29 @@ export default function PortfolioForm({
             </CardHeader>
             <CardContent>
               {formData.projects.map((project, index) => (
-                <div key={index} className="mb-8 border-b pb-4">
+                <div key={index} className="mb-8 border-b pb-4 relative">
                   <h3 className="text-lg font-semibold mb-2">Project {index + 1}</h3>
                   {Object.entries(project).map(([key, value]) => (
                     <React.Fragment key={key}>
                       {key === 'techStack' ? (
                         <div className="mb-4">
-                          <Label htmlFor={`techStack-${index}`}>Tech Stack</Label>
+                          <Label htmlFor={`techStack-${index}`}>Tech Stack <span className=''>(Seperated by ";" Use <span className='bg-stone-400 px-2 py-1 rounded-md text-gray-800'>Ctrl + ⌫</span>) for remove skill</span></Label>
                           {isEditable ? (
                             <Textarea
                               id={`techStack-${index}`}
-                              value={(value).map((tech) => `${tech.title}:${tech.emoji}`).join(', ')}
-                              onChange={(e) => handleArrayInputChange('projects', index, key, e.target.value.split(', ').map((tech) => {
-                                const [title, emoji] = tech.split(':')
-                                return { title, emoji }
-                              }))}
+                              value={(value).map((tech) => `${tech.title}`).join('; ')}
+                              onChange={(e) => {
+                                const newValue = e.target.value.split(';').map(item => {
+                                  const [title, emoji] = item.split('|').map(s => s.trim());
+                                  return { title: title || '' };
+                                });
+                                handleArrayInputChange('projects', index, key, newValue);
+                              }}
                               className="mt-1" />
                           ) : (
-                            <p className="mt-1">{(value).map((tech) => `${tech.title} ${tech.emoji}`).join(', ') || 'N/A'}</p>
+                            <p className="mt-1">
+                              {(value).map((tech) => `${tech.title} ${tech.emoji || ''}`).join(', ') || 'N/A'}
+                            </p>
                           )}
                         </div>
                       ) : key === 'description' ? (
@@ -402,12 +482,12 @@ export default function PortfolioForm({
                           {isEditable ? (
                             <Textarea
                               id={`imageUrl-${index}`}
-                              value={Array.isArray(value) &&(value).join(', ')}
+                              value={(value).join(', ')}
                               onChange={(e) => handleArrayInputChange('projects', index, key, e.target.value.split(', '))}
                               className="mt-1" />
                           ) : (
                             <div className="mt-1 flex flex-wrap gap-2">
-                              {Array.isArray(value) && (value).map((url, i) => (
+                              {(value).map((url, i) => (
                                 renderImagePreview(url, `Project ${index + 1} Image ${i + 1}`)
                               ))}
                             </div>
@@ -422,19 +502,57 @@ export default function PortfolioForm({
                       )}
                     </React.Fragment>
                   ))}
+                  {isEditable && (
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-0 right-0"
+                      onClick={() => deleteEntry('projects', index)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               ))}
               {isEditable && (
-                <Button type='button' onClick={() => addNewEntry('projects')} className="mt-4">
+                <Button type="button" onClick={() => addNewEntry('projects')} className="mt-4">
                   <PlusCircle className="mr-2 h-4 w-4" /> Add New Project
                 </Button>
               )}
             </CardContent>
           </Card>
         </TabsContent>
+
+        <TabsContent value="settings">
+          <Card>
+            <CardHeader>
+              <CardTitle>Settings</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-4">
+                <Label htmlFor="templateSelect">Template</Label>
+                {isEditable ? (
+                  <Select onValueChange={handleTemplateChange} value={template}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select a template" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Template Light 01">LIGHT TEMPLATE 01</SelectItem>
+                      <SelectItem value="Template Dark 01">DARK TEMPLATE 01</SelectItem>
+                      {/* <SelectItem value="classic">Classic</SelectItem> */}
+                      {/* <SelectItem value="minimalist">Minimalist</SelectItem> */}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <p className="mt-1">{template}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
       {isEditable && (
-        <Button disable={isSaving} onClick={onSave} type="submit" className="mt-4">{isSaving?"Saving...":'Save'}</Button>
+        <Button type="submit" className="mt-4">Save</Button>
       )}
     </form>)
   );

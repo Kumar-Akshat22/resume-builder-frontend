@@ -21,7 +21,7 @@ const ProjectCard = ({
   if(!title) return null;
 
   return (
-    <div className="shadow-gray-400  shadow-lg group relative w-full h-80 rounded-xl overflow-hidden cursor-pointer">
+    <div className="   group relative w-full h-80 rounded-xl overflow-hidden cursor-pointer">
       {/* Project Image with Overlay Effect */}
       <div className="absolute inset-0 w-full h-full">
         {imageUrl ? (
@@ -32,7 +32,7 @@ const ProjectCard = ({
           />
         ) : (
           <div className='w-full h-full flex justify-center items-center'>
-            <FaRegImage size={180}/>
+            <FaRegImage className='text-gray-500' size={180}/>
           </div>
         )}
 
@@ -44,8 +44,8 @@ const ProjectCard = ({
       <div className="absolute top-0 left-0 w-full 
         transform transition-transform duration-500 
         group-hover:-translate-y-full z-10
-        bg-yellow-400 p-4">
-        <h3 className="text-xl font-extrabold text-gray-800 text-center">
+        bg-dark-primary text-white p-4">
+        <h3 className="text-xl font-extrabold  text-center">
           {title}
         </h3>
       </div>
@@ -56,15 +56,15 @@ const ProjectCard = ({
         transition-transform duration-500 ease-in-out">
         
         {/* Project Content with Yellow Background */}
-        <div className="bg-yellow-400 max-h-80 overflow-scroll scrollbar-none p-6 ">
+        <div className="bg-dark-primary text-white max-h-80 overflow-scroll scrollbar-none p-6 ">
           {/* Project Action Buttons */}
-          <div className="absolute top-4 right-4 flex space-x-2">
+          <div className="absolute  text-dark-primary top-4 right-4 flex space-x-2">
             {githubLink && (
               <a 
                 href={githubLink} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700 transition-colors"
+                className="bg-black  p-2 rounded-full hover:bg-gray-700 transition-colors"
               >
                 <FaGithub className="w-5 h-5" />
               </a>
@@ -74,7 +74,7 @@ const ProjectCard = ({
                 href={liveURL} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-500 transition-colors"
+                className="bg-black  text-dark-primary p-2 rounded-full hover:bg-blue-500 transition-colors"
               >
                 <FaLink className="w-5 h-5" />
               </a>
@@ -83,11 +83,11 @@ const ProjectCard = ({
 
           {/* Project Details */}
           <div>
-          <h3 className="text-xl font-extrabold text-gray-800 ">
+          <h3 className="text-xl font-extrabold  ">
           {title}
         </h3>
             {startDate && endDate && (
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-sm  mb-4">
                 {formatDateRange(startDate, endDate)}
               </p>
             )}
@@ -98,7 +98,7 @@ const ProjectCard = ({
                 {techStack.map((tech, index) => (
                   <span 
                     key={index} 
-                    className="text-blue-100 bg-blue-800 text-xs font-medium px-2.5 py-0.5 rounded"
+                    className=" bg-white text-black text-xs font-medium px-2.5 py-0.5 rounded"
                   >
                     {tech.title}
                   </span>
@@ -108,7 +108,7 @@ const ProjectCard = ({
 
             {/* Project Description */}
             {description && description.length > 0 && (
-              <ul className="list-disc list-inside max-h-[168px] scrollbar-none overflow-y-scroll text-gray-600 space-y-2">
+              <ul className="list-disc list-inside max-h-[168px] scrollbar-none overflow-y-scroll  space-y-2">
                 {description.map((item, index) => (
                   <li key={index} className="text-sm font-semibold">{item}</li>
                 ))}
@@ -122,9 +122,9 @@ const ProjectCard = ({
 };
 const Projects = ({projectData}) => {
   return (
-    <div id='project' className=" scroll-mt-20 flex flex-col gap-6  m-7">
-    <div className='font-bold text-4xl flex gap-2 font-poppins justify-center items-center my-4'><FaCode/> <span>My</span> <span className='text-orange-500'>Projects</span></div>
-    <div className='grid grid-cols-2 gap-3 w-full max-w-screen-lg mx-auto'>
+    <div id='project' className=" scroll-mt-20  flex flex-col gap-6  m-7">
+    <div className='font-bold text-white text-4xl flex gap-2 font-poppins justify-center items-center my-4'><FaCode className='text-dark-primary'/> <span>My</span> <span className=''>Projects</span></div>
+    <div className='grid grid-cols-2 gap-7 w-full max-w-screen-lg mx-auto'>
 
      {
        projectData.map(project => 
@@ -133,7 +133,7 @@ const Projects = ({projectData}) => {
           endDate={project.endDate || "Present"}
           startDate={project.startDate}
           githubLink={project.githubLink}
-          imageUrl={project.imageUrl}
+          imageUrl={project.imageUrl[0]}
           liveURL={project.liveURL}
           techStack={project.techStack}
           title={project.title}

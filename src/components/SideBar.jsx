@@ -8,7 +8,7 @@ import { IoBriefcase } from "react-icons/io5";
 import { FaMedal } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { BookMarked, ContactRound, FileText } from "lucide-react";
+import { BookMarked, ContactRound, FilesIcon, FileText } from "lucide-react";
 import { BookmarkCheck } from "lucide-react";
 
 const SideBar = () => {
@@ -41,6 +41,7 @@ const SideBar = () => {
     { id: "skills", label: "Skills", icon: FaMedal , path: '/dashboard/skills' },
     { id: "myPortfolio", label: "My Portfolio", icon:  ContactRound, path: '/dashboard/myPortfolio' },
     { id: "myResumes", label: "My Resumes", icon:  FileText, path: '/dashboard/myResume' },
+    { id: "assets", label: "My Assets", icon:  FilesIcon, path: '/dashboard/assets' },
   ];
 
   useEffect(()=>{

@@ -64,19 +64,19 @@ const Contact = () => {
   return (
     <div
       id="contact"
-      className="scroll-mt-20 min-h-screen flex flex-col justify-evenly items-center bg-cyan-100/50"
+      className="scroll-mt-20 text-white flex flex-col justify-evenly items-center "
     >
       <h3 className="font-extrabold text-4xl font-poppins flex gap-3 pt-5">
         <FaHeadphonesSimple />
-        Get in<span className="text-[#a833cf]">Touch</span>
+        Get in<span className="">Touch</span>
       </h3>
-      <div className="mt-6 shadow-gray shadow-2xl max-w-6xl max-lg:max-w-3xl mx-auto bg-[#ffffff] rounded-lg">
+      <div className="mt-6 shadow-gray shadow-2xl max-w-6xl max-lg:max-w-3xl mx-auto  rounded-lg">
         <div className="grid lg:grid-cols-2 items-center gap-14 sm:p-8 p-4 font-[sans-serif]">
           <div>
             <img src={contactImage} alt="Contact" />
           </div>
 
-          <div className="bg-gray-100 p-6 rounded-lg">
+          <div className=" p-6 rounded-lg">
             <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
               <input
                 type="text"
@@ -84,7 +84,7 @@ const Contact = () => {
                 placeholder="Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full rounded-lg py-3 px-4 text-gray-800 text-sm outline-[#a91079]"
+                className="bg-[#252525] w-full rounded-lg py-3 px-4 text-gray-800 text-sm outline-dark-primary"
               />
               <input
                 type="email"
@@ -92,7 +92,7 @@ const Contact = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full rounded-lg py-3 px-4 text-gray-800 text-sm outline-[#a91079]"
+                className="bg-[#252525] w-full rounded-lg py-3 px-4 text-gray-800 text-sm outline-dark-primary"
               />
               <input
                 type="text"
@@ -100,7 +100,7 @@ const Contact = () => {
                 placeholder="Subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full rounded-lg py-3 px-4 text-gray-800 text-sm outline-[#a91079]"
+                className="bg-[#252525] w-full rounded-lg py-3 px-4 text-gray-800 text-sm outline-dark-primary"
               />
               <textarea
                 name="message"
@@ -108,12 +108,12 @@ const Contact = () => {
                 rows="6"
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full rounded-lg px-4 text-gray-800 text-sm pt-3 outline-[#a91079]"
+                className="bg-[#252525] w-full rounded-lg px-4 text-gray-800 text-sm pt-3 outline-dark-primary"
               ></textarea>
               <button
                 type="submit"
                 disabled={sending}
-                className="text-white bg-[#a91079] hover:bg-[#a91079e2] tracking-wide rounded-lg text-sm px-4 py-3 flex items-center justify-center w-full !mt-6"
+                className="text-white bg-dark-primary hover:bg-rose-600 tracking-wide rounded-lg text-sm px-4 py-3 flex items-center justify-center w-full !mt-6"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

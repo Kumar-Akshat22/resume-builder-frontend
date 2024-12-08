@@ -1,4 +1,5 @@
 export const dummyData = {
+  template: 'default',
   socialLinks: {
     linkedIn: 'https://www.linkedin.com/in/johndoe',
     twitter: 'https://twitter.com/johndoe',
@@ -16,7 +17,6 @@ export const dummyData = {
     email: 'john.doe@example.com',
     phone: '+1 (123) 456-7890',
     location: 'San Francisco, CA',
-    gDriveResumeLink: 'https://drive.google.com/file/d/abc123/view',
     gender: 'Male',
     firstName: 'John',
     lastName: 'Doe',

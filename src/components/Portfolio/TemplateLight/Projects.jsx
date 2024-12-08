@@ -133,7 +133,7 @@ const Projects = ({projectData}) => {
           endDate={project.endDate || "Present"}
           startDate={project.startDate}
           githubLink={project.githubLink}
-          imageUrl={project.imageUrl}
+          imageUrl={project.imageUrl[0]}
           liveURL={project.liveURL}
           techStack={project.techStack}
           title={project.title}
