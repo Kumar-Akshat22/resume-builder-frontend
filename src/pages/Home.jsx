@@ -1,27 +1,35 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
-// <<<<<<< HEAD
-import { StyleSheet } from '@react-pdf/renderer'
-import OurTeam from '../components/OurTeam'
-// =======
-import StepsSection from '../components/StepsSection'
+import Features from '../components/Features'
 import Templates from '../components/Templates'
 import Details from '../components/Details'
+import OurTeam from '../components/OurTeam'
 import Footer from '../components/Footer'
-// >>>>>>> origin/main
 
 function Home() {
   
   return (
     <div>
         <Navbar></Navbar>
+        <div id='hero'>
+
+
         <Hero></Hero>
 
-        <StepsSection />
+        </div>
+        <div id='features'>
+
+        <Features />
+        </div>
+        <div id='templates'>
+
         <Templates />
-        <Details />
+        </div>
+        <div id='team'>
+
         <OurTeam/>
+        </div>
         <Footer />
 
     </div>

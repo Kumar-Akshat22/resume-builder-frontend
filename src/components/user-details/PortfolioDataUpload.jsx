@@ -3,62 +3,70 @@ import { X, Upload, Link, CheckCircle2, Ban } from "lucide-react";
 import UploadModal from "./UploadModal";
 import { Block } from "@mui/icons-material";
 import { BsLockFill } from "react-icons/bs";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
-import { generatePortfolio, getLinkAvailability } from "@/services/portfolioService";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
+import {
+  generatePortfolio,
+  getLinkAvailability,
+} from "@/services/portfolioService";
 import toast from "react-hot-toast";
 
 function PortfolioDataUpload({ isOpen, onClose, baseUrl }) {
-  
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     file: null,
     url: "",
   });
-  const [isGenerating, setIsGenerating] = useState(false)
-  // const [isGenerating, setIsGenerating] = 
-  const {data: isLinkAvailable} = useQuery({
-    queryKey: ['link-available', formData.url],
-    queryFn: ()=>getLinkAvailability(formData.url),
-    enabled:formData.url.length>0,
-    onSuccess:()=>{console.log(isLinkAvailable)}
-  })
+  const [isGenerating, setIsGenerating] = useState(false);
+  // const [isGenerating, setIsGenerating] =
+  const { data: isLinkAvailable } = useQuery({
+    queryKey: ["link-available", formData.url],
+    queryFn: () => getLinkAvailability(formData.url),
+    enabled: formData.url.length > 0,
+    onSuccess: () => {
+      console.log(isLinkAvailable);
+    },
+  });
   const handleFileChange = (e) => {
-
     const file = e.target.files?.[0] || null;
-    setFormData(prev => ({ ...prev, file: file }));
-
+    setFormData((prev) => ({ ...prev, file: file }));
   };
 
   const queryClient = useQueryClient();
   const generatePortfolioMutation = useMutation({
     mutationFn: (data) => generatePortfolio(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['userPortfolio'])
-      setIsGenerating(false)
-      toast.success("Portfolio generated successfully")
-      onClose()
+      queryClient.invalidateQueries(["userPortfolio"]);
+      setIsGenerating(false);
+      toast.success("Portfolio generated successfully");
+      onClose();
     },
     onError: (err) => {
       console.error("Error generating portfolio", err);
-      setIsGenerating(false)
-      toast.error("Error generating portfolio: "+ err.message)
+      setIsGenerating(false);
+      toast.error("Error generating portfolio: " + err.message);
     },
-  })
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
     const sendFormData = new FormData();
-    sendFormData.append('file', formData.file);
-    sendFormData.append('url', formData.url);
-    sendFormData.append('useProfileData', formData.useProfileData);
-    setIsGenerating(true)
+    sendFormData.append("file", formData.file);
+    sendFormData.append("url", formData.url);
+    sendFormData.append("useProfileData", formData.useProfileData);
+    setIsGenerating(true);
     generatePortfolioMutation.mutate(formData);
-
   };
 
-  useEffect(()=>{console.log("is link availabke",isLinkAvailable)},[isLinkAvailable])
+  useEffect(() => {
+    console.log("is link availabke", isLinkAvailable);
+  }, [isLinkAvailable]);
   return (
     <UploadModal isOpen={isOpen} onClose={onClose}>
       <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md p-6 transform transition-all">
-      <button
+        <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors"
         >
@@ -101,9 +109,7 @@ function PortfolioDataUpload({ isOpen, onClose, baseUrl }) {
                       {formData.file.name}
                     </span>
                   ) : (
-                    <span className="text-gray-500">
-                      Choose PDF file 
-                    </span>
+                    <span className="text-gray-500">Choose PDF file</span>
                   )}
                 </div>
               </label>
@@ -136,17 +142,28 @@ function PortfolioDataUpload({ isOpen, onClose, baseUrl }) {
               />
             </div>
             <div className="flex min-h-8 gap-2 font-bold text-sm items-center">
-            {isLinkAvailable &&  <><CheckCircle2 fill="green"  color="white"/>
-              <span className="font-poppins text-green-700"> Link Available</span>
-              </>}</div>
+              {isLinkAvailable && (
+                <>
+                  <CheckCircle2 fill="green" color="white" />
+                  <span className="font-poppins text-green-700">
+                    {" "}
+                    Link Available
+                  </span>
+                </>
+              )}
+            </div>
           </div>
 
           <button
             type="submit"
             disabled={!isLinkAvailable && !formData.file}
-            className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${(isLinkAvailable && formData.file)?'bg-blue-600 hover:bg-blue-700':'bg-blue-400 cursor-not-allowed'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors`}
+            className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+              isLinkAvailable && formData.file
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-blue-400 cursor-not-allowed"
+            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors`}
           >
-            {isGenerating?"Generating...":"Generate Portfolio"}
+            {isGenerating ? "Generating..." : "Generate Portfolio"}
           </button>
         </form>
       </div>

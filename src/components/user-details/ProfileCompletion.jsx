@@ -32,27 +32,27 @@ export default function ProfileCompletion() {
           {
             name: "First Name",
             completed: true,
-            href: "/profile/personal-info",
+            href: "/dashboard/personal-details",
           },
           {
             name: "Last Name",
             completed: true,
-            href: "/profile/personal-info",
+            href: "/dashboard/personal-details",
           },
           {
             name: "Phone",
             completed: true,
-            href: "/profile/contact",
+            href: "/dashboard/personal-details",
           },
           {
             name: "Email",
             completed: true,
-            href: "/profile/contact",
+            href: "/dashboard/personal-details",
           },
           {
             name: "LinkedIn",
             completed: true,
-            href: "/profile/social-links",
+            href: "/dashboard/personal-details",
           },
         ],
       },

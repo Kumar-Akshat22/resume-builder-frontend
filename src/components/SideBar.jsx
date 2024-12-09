@@ -8,14 +8,14 @@ import { IoBriefcase } from "react-icons/io5";
 import { FaMedal } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { BookMarked, ContactRound, FileText } from "lucide-react";
+import { BookMarked, ContactRound, FileText, LogOut } from "lucide-react";
 import { BookmarkCheck } from "lucide-react";
 
 const SideBar = () => {
   const navigate = useNavigate();
 
-  const [sectionId, setSectionId] = useState();
-  const [isProfileCompleted , setIsProfileCompleted] = useState(true)
+  const [sectionId, setSectionId] = useState('profile-completion');
+  const [isProfileCompleted, setIsProfileCompleted] = useState(true);
 
   const handleSectionClick = (id) => {
     setSectionId(id);
@@ -33,21 +33,54 @@ const SideBar = () => {
     }
   };
   const sections = [
-    { id: "profile-completion", label: "Profile Completion", icon: BookmarkCheck , path: '/dashboard/profile-completion' },
-    { id: "personal-details", label: "Personal Details", icon: BsPerson , path: '/dashboard/personal-details' },
-    { id: "education", label: "Education", icon: FaGraduationCap , path: '/dashboard/education'  },
-    { id: "project", label: "Projects", icon: LuFolderGit2 , path: '/dashboard/project' },
-    { id: "work-expr", label: "Work Experience", icon: IoBriefcase , path: '/dashboard/work-expr' },
-    { id: "skills", label: "Skills", icon: FaMedal , path: '/dashboard/skills' },
-    { id: "myPortfolio", label: "My Portfolio", icon:  ContactRound, path: '/dashboard/myPortfolio' },
-    { id: "myResumes", label: "My Resumes", icon:  FileText, path: '/dashboard/myResume' },
+    {
+      id: "profile-completion",
+      label: "Profile Completion",
+      icon: BookmarkCheck,
+      path: "/dashboard/profile-completion",
+    },
+    {
+      id: "personal-details",
+      label: "Personal Details",
+      icon: BsPerson,
+      path: "/dashboard/personal-details",
+    },
+    {
+      id: "education",
+      label: "Education",
+      icon: FaGraduationCap,
+      path: "/dashboard/education",
+    },
+    {
+      id: "project",
+      label: "Projects",
+      icon: LuFolderGit2,
+      path: "/dashboard/project",
+    },
+    {
+      id: "work-expr",
+      label: "Work Experience",
+      icon: IoBriefcase,
+      path: "/dashboard/work-expr",
+    },
+    { id: "skills", label: "Skills", icon: FaMedal, path: "/dashboard/skills" },
+    {
+      id: "myPortfolio",
+      label: "My Portfolio",
+      icon: ContactRound,
+      path: "/dashboard/myPortfolio",
+    },
+    {
+      id: "myResumes",
+      label: "My Resumes",
+      icon: FileText,
+      path: "/dashboard/myResume",
+    },
   ];
 
-  useEffect(()=>{
-
+  useEffect(() => {
     //TODO: Backend API call
-
-  },[])
+  }, []);
 
   return (
     <div className="w-64 fixed top-0 left-0 bg-white border-r h-screen py-5">
@@ -63,29 +96,44 @@ const SideBar = () => {
       </div>
 
       <nav className="p-3 space-y-1">
-        {sections.map(({ id, label, icon: Icon , path }) => (
+        {sections.map(({ id, label, icon: Icon, path }) => (
           <NavLink key={path} to={path}>
-
-          <button
-            key={id}
-            disabled = {!isProfileCompleted}
-            onClick={() => handleSectionClick(id)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
-              sectionId === id
-                ? "bg-blue-50 text-blue-600 shadow-sm"
-                : "text-gray-600 hover:bg-gray-50"
-            }`}
-          >
-            <Icon
-              className={`h-5 w-5 transition-colors duration-200 ${
-                sectionId === id ? "text-blue-500" : "text-gray-400"
+            <button
+              key={id}
+              disabled={!isProfileCompleted}
+              onClick={() => handleSectionClick(id)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
+                sectionId === id
+                  ? "bg-blue-50 text-blue-600 shadow-sm"
+                  : "text-gray-600 hover:bg-gray-50"
               }`}
-            />
+            >
+              <Icon
+                className={`h-5 w-5 transition-colors duration-200 ${
+                  sectionId === id ? "text-blue-500" : "text-gray-400"
+                }`}
+              />
 
-            <span className="font-medium">{label}</span>
-          </button>
+              <span className="font-medium">{label}</span>
+            </button>
           </NavLink>
         ))}
+
+        <NavLink to={"/dashboard/signout"}>
+          <button className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
+                sectionId === "log-out"
+                  ? "bg-blue-50 text-blue-600 shadow-sm"
+                  : "text-gray-600 hover:bg-gray-50"
+              }`}
+              onClick={() => handleSectionClick("log-out")}>
+            <LogOut
+              className={`h-5 w-5 transition-colors duration-200 rotate-180 ${
+                sectionId === "log-out" ? "text-blue-500" : "text-gray-400"
+              }`}
+            />
+            <span className="font-medium">Sign Out</span>
+          </button>
+        </NavLink>
       </nav>
 
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
