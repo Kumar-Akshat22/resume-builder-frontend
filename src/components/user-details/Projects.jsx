@@ -1,14 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import BulletPoint from './BulletPoint';
-import { MdAddTask } from "react-icons/md";
-import { MdEdit } from 'react-icons/md';
-import { MdDelete } from 'react-icons/md';
-import toast from 'react-hot-toast';
-import Save from './Save';
-import { Tooltip } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  PencilIcon,
+  TrashIcon,
+  PlusIcon,
+  LinkIcon,
+  Upload
+} from "lucide-react";
+import toast from "react-hot-toast";
+import { FaGithub } from "react-icons/fa6";
+import axios from "axios";
 
 function Projects({ updateResumeDetails }) {
-
   const [projects, setProjects] = useState([]);
 
   const [projectDetails, setProjectDetails] = useState({
@@ -16,270 +29,316 @@ function Projects({ updateResumeDetails }) {
     shortDescription: "",
     liveLink: "",
     githubLink: "",
-
-    projectDescription: []
-
   });
 
   const resetFields = () => {
-
     setProjectDetails({
       title: "",
       shortDescription: "",
       liveLink: "",
       githubLink: "",
+    });
+  };
 
-      projectDescription: []
-    })
-  }
-
-  const [editingMode, setEditingMode] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [descriptionPoints, setDescriptionPoints] = useState([]);
   const [selectedProjectID, setSelectedProjectID] = useState(null);
 
   const handleChange = (event) => {
+    event.preventDefault();
 
-    const { name, value } = event.target;
+    const projectDescription = descriptionPoints
+      .filter((point) => point.trim() !== "")
+      .map((text) => ({ id: crypto.randomUUID(), text }));
 
-    setProjectDetails({ ...projectDetails, [name]: value });
-  }
+    if (editingId) {
+      setProjects(
+        projects.map((project) =>
+          project.id === editingId
+            ? { ...projectDetails, id: editingId, projectDescription }
+            : project
+        )
+      );
+
+      setEditingId(null);
+    } else {
+      setProjects([
+        ...projects,
+        { ...projectDetails, id: crypto.randomUUID(), projectDescription },
+      ]);
+    }
+
+    resetFields();
+    setDescriptionPoints([""]);
+  };
+
+  const handleEdit = (project) => {
+    setEditingId(project.id);
+    setProjectDetails({
+      title: project.title,
+      shortDescription: project.shortDescription,
+      liveLink: project.liveLink,
+      githubLink: project.githubLink,
+    });
+
+    setDescriptionPoints(project.projectDescription.map((desc) => desc.text));
+  };
+
+  const handleDelete = (id) => {
+    setProjects(projects.filter((project) => project.id !== id));
+  };
+
+  const addDescription = () => {
+    if (descriptionPoints.length < 4) {
+      setDescriptionPoints([...descriptionPoints, ""]);
+    }
+  };
+
+  const updateDescription = (index, value) => {
+    const newPoints = [...descriptionPoints];
+    newPoints[index] = value;
+    setDescriptionPoints(newPoints);
+  };
+
+  const removeDescriptionPoints = (index) => {
+    setDescriptionPoints(descriptionPoints.filter((_, i) => i !== index));
+  };
 
   const addProject = () => {
-
     if (projectDetails.title && projectDetails.shortDescription) {
-
-      setProjects([...projects, { id: Date.now(), data: projectDetails }])
+      setProjects([...projects, { id: Date.now(), data: projectDetails }]);
       resetFields();
-      toast.success('Project added');
-
+      toast.success("Project added");
     } else {
+      toast.error("Please fill out some details");
+    }
+  };
 
-      toast.error('Please fill out some details')
+
+
+  const [isDataUploading , setIsDataUploading] = useState(false);
+  const handleDataUpload = async() => {
+
+    const token = localStorage.getItem("AccessToken");
+
+    if (!token) {
+      toast.error("Authentication token is missing.");
+      return;
     }
 
-  }
+    if(!projects){
 
-  const deleteProject = (id) => {
-
-    const newProjects = projects.filter((project) => project.id !== id);
-    setProjects(newProjects);
-    toast.success('Project removed successfully');
-    console.log('Delete Icon is Clicked');
-  }
-
-  const editProject = (id) => {
-
-    const projectToEdit = projects.find((project) => project.id === id);
-
-    setProjectDetails(projectToEdit.data);
-    setEditingMode(true);
-    setSelectedProjectID(id);
-    console.log('Editing Mode turned ON');
-
-
-  }
-
-  const updateProject = () => {
-
-    console.log(`Updating the Project with the ID:${selectedProjectID}`);
-
-    if (selectedProjectID !== null) {
-
-      const updatedProjects = projects.map((project) => {
-
-        if (project.id === selectedProjectID) {
-
-          return { ...project, data: projectDetails }
-        }
-
-        return project;
-      })
-
-      setProjects(updatedProjects);
-      resetFields();
-      setEditingMode(false);
-      setSelectedProjectID(null);
-      toast.success('Deatils updated successfully');
+      toast.error("Please fill out some details!")
     }
-
-  }
-
-  const saveDetails = () => {
-
-    updateResumeDetails("projects", projects);
-    toast.success('Education Details successfully saved')
-  }
-
-  // To handle the input text of the field
-  const [text, setText] = useState('');
-
-  console.log(text);
-
-
-  // To add Bullet Points
-  const addPoint = (text) => {
-
-    const newPoint = {
-
-      id: Date.now(),
-      text,
+    setIsDataUploading(true);
+    try {
+      const res = await axios.post(
+        "/api/v1/users/upload-details",
+        { projects: projects },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (res.data.statusCode === 200) {
+        console.log(res);
+        toast.success("Project data ulpoaded successfully!");
+      } else {
+        toast.error("Failed to upload data.");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    } finally {
+      setIsDataUploading(false);
     }
+  };
 
-    setProjectDetails({ ...projectDetails, projectDescription: [...projectDetails.projectDescription, newPoint] });
-    setText('');
 
-  }
-
-  // Function to delete a point
-  function deletePoint(id) {
-
-    const newProjectPoints = projectDetails.projectDescription.filter(point => point.id !== id);
-    setProjectDetails({ ...projectDetails, projectDescription: [...newProjectPoints] });
-
-  }
-
-  console.log('Printing the Projects Array', projects)
-
+  console.log("Printing the Projects Array", projects);
 
   return (
-    <div className='w-full p-5 mt-6'>
-
-      <div className='max-w-[1140px] mx-auto'>
-
-      <div className="w-full flex justify-between items-center mb-5">
-          <p className="text-xl">Showcase your Projects</p>
-          <Save saveDetails={saveDetails} />
-        </div>
-
-
-        <div className='flex flex-col gap-5'>
-
-
-          {/* Project Name */}
-          <div className='flex gap-5 align-items-center justify-center'>
-            <label className='w-[50%]'>
-              <span className='text-[17px] font-medium'>Project Name</span>
-              <input type='text' name='title' value={projectDetails.title} onChange={handleChange} className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-            </label>
-
-            <label className='w-[50%]'>
-              <span className='text-[17px] font-medium'>Short Description</span>
-              <input type='text' name='shortDescription' value={projectDetails.shortDescription} onChange={handleChange} className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-            </label>
-          </div>
-
-          {/* Project Links */}
-          <div className='flex gap-5 align-items-center justify-center'>
-            <label className='w-[50%]'>
-              <span className='text-[17px] font-medium'>Live Link</span>
-              <input type='text' name='liveLink' value={projectDetails.liveLink} onChange={handleChange} className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-            </label>
-
-            <label className='w-[50%]'>
-              <span className='text-[17px] font-medium'>GitHub Link</span>
-              <input type='text' name='githubLink' value={projectDetails.githubLink} onChange={handleChange}  className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-            </label>
-          </div>
-
-
-          <label>
-
-            <span className='text-[17px] font-medium'>Project Description <span className='text-sm'>(Add max 4 points)</span></span>
-
-            <div className='flex flex-col gap-6'>
-
-              <div className='w-full flex align-items-center gap-5'>
-
-                <input type='text' value={text} onChange={(e) => { setText(e.target.value) }} className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-
-                <Tooltip title="Add point" arrow placement='top' className='text-lg'>
-                <div className='flex items-center cursor-pointer' onClick={() => addPoint(text)}>
-                  <MdAddTask color="#3983fa" size={30} />
-                </div>
-                </Tooltip>
-              </div>
-
+    <div className="w-full p-3">
+      <header className="bg-white shadow-sm">
+            <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+              <h1 className="text-3xl font-bold text-gray-900">Showcase Your Projects</h1>
+              <button
+                onClick={()=>(handleDataUpload())}
+                disabled={isDataUploading}
+                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 text-base"
+              >
               {
-                projectDetails.projectDescription.map(
-                  (point, index) => {
-
-                    return <BulletPoint key={index} {...point} deletePoint={deletePoint}></BulletPoint>
-                  }
-                )
+                isDataUploading ? "Uploadiing..." : "Save Data "
               }
+                
+                <Upload size={18}/>
+              </button>
             </div>
+          </header>
 
-          </label>
+      <div className="max-w-3xl mx-auto p-6 space-y-8">
 
-          {
-            editingMode
-              ?
-              <div className='mt-5'>
-                <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={updateProject}>Update Project</button>
+        <form onSubmit={handleChange} className="space-y-6">
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="projectName">Project Name</Label>
+              <Input
+                id="projectName"
+                value={projectDetails.title}
+                onChange={(e) =>
+                  setProjectDetails({ ...projectDetails, title: e.target.value })
+                }
+                placeholder="Enter project name"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="shortDescription">Short Description</Label>
+              <Input
+                id="shortDescription"
+                value={projectDetails.shortDescription}
+                onChange={(e) =>
+                  setProjectDetails({ ...projectDetails, shortDescription: e.target.value })
+                }
+                placeholder="Brief description of your project"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="liveLink">Live Link</Label>
+              <Input
+                id="liveLink"
+                value={projectDetails.liveLink || ""}
+                onChange={(e) =>
+                  setProjectDetails({ ...projectDetails, liveLink: e.target.value })
+                }
+                placeholder="https://your-project.com"
+                type="url"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="githubLink">GitHub Link</Label>
+              <Input
+                id="githubLink"
+                value={projectDetails.githubLink}
+                onChange={(e) =>
+                  setProjectDetails({ ...projectDetails, githubLink: e.target.value })
+                }
+                placeholder="https://github.com/username/repo"
+                type="url"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label>Project Description (Add max 4 points)</Label>
+              {descriptionPoints.length < 4 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addDescription}
+                >
+                  <PlusIcon className="h-4 w-4 mr-2" />
+                  Add Point
+                </Button>
+              )}
+            </div>
+            {descriptionPoints.map((point, index) => (
+              <div key={index} className="flex gap-2">
+                <Textarea
+                  value={point}
+                  onChange={(e) =>
+                    updateDescription(index, e.target.value)
+                  }
+                  placeholder={`Description point ${index + 1}`}
+                  className="flex-1"
+                  required
+                />
+                {descriptionPoints.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    onClick={() => removeDescriptionPoints(index)}
+                  >
+                    <TrashIcon className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
-              :
-              <div className='mt-5'>
-                <button className='bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200' onClick={addProject}>Add Project</button>
-              </div>
-          }
+            ))}
+          </div>
 
-          {
-            projects.length > 0
-            &&
-            (<div className='w-full mt-5 flex flex-col gap-5'>
-              {
-                projects.map((project) => (
+          <Button type="submit" className="w-full bg-blue-500">
+            {editingId ? "Update Project" : "Add Project"}
+          </Button>
+        </form>
 
-                  <div key={project.id} className='w-full p-5 border rounded-[14px] flex flex-col gap-5 transition-all duration-300 hover:shadow-md'>
-                    <div className='w-full flex items-center justify-between'>
-                      <div>
-                        <h1 className='font-semibold text-lg'>{project.data?.title + " - " + project.data?.shortDescription}</h1>
-
-                        {
-                          project.data.projectDescription
-                            ?
-                            <div>
-                              <ul className='list-disc'>
-                                {project.data.projectDescription.map((desc) => (
-                                  <li className='ml-5 mt-0' key={desc.id}>{desc.text}</li>
-
-                                ))
-                                }
-                              </ul>
-                            </div>
-                            :
-                            ''
-                        }
-
-                      </div>
-
-                      <div className='flex flex-col gap-2 items-center'>
-
-                        <div className='flex gap-3'>
-                          <a href={`${project.data?.liveLink}`} className='text-green-500'>Live Link</a>
-                          <a href={`${project.data?.githubLink}`} className='text-yellow-500'>Github</a>
-                        </div>
-
-                        <div className='flex justify-start gap-5' >
-                          <MdEdit size={19} className='cursor-pointer text-[#d2d2d2] hover:text-green-500 transition-all duration-200' onClick={() => editProject(project.id)} disabled={editingMode} />
-                          <MdDelete size={19} className='cursor-pointer text-[#d2d2d2] hover:text-red-500 transition-all duration-200' onClick={() => deleteProject(project.id)} disabled={editingMode} />
-                        </div>
-                      </div>
-                    </div>
-
+        <div className="space-y-4">
+          {projects.map((project) => (
+            <Card key={project.id}>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <span>{project.title}</span>
+                  <div className="flex gap-2">
+                    {project.liveLink && (
+                      <a
+                        href={project.liveLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:text-blue-700"
+                      >
+                        <LinkIcon className="h-5 w-5" />
+                      </a>
+                    )}
+                    <a
+                      href={project.githubLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-gray-700"
+                    >
+                      <FaGithub className="h-5 w-5" />
+                    </a>
                   </div>
-                ))
-              }
-            </div>)
-
-
-          }
-
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-500 mb-4">
+                  {project.shortDescription}
+                </p>
+                <ul className="space-y-2">
+                  {project.projectDescription.map((desc) => (
+                    <li key={desc.id} className="text-sm">
+                      • {desc.text}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <CardFooter className="flex justify-end space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleEdit(project)}
+                >
+                  <PencilIcon className="h-4 w-4 mr-2" />
+                  Edit
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => handleDelete(project.id)}
+                >
+                  <TrashIcon className="h-4 w-4 mr-2" />
+                  Delete
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
-
       </div>
-
     </div>
-  )
+  );
 }
 
-export default Projects
+export default Projects;

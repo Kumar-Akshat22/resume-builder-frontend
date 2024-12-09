@@ -1,120 +1,147 @@
-import React, { useState, useEffect } from 'react'
-import BulletPoint from './BulletPoint'
-import { MdAddTask } from "react-icons/md";
-import Save from './Save';
-import toast from 'react-hot-toast'
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { X, Upload } from "lucide-react";
+import toast from "react-hot-toast";
 
 function Skills({ updateResumeDetails }) {
+  const [skills, setSkills] = useState({
+    languages: [],
+    frameworks: [],
+    tools: [],
+    technologies: [],
+  });
 
-    
+  const [newSkill, setNewSkill] = useState({
+    languages: "",
+    frameworks: "",
+    tools: "",
+    technologies: "",
+  });
 
-    // To populate the bullet points data that can be mapped to a bullet point
-    const [bulletPoints, setBulletPoints] = useState([]);
+  const handleAddSkill = (category) => {
 
-    // To handle the input text of the field
-    const [text, setText] = useState('');
+    const skillToAdd = newSkill[category].trim();
 
-    console.log(text);
-
-
-    // To add Bullet Points
-    function addPoint(text) {
-
-        const newPoint = {
-
-            id: Date.now(),
-            text,
-        }
-
-        setBulletPoints([...bulletPoints, newPoint]);
-        setText('');
-
+    if(skills[category].includes(skillToAdd)){
+        toast.error("Skill already exists");
     }
+    else if (skillToAdd) {
+      setSkills((prevSkills) => ({
+        ...prevSkills,
+        [category]: [...prevSkills[category], skillToAdd],
+      }));
 
-    // Function to delete a point
-    function deletePoint(id) {
-
-        const newBulletPoints = bulletPoints.filter(bulletPoint => bulletPoint.id !== id);
-        setBulletPoints(newBulletPoints);
-
+      setNewSkill((prev) => ({ ...prev, [category]: "" }));
+      toast.success("Skill has been added");
     }
+  };
 
-    // Function to update or edit a bullet point 
-    function updatePoint(id, text) {
+  const handleRemoveSkill = (category, skillToRemove) => {
+    setSkills((prevSkills) => ({
+      ...prevSkills,
+      [category]: prevSkills[category].filter(
+        (skill) => skill !== skillToRemove
+      ),
+    }));
+    toast.success("Skill has been removed");
+  };
 
-        const targetPoint = bulletPoints.filter(bulletPoint => bulletPoint.id === id);
-
-        targetPoint.text = text;
-
-        setBulletPoints([...bulletPoints, targetPoint]);
-
+  const handleKeyPress = (e, category) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAddSkill(category);
     }
+  };
 
-    const saveDetails = () => {
+  const [isDataUploading, setIsDataUploading] = useState(false);
 
-            updateResumeDetails('skills', bulletPoints);
-
-            toast.success('Skills saved successfully');
-        
+  const handleDataUpload = async () => {
+    setIsDataUploading(true);
+    try {
+      const res = await axios.post(
+        "/api/v1/users/upload-details",
+        { skills: JSON.stringify(skills) },
+        { headers: { Authorization: localStorage.getItem("AccessToken") } }
+      );
+      if (res.data.statusCode === 200) {
+        toast.success("Skills data ulpoaded successfully!");
+      } else {
+        toast.error("Failed to upload data.");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    } finally {
+      setIsDataUploading(false);
     }
+  };
 
-    // useEffect hook 
-    useEffect(() => {
+  const renderSkillsSection = (category, title) => (
+    <div className="space-y-4">
+      <Label htmlFor={category} className="text-lg">{title}</Label>
+      <div className="flex flex-wrap gap-2 mb-2">
+        {skills[category].map((skill) => (
+          <Badge key={skill} variant="secondary" className="text-sm py-1 px-2 bg-green-300">
+            {skill}
+            <button
+              onClick={() => handleRemoveSkill(category, skill)}
+              className="ml-2 text-gray-500 hover:text-gray-700"
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </Badge>
+        ))}
+      </div>
+      <div className="flex gap-2">
+        <Input
+          id={category}
+          value={newSkill[category]}
+          onChange={(e) =>
+            setNewSkill({ ...newSkill, [category]: e.target.value })
+          }
+          onKeyPress={(e) => handleKeyPress(e, category)}
+          placeholder={`Add ${title.toLowerCase()}`}
+          className="flex-grow"
+        />
+        <Button type="button" className="bg-blue-500 hover:bg-blue-600 transition-all duration-200" onClick={() => handleAddSkill(category)}>
+          Add
+        </Button>
+      </div>
+    </div>
+  );
 
-        console.log(bulletPoints);
+  return (
+    <div className="p-3">
+    <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-gray-900">Add your Skills</h1>
+          <button
+            onClick={() => (handleDataUpload())}
+            disabled={isDataUploading}
+            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 text-base"
+          >
+            {isDataUploading ? "Uploadiing..." : "Save Data "}
 
-    }, [bulletPoints]);
-
-
-
-    return (
-        <div className="w-full p-5 mt-6">
-            <div className='max-w-[1140px] flex flex-col mx-auto'>
-                <div className='w-full flex justify-between items-center mb-5'>
-
-                        <span className='text-xl'>Highlight 6-8 of your top skills.</span>
-                    
-
-                    <Save saveDetails={saveDetails} />
-
-                </div>
-
-                <label>
-
-
-
-                    <div className='flex flex-col gap-8'>
-                        
-                        <label className='flex flex-col gap-6'>
-                        <div className='w-full flex align-items-center gap-5'>
-                            
-
-                            <input type='text' value={text} onChange={(e) => { setText(e.target.value) }} placeholder='e.g. React' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-
-                            <div className='flex items-center cursor-pointer' onClick={() => addPoint(text)}>
-                                <MdAddTask color="#3983fa" size={30} />
-                            </div>
-
-                        </div>
-
-                        {
-                            bulletPoints.map(
-                                (bulletPoint) => {
-
-                                    return <BulletPoint key={bulletPoint.id} {...bulletPoint} deletePoint={deletePoint} updatePoint={updatePoint}></BulletPoint>
-                                }
-                            )
-                        }
-                        </label>
-                    </div>
-
-                </label>
-
-
-
-            </div>
+            <Upload size={18} />
+          </button>
         </div>
-    )
+      </header>
+
+      <div className="max-w-3xl mx-auto p-6 space-y-8">
+        <Card className="p-4">
+          <CardContent className="space-y-6">
+            {renderSkillsSection("languages", "Programming Languages")}
+            {renderSkillsSection("frameworks", "Frameworks")}
+            {renderSkillsSection("tools", "Tools")}
+            {renderSkillsSection("technologies", "Technologies")}
+          </CardContent>
+        </Card>
+      </div>
+      </div>
+  );
 }
 
-export default Skills
+export default Skills;

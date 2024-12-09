@@ -36,16 +36,15 @@ function ResumeAnalysis() {
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
   const [activeSection, setActiveSection] = useState("score");
 
-
   const resumeAnalysisMutation = useMutation({
     mutationFn: (resume) => analyzeResume(resume),
     onSuccess: (data) => {
       console.log("Analyzed data", data);
-      
+
       setIsAnalyzing(false);
       setAnalysisData(data);
-    }
-  })
+    },
+  });
 
   // const mockAnalysisData = {
   //   score: 75,
@@ -127,30 +126,36 @@ function ResumeAnalysis() {
   //   ],
   // };
 
-
   const handleUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
     resumeAnalysisMutation.mutate(formData);
     console.log("uploading resume for analyzing...");
-    
-  }
+  };
 
-  if(!file || isAnalyzing || !analysisData){
+  if (!file || isAnalyzing || !analysisData) {
     return (
-    <FileUploadModal
-    file={file}
-    setFile={setFile}
-    isDataUploading={isDataUploading}
-    isAnalyzing={isAnalyzing}
-    setIsAnalyzing={setIsAnalyzing}
-    setIsModalOpen={setIsModalOpen}
-    onUpload={handleUpload}
-    setPdfPreviewUrl={setPdfPreviewUrl}
-  />)
+      <div className="fixed inset-0 z-50">
+      <div className="fixed inset-0 flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 bg-stone-200 backdrop-blur-sm"
+        />
+        <FileUploadModal
+          file={file}
+          setFile={setFile}
+          isDataUploading={isDataUploading}
+          isAnalyzing={isAnalyzing}
+          setIsAnalyzing={setIsAnalyzing}
+          setIsModalOpen={setIsModalOpen}
+          onUpload={handleUpload}
+          setPdfPreviewUrl={setPdfPreviewUrl}
+        />
+        </div>
+      </div>
+    );
   }
 
-  if(!analysisData){
+  if (!analysisData) {
     return (
       <div className="flex items-center justify-center h-screen">
         <h1 className="text-3xl text-center">Error while uploading file</h1>
@@ -159,35 +164,34 @@ function ResumeAnalysis() {
   }
   return (
     <div className="w-full min-h-screen">
-        <div className="max-w-8xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-8xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4 mb-3">
-                <div className="p-3 bg-indigo-100 dark:bg-indigo-900 rounded-xl">
-                  <BarChart2 className="w-8 h-8 text-indigo-600" />
-                </div>
-                <div>
-                  <h1 className="text-4xl font-bold">Resume Analysis</h1>
-                </div>
-              </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
-          
-            <div className="lg:col-span-3">
-              <Sidebar
-                activeSection={activeSection}
-                onSectionChange={setActiveSection}
-              />
-            </div>
-            <div className="lg:col-span-4">
-              <AnalyticsContent
-                activeSection={activeSection}
-                data={analysisData}
-              />
-            </div>
-            <div className="lg:col-span-5">
-              <ResumePreview  file={pdfPreviewUrl} />
-            </div>
+          <div className="p-3 bg-indigo-100 dark:bg-indigo-900 rounded-xl">
+            <BarChart2 className="w-8 h-8 text-indigo-600" />
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold">Resume Analysis</h1>
           </div>
         </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
+          <div className="lg:col-span-3">
+            <Sidebar
+              activeSection={activeSection}
+              onSectionChange={setActiveSection}
+            />
+          </div>
+          <div className="lg:col-span-4">
+            <AnalyticsContent
+              activeSection={activeSection}
+              data={analysisData}
+            />
+          </div>
+          <div className="lg:col-span-5">
+            <ResumePreview file={pdfPreviewUrl} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

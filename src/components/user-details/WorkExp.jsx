@@ -1,454 +1,434 @@
-import React, { useEffect, useState } from 'react'
-import BulletPoint from './BulletPoint';
-import { MdAddTask } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import { MdEdit } from "react-icons/md";
-import Save from './Save';
-import toast from 'react-hot-toast';
-import { Tooltip } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { PencilIcon, TrashIcon, PlusIcon, Upload } from "lucide-react";
+import axios from "axios";
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const years = Array.from({ length: 30 }, (_, i) =>
+  (new Date().getFullYear() - 15 + i).toString()
+);
 
 function WorkExp({ updateResumeDetails }) {
+  const [experiences, setExperiences] = useState([]);
+  const [editingId, setEditingId] = useState(null);
 
-    const [experiences, setExperiences] = useState([]);
-    const [isEndDateDisabled, setIsEndDateDisabled] = useState(false);
+  const [contributions, setContributions] = useState([""]);
 
-    const [experienceDetails, setExperienceDetails] = useState({
-        employer: "",
-        jobTitle: "",
-        startDate: {
-            month: '',
-            year: '',
-        },
-        endDate: {
+  const [experienceDetails, setExperienceDetails] = useState({
+    employer: "",
+    jobTitle: "",
+    startDate: {
+      month: "",
+      year: "",
+    },
+    endDate: {
+      month: null,
+      year: null,
+    },
 
-            month: '',
-            year: '',
-        },
+    isPresent: false,
+  });
 
-        contributions: []
-
+  const resetFields = () => {
+    setExperienceDetails({
+      employer: "",
+      jobTitle: "",
+      startDate: { month: "", year: "" },
+      endDate: { month: null, year: null },
+      isPresent: false,
     });
 
-    const [editingMode, setEditingMode] = useState(false);
+    setContributions([""]);
+  };
 
-    const [selectedExperienceID , setSelectedExperienceID] = useState(null);
+  const handleChange = (event) => {
 
-    const handleCheckBoxChange = () => {
+    event.preventDefault();
 
-        setIsEndDateDisabled(!isEndDateDisabled);
+    const newContributions = contributions.filter((contribution) => contribution.trim() !== "").map((text) => ({ id: crypto.randomUUID(), text }));
 
+    if (editingId) {
+      setExperiences(
+        experiences.map((exp) =>
+          exp.id === editingId
+            ? {
+                ...experienceDetails,
+                id: editingId,
+                contributions: newContributions,
+              }
+            : exp
+        )
+      );
+      setEditingId(null);
+    } else {
+      setExperiences([
+        ...experiences,
+        {
+          ...experienceDetails,
+          id: crypto.randomUUID(),
+          contributions: newContributions,
+        },
+      ]);
     }
 
+    resetFields();
+  };
 
-    const handleChange = (event) => {
+  const handleEdit = (experience) => {
+    setEditingId(experience.id);
+    setExperienceDetails({
+      employer: experience.employer,
+      jobTitle: experience.jobTitle,
+      startDate: experience.startDate,
+      endDate: experience.endDate,
+      isPresent: experience.isPresent,
+    });
+    setContributions(experience.contributions.map((c) => c.text));
+  };
 
-        const { name, value } = event.target;
+  const handleDelete = (id) => {
+    setExperiences(experiences.filter((exp) => exp.id !== id));
+  };
 
-        setExperienceDetails({ ...experienceDetails, [name]: value });
+  const addContribution = () => {
+    setContributions([...contributions, ""]);
+  };
+
+  const updateContribution = (index, value) => {
+    const newContributions = [...contributions];
+    newContributions[index] = value;
+    setContributions(newContributions);
+  };
+
+  const removeContribution = (index) => {
+    setContributions(contributions.filter((_, i) => i !== index));
+  };
+
+  const [isDataUploading , setIsDataUploading] = useState(false);
+  const handleDataUpload = async()=>{
+
+    const token = localStorage.getItem("AccessToken")
+    if (!token) {
+        toast.error("Authentication token is missing.");
+        return;
+      }
+  
+      if(!experiences){
+  
+        toast.error("Please fill out some details!")
+      }
+    setIsDataUploading(true);
+    try {
+      const res = await axios.post(
+        "/api/v1/users/upload-details",
+        { experience: experiences},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (res.data.statusCode === 200) {
+        toast.success("Work Experience data ulpoaded successfully!");
+      } else {
+        toast.error("Failed to upload data.");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    } finally {
+      setIsDataUploading(false);
     }
-
-    const handleStartDate = (event) => {
-
-        const { name, value } = event.target;
-
-        setExperienceDetails({ ...experienceDetails, startDate: { ...experienceDetails.startDate, [name]: value } });
-
-    }
-
-    const handleEndDate = (event) => {
-
-        const { name, value } = event.target;
-
-        setExperienceDetails({ ...experienceDetails, endDate: { ...experienceDetails.endDate, [name]: value } });
-    }
-
-    // To handle the input text of the field
-    const [text, setText] = useState('');
-
-    // To add Bullet Points
-    function addPoint(text) {
-
-        const newPoint = {
-
-            id: Date.now(),
-            text,
-        }
-
-        setExperienceDetails({ ...experienceDetails, contributions: [...experienceDetails.contributions, newPoint] });
-        setText('');
-
-    }
-
-    // Function to delete a point
-    function deletePoint(id) {
-
-        const newContributions = experienceDetails.contributions.filter(contribution => contribution.id !== id);
-        setExperienceDetails({ ...experienceDetails, contributions: [...newContributions] });
-
-    }
-
-    const addExperience = () => {
-
-        console.log('Inside addExperience function')
-        if(experienceDetails.employer && experienceDetails.jobTitle){
-
-            setExperiences([...experiences, { id: Date.now(), data: experienceDetails }]);
-            setExperienceDetails({
-                employer: "",
-                jobTitle: "",
-                startDate: {
-                    month: '',
-                    year: '',
-                },
-                endDate: {
-    
-                    month: '',
-                    year: '',
-                },
-    
-                contributions: []
-            });
-            setIsEndDateDisabled(false);
-            toast.success('Experience added successfully');
-
-        } else{
-
-            toast.error('Please fill out some details to continue');
-        }
-
-        
-
-    }
-
-    const deleteExperience = (id) => {
-
-        const newExperience = experiences.filter((experience) => experience.id !== id);
-        setExperiences(newExperience);
-        toast.success('Experience removed successfully');
-        console.log('Delete Icon is Clicked');
-
-
-    }
-
-    const editExperience = (id) => {
-
-        const experienceToEdit = experiences.find((experience) => experience.id === id);
-
-        setExperienceDetails(experienceToEdit.data);
-        setEditingMode(true);
-        setSelectedExperienceID(id);
-        console.log('Editing Mode turned ON');
-    }
-
-    const updateExperience = ()=>{
-
-        console.log('Inside updateExperience method');
-        console.log(`Updating the experience with the ID:${selectedExperienceID}`);
-
-        if(selectedExperienceID !== null){
-
-            const updatedExperiences = experiences.map((experience)=> {
-
-                if(experience.id === selectedExperienceID){
-
-                    return {...experience , data:experienceDetails}
-                }
-
-                return experience;
-            })
-
-            setExperiences(updatedExperiences);
-            setExperienceDetails({
-                employer: "",
-                jobTitle: "",
-                startDate: {
-                    month: '',
-                    year: '',
-                },
-                endDate: {
-    
-                    month: '',
-                    year: '',
-                },
-    
-                contributions: []
-            });
-            setIsEndDateDisabled(false);
-            setEditingMode(false);
-            setSelectedExperienceID(null)
-            toast.success('Deatils updated successfully');
-        }
-
-    }
-
-    const saveDetails = () => {
-
-            updateResumeDetails("experience", experiences);
-            toast.success('Experience Details successfully saved')
-        
-        
-    }
-
-
-    console.log('Printing the Experiences array:', experiences);
-
-    // console.log('Before clicking the Delete Icon Printing the Experiences Array:', experiences);
-
-    return (
-        <div className='w-full p-5 mt-6'>
-
-            <div className='max-w-[1140px] mx-auto'>
-
-                <div className='w-full flex justify-between mb-5'>
-
-                        <span className='text-xl'>List your work experience, most recent first</span>
-
-
-                    <Save saveDetails={saveDetails} />
-
-                </div>
-
-                <div className='flex flex-col gap-5 mt-3'>
-
-                    {/* Company Name and Job Title */}
-                    <div className='flex gap-5 align-items-center justify-center'>
-                        <label className='w-[50%]'>
-                            <span className='text-[17px] font-medium'>Employer</span>
-                            <input type='text' name='employer' value={experienceDetails.employer} onChange={handleChange} placeholder='e.g. John' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-                        </label>
-
-                        <label className='w-[50%]'>
-                            <span className='text-[17px] font-medium'>Job Title</span>
-                            <input type='text' name='jobTitle' value={experienceDetails.jobTitle} onChange={handleChange} placeholder='e.g. Williams' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-                        </label>
-                    </div>
-
-                    {/* Date Selection Component */}
-
-                    <div>
-                        {/* Start Date, End Date, checkbox  */}
-                        <div className="flex gap-5 align-items-center justify-center">
-                            <label className="w-[50%]">
-
-                                <span className="text-[17px] font-medium">Start Date</span>
-
-                                {/* Start Date */}
-                                <div className="flex gap-3">
-
-
-                                    {/* Month Option  */}
-                                    <select className="w-[50%] focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1" name='month' onChange={handleStartDate} value={experienceDetails.startDate.month}>
-                                        <option value=''>Month</option>
-                                        <option value='January'>January</option>
-                                        <option value='February'>February</option>
-                                        <option value='March'>March</option>
-                                        <option value='April'>April</option>
-                                        <option value='May'>May</option>
-                                        <option value='June'>June </option>
-                                        <option value='July'>July</option>
-                                        <option value='August'>August</option>
-                                        <option value='September'>September</option>
-                                        <option value='October'>October</option>
-                                        <option value='November'>November</option>
-                                        <option value='December'>December</option>
-                                    </select>
-
-                                    {/* Year Option */}
-                                    <select className="w-[50%] focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1" name='year' onChange={handleStartDate} value={experienceDetails.startDate.year}>
-                                        <option value=''>Year</option>
-                                        <option value='24'>2024</option>
-                                        <option value='23'>2023</option>
-                                        <option value='22'>2022</option>
-                                        <option value='21'>2021</option>
-                                        <option value='20'>2020</option>
-                                        <option value='19'>2019 </option>
-                                        <option value='18'>2018</option>
-                                        <option value='17'>2017</option>
-                                        <option value='16'>2016</option>
-                                        <option value='15'>2015</option>
-                                        <option value='14'>2014</option>
-                                        <option value='13'>2013</option>
-                                    </select>
-
-                                </div>
-                            </label>
-
-                            {/* End Date */}
-                            <label className="w-[50%]">
-                                <span className='text-[17px] font-medium'>End Date</span>
-                                <div className="flex gap-3">
-
-
-                                    {/* Month Option  */}
-                                    <select className="w-[50%] focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1" name='month' onChange={handleEndDate} value={experienceDetails.endDate.month} disabled={isEndDateDisabled}>
-                                        <option value=''>Month</option>
-                                        <option value='January'>January</option>
-                                        <option value='February'>February</option>
-                                        <option value='March'>March</option>
-                                        <option value='April'>April</option>
-                                        <option value='May'>May</option>
-                                        <option value='June'>June </option>
-                                        <option value='July'>July</option>
-                                        <option value='August'>August</option>
-                                        <option value='September'>September</option>
-                                        <option value='October'>October</option>
-                                        <option value='November'>November</option>
-                                        <option value='December'>December</option>
-                                    </select>
-
-                                    {/* Year Option */}
-                                    <select className="w-[50%] focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1" name='year' onChange={handleEndDate} value={experienceDetails.endDate.year} disabled={isEndDateDisabled}>
-                                        <option value=''>Year</option>
-                                        <option value='24'>2024</option>
-                                        <option value='23'>2023</option>
-                                        <option value='22'>2022</option>
-                                        <option value='21'>2021</option>
-                                        <option value='20'>2020</option>
-                                        <option value='19'>2019 </option>
-                                        <option value='18'>2018</option>
-                                        <option value='17'>2017</option>
-                                        <option value='16'>2016</option>
-                                        <option value='15'>2015</option>
-                                        <option value='14'>2014</option>
-                                        <option value='13'>2013</option>
-                                    </select>
-
-                                </div>
-                            </label>
-
-                        </div>
-
-                        {/* Checkbox */}
-                        <label className="flex items-center gap-2 mt-4">
-
-                            <input type="checkbox" checked={isEndDateDisabled} onChange={handleCheckBoxChange}></input>
-                            <span >I presently attend here</span>
-                        </label>
-                    </div>
-
-
-
-                    {/* Bullet Points */}
-
-                    <label>
-
-                        <span>Bullet Points <span className='text-sm'>(Add max 4 points)</span></span>
-
-                        <div className='flex flex-col gap-6'>
-
-                            <div className='w-full flex align-items-center gap-5'>
-
-                                <input type='text' value={text} onChange={(e) => { setText(e.target.value) }} placeholder='e.g. Led a team of 10 members' className='w-full focus:outline-none focus:border-[#3983fa] focus:ring-1 focus:ring-[#3983fa] border p-[8px] rounded-[0.2rem] mt-1'></input>
-
-                                <Tooltip title="Add point" arrow placement='top' className='text-lg'>
-                                <div className='flex items-center cursor-pointer' onClick={() => addPoint(text)}>
-                                    
-                                    <MdAddTask color="#3983fa" size={30} />
-                                    
-                                </div>
-                                </Tooltip>
-                            </div>
-
-                            {
-                                experienceDetails.contributions.map(
-                                    (contribution, index) => {
-
-                                        return <BulletPoint key={index} {...contribution} deletePoint={deletePoint}></BulletPoint>
-                                    }
-                                )
-                            }
-                        </div>
-
-                    </label>
-
-                    {
-                        editingMode
-                            ? <div className="cursor-pointer mt-4">
-                                <button
-                                    className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200" onClick={updateExperience}>
-                                    Update Experience
-                                </button>
-                            </div>
-                            :
-                            <div className="cursor-pointer mt-4">
-                                <button
-                                    className="bg-[#3983fa] text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200" onClick={addExperience}>
-                                    Add Experience
-                                </button>
-                            </div>
-                    }
-
-
-                </div>
-
-
-                {
-                    experiences.length > 0
-                        &&
-                        (<div className='w-full mt-8 flex flex-col gap-5'>
-                            {
-                                experiences.map((experience) => (
-
-                                    <div key={experience.id} className='w-full p-5 border rounded-[14px] flex flex-col gap-5 transition-all duration-300 hover:shadow-md'>
-                                        <div className='w-full flex items-center justify-between'>
-                                            <div>
-                                                <h1 className='font-openSans font-semibold text-lg'>{experience.data?.employer}</h1>
-                                                <p className='font-openSans font-normal'>{experience.data?.jobTitle}</p>
-
-                                            </div>
-
-                                            <div className='flex flex-col gap-2'>
-
-
-                                                <p className='font-openSans'>
-                                                    {experience.data.startDate?.month}
-                                                    '
-                                                    {experience.data.startDate?.year} -
-                                                    {
-                                                        (experience.data.endDate?.month && experience.data.endDate?.year) === ''
-                                                            ?
-                                                            ' Present '
-                                                            :
-                                                            ` ${experience.data.endDate?.month}'${experience.data.endDate?.year} `
-
-                                                    }
-                                                </p>
-                                                <div className='flex justify-start gap-5' >
-                                                    <MdEdit size={19} className='cursor-pointer text-[#d2d2d2] hover:text-green-500 transition-all duration-200' onClick={()=> editExperience(experience.id)} disabled={editingMode}/>
-                                                    <MdDelete size={19} className='cursor-pointer text-[#d2d2d2] hover:text-red-500 transition-all duration-200' onClick={() => deleteExperience(experience.id)} disabled={editingMode}/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {
-                                            experience.data.contributions
-                                                ?
-                                                <div>
-                                                    <ul className='list-disc font-openSans'>
-                                                        {experience.data.contributions.map((contribution) => (
-                                                            <li className='ml-5 mt-0' key={contribution.id}>{contribution.text}</li>
-
-                                                        ))
-                                                        }
-                                                    </ul>
-                                                </div>
-                                                :
-                                                ''
-                                        }
-
-                                    </div>
-                                ))
-                            }
-                        </div>)
-
-                        
-                }
-
+  }
+
+  console.log("Printing the Experiences array:", experiences);
+
+  return (
+    <div className="w-full p-3">
+    <header className="bg-white shadow-sm">
+            <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+              <h1 className="text-3xl font-bold text-gray-900">Work Experience</h1>
+              <button
+                onClick={()=>(handleDataUpload())}
+                disabled={isDataUploading}
+                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 text-base"
+              >
+              {
+                isDataUploading ? "Uploadiing..." : "Save Data "
+              }
+                
+                <Upload size={18}/>
+              </button>
             </div>
+          </header>
+      <div className="max-w-3xl mx-auto p-6 space-y-8">
+        <form onSubmit={handleChange} className="space-y-6">
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="employer">Employer</Label>
+              <Input
+                id="employer"
+                value={experienceDetails.employer}
+                onChange={(e) =>
+                  setExperienceDetails({
+                    ...experienceDetails,
+                    employer: e.target.value,
+                  })
+                }
+                placeholder="Enter employer name"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="jobTitle">Job Title</Label>
+              <Input
+                id="jobTitle"
+                value={experienceDetails.jobTitle}
+                onChange={(e) =>
+                  setExperienceDetails({
+                    ...experienceDetails,
+                    jobTitle: e.target.value,
+                  })
+                }
+                placeholder="Enter job title"
+                required
+              />
+            </div>
+          </div>
 
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label>Start Date</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <Select
+                  value={experienceDetails.startDate.month}
+                  onValueChange={(month) =>
+                    setExperienceDetails({
+                      ...experienceDetails,
+                      startDate: { ...experienceDetails.startDate, month },
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Month" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {months.map((month) => (
+                      <SelectItem key={month} value={month}>
+                        {month}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={experienceDetails.startDate.year}
+                  onValueChange={(year) =>
+                    setExperienceDetails({
+                      ...experienceDetails,
+                      startDate: { ...experienceDetails.startDate, year },
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map((year) => (
+                      <SelectItem key={year} value={year}>
+                        {year}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>End Date</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <Select
+                  value={experienceDetails.endDate.month || ""}
+                  onValueChange={(month) =>
+                    setExperienceDetails({
+                      ...experienceDetails,
+                      endDate: { ...experienceDetails.endDate, month },
+                    })
+                  }
+                  disabled={experienceDetails.isPresent}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Month" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {months.map((month) => (
+                      <SelectItem key={month} value={month}>
+                        {month}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={experienceDetails.endDate.year || ""}
+                  onValueChange={(year) =>
+                    setExperienceDetails({
+                      ...experienceDetails,
+                      endDate: { ...experienceDetails.endDate, year },
+                    })
+                  }
+                  disabled={experienceDetails.isPresent}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map((year) => (
+                      <SelectItem key={year} value={year}>
+                        {year}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="present"
+              checked={experienceDetails.isPresent}
+              onCheckedChange={(checked) => {
+                setExperienceDetails({
+                  ...experienceDetails,
+                  isPresent: checked,
+                  endDate: checked
+                    ? { month: null, year: null }
+                    : experienceDetails.endDate,
+                });
+              }}
+            />
+            <Label htmlFor="present">I currently work here</Label>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label>Contributions</Label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={addContribution}
+              >
+                <PlusIcon className="h-4 w-4 mr-2" />
+                Add Contribution
+              </Button>
+            </div>
+            {contributions.map((contribution, index) => (
+              <div key={index} className="flex gap-2">
+                <Textarea
+                  value={contribution}
+                  onChange={(e) => updateContribution(index, e.target.value)}
+                  placeholder={`Contribution ${index + 1}`}
+                  className="flex-1"
+                  required
+                />
+                {contributions.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    onClick={() => removeContribution(index)}
+                  >
+                    <TrashIcon className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <Button type="submit" className="w-full bg-blue-500">
+            {editingId ? "Update Experience" : "Add Experience"}
+          </Button>
+        </form>
+
+        <div className="space-y-4">
+          {experiences.map((experience) => (
+            <Card key={experience.id}>
+              <CardHeader>
+                <CardTitle>
+                  {experience.jobTitle} at {experience.employer}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-500 mb-2">
+                  {experience.startDate.month} {experience.startDate.year} -{" "}
+                  {experience.isPresent
+                    ? "Present"
+                    : `${experience.endDate.month} ${experience.endDate.year}`}
+                </p>
+                {experience.location && (
+                  <p className="text-sm text-gray-500 mb-4">
+                    {experience.location}
+                  </p>
+                )}
+                <ul className="space-y-2">
+                  {experience.contributions.map((contribution) => (
+                    <li key={contribution.id} className="text-sm">
+                      • {contribution.text}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <CardFooter className="flex justify-end space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleEdit(experience)}
+                >
+                  <PencilIcon className="h-4 w-4 mr-2" />
+                  Edit
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => handleDelete(experience.id)}
+                >
+                  <TrashIcon className="h-4 w-4 mr-2" />
+                  Delete
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
-    )
+      </div>
+    </div>
+  );
 }
 
-export default WorkExp
+export default WorkExp;

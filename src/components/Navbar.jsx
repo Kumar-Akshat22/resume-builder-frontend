@@ -1,52 +1,50 @@
 import React from "react";
-import Logo from "../assets/Logo.svg";
 import { Link } from "react-router-dom";
+import { Briefcase } from "lucide-react";
 
 function Navbar() {
-
-
   return (
-    <header className="w-full">
-      <div className="max-w-[1140px] mx-auto flex flex-row justify-between items-center p-3">
-        <div>
-          <img src={Logo} className="w-16 md:w-32 lg:w-43"></img>
-        </div>
-
-        <ul className="font-poppins flex gap-5">
-          <Link to={"/"}>
-            <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">
-              Home
-            </li>
+    <nav className="bg-white shadow-md fixed w-full z-50">
+      <div className="bg-transparent max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <Link to="/">
+            <div className="flex items-center">
+              <Briefcase className="h-8 w-8 text-indigo-600" />
+              <span className="ml-2 text-xl font-bold text-gray-800">
+                AI Career Builder
+              </span>
+            </div>
           </Link>
 
-          <Link to={"/templates"}>
-            <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">
+          <div className="hidden md:flex items-center space-x-8">
+            <a
+              href="#templates"
+              className="text-gray-600 hover:text-indigo-600 transition-colors"
+            >
               Templates
-            </li>
-          </Link>
+            </a>
+            <a
+              href="#features"
+              className="text-gray-600 hover:text-indigo-600 transition-colors"
+            >
+              Features
+            </a>
+            <a
+              href="#team"
+              className="text-gray-600 hover:text-indigo-600 transition-colors"
+            >
+              Our Team
+            </a>
 
-          <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">
-            About Us
-          </li>
-          <li className="cursor-pointer text-lg px-4 py-1 rounded-full transition-all duration-300 hover:text-[white] hover:bg-[#3989fa]">
-            Contact
-          </li>
-        </ul>
-
-        <div className="space-x-3">
-          <Link to="/signin">
-            <button className="font-poppins bg-[#f1f8fe] text-[#3983fa] rounded-full px-[1.5rem] py-[0.6rem] border border-[#f1f8fe] hover:bg-[#3989fa] hover:text-white transition-all duration-300">
-              <span className="uppercase font-semibold ">Sign In</span>
-            </button>
-          </Link>
-          <Link to="/signup">
-            <button className="font-poppins bg-[#f1f8fe] text-[#3983fa] rounded-full px-[1.5rem] py-[0.6rem] border border-[#f1f8fe] hover:bg-[#3989fa] hover:text-white transition-all duration-300">
-              <span className="uppercase font-semibold ">Sign Up</span>
-            </button>
-          </Link>
+            <Link to="/signin">
+              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                Get Started
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
-    </header>
+    </nav>
   );
 }
 

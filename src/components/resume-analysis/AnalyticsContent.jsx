@@ -12,8 +12,6 @@ function AnalyticsContent({ activeSection, data }) {
         return <ResumeScore score={data.score} />;
       case "suggestions":
         return <KeySuggestion keySuggestions={data.keySuggestions} />;
-      case "suggestions":
-        return <KeySuggestion keySuggestions={data.keySuggestions} />;
       case "improvements":
         return <AreasForImprovement items={data.areasForImprovement} />;
 
