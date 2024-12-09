@@ -67,7 +67,7 @@ const Profile = () => {
     if (isEditable) {
       console.log("userDetailForm", userDetailForm);
       const res = await axios.post(
-        "/api/v1/users/update-account-details",
+        "/api/v1/users/upload-details",
         { userData: JSON.stringify(userDetailForm) },
         { headers: { Authorization: localStorage.getItem("AccessToken") } }
       );

@@ -28,8 +28,13 @@ const assetsEndpoint = {
     GET_ASSETS : '/api/v1/assets',
     DELETE_ASSET : '/api/v1/assets/'
 }
+
+const userEndPoint = {
+    GET_PROFILE_STATUS : '/api/v1/users/status'
+}
 export {
     portfolioEndPoint,
     resumeEndpoint,
-    assetsEndpoint
+    assetsEndpoint,
+    userEndPoint
 }
