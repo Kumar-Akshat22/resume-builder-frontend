@@ -8,8 +8,7 @@ import { IoBriefcase } from "react-icons/io5";
 import { FaMedal } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { BookMarked, ContactRound, FileText, LogOut } from "lucide-react";
-import { BookmarkCheck } from "lucide-react";
+import { BookMarked, FilesIcon,BookmarkCheck, ContactRound, FileText, LogOut } from "lucide-react";
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -33,6 +32,15 @@ const SideBar = () => {
     }
   };
   const sections = [
+    { id: "profile-completion", label: "Profile Completion", icon: BookmarkCheck , path: '/dashboard/profile-completion' },
+    { id: "personal-details", label: "Personal Details", icon: BsPerson , path: '/dashboard/personal-details' },
+    { id: "education", label: "Education", icon: FaGraduationCap , path: '/dashboard/education'  },
+    { id: "project", label: "Projects", icon: LuFolderGit2 , path: '/dashboard/project' },
+    { id: "work-expr", label: "Work Experience", icon: IoBriefcase , path: '/dashboard/work-expr' },
+    { id: "skills", label: "Skills", icon: FaMedal , path: '/dashboard/skills' },
+    { id: "myPortfolio", label: "My Portfolio", icon:  ContactRound, path: '/dashboard/myPortfolio' },
+    { id: "myResumes", label: "My Resumes", icon:  FileText, path: '/dashboard/myResume' },
+    { id: "assets", label: "My Assets", icon:  FilesIcon, path: '/dashboard/assets' },
     {
       id: "profile-completion",
       label: "Profile Completion",

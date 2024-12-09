@@ -34,9 +34,8 @@ const PortfolioGrid = () => {
           <p className="text-gray-600">No portfolios found</p>
         </div>
         :
-        Array.isArray(portfolios) && portfolios.map((portfolio) => (<PortfolioCard key={portfolio.link} portfolio={portfolio} />))
+        Array.isArray(portfolios) && portfolios.map((portfolio) => (<PortfolioCard key={portfolio.url} portfolio={portfolio} />))
         
-      
       }
     </div>
   );

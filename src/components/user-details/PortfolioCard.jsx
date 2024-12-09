@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Card , CardContent , CardFooter } from '../ui/card';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
-import PortfolioImage from "./Images/Portfolio.png";
+import DarkTheme from "./Images/darkPortfolio.png";
+import LightTheme from "./Images/lightPortfolio.png";
 
 function PortfolioCard({portfolio}) {
     console.log('Inside Portfolio Card Componenet');
@@ -11,7 +12,7 @@ function PortfolioCard({portfolio}) {
 
     const handleOpenPortfolio = ()=>{
 
-      navigate(`/portfolio/${portfolio}`)
+      navigate(`/portfolio/${portfolio?.url}`)
     }
   return (
     <div>
@@ -22,18 +23,18 @@ function PortfolioCard({portfolio}) {
     >
       <Card className="overflow-hidden">
         <img
-          src={PortfolioImage}
-          alt={portfolio}
+          src={portfolio.template=="Template Dark 01"?DarkTheme:LightTheme}
+          alt={portfolio.url}
           width={300}
           height={200}
-          className="w-full h-48 object-cover"
+          className="w-full h-48 object-contain"
         />
         <CardContent className="p-4">
-          <h2 className="text-xl font-semibold text-foreground mb-2">{portfolio}</h2>
+          <h2 className="text-xl font-semibold text-foreground mb-2">{portfolio.url}</h2>
         </CardContent>
         <CardFooter className="flex justify-between p-4">
-          <Button variant="outline" onClick={()=>navigate(`/dashboard/portfolio/${portfolio}/edit`)}>Edit Portfolio</Button>
-          <Button className='bg-indigo-500 hover:bg-indigo-700 text-white' onClick={handleOpenPortfolio}>View Portfolio</Button>
+          <Button variant="outline" onClick={()=>navigate(`/dashboard/portfolio/${portfolio.url}/edit`)}>Edit </Button>
+          <Button className='bg-indigo-500 hover:bg-indigo-700 text-white' onClick={handleOpenPortfolio}>Live Preview</Button>
         </CardFooter>
       </Card>
     </motion.div>

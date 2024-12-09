@@ -71,11 +71,12 @@ useEffect(() => {
 
           <h3 className="font-bold text-lg pb-2">Quick Links</h3>
           <ul className="space-y-2">
-            {navItems.map((item, index)=>(
+            {navItems.map((item, index)=>{if(!item)return;
+            return(
               <a key={index} href={item?.link}  className='flex gap-2 items-center'>
               <FaChevronCircleRight/>{item?.title}
               </a>
-            ))}
+            )})}
           </ul>
             </div>
         </div>
@@ -98,19 +99,19 @@ useEffect(() => {
                 {data?.socialLinks?.instagram &&
                     <div onClick={()=>window.open(data?.socialLinks?.instagram, '_blank')} className={`hover:bg-pink-500 bg-gray-200 text-black  w-10 h-10 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><FaInstagram/></div>
                 }
-                {data?.socialLinks.leetcode &&
+                {data?.socialLinks?.leetcode &&
                     <div onClick={()=>window.open(data?.socialLinks?.leetcode, '_blank')} className={`hover:bg-orange-600 bg-gray-200 text-black  w-10 h-10 aspect-square transition-all  justify-center items-center hover:text-white flex rounded-full`}><SiLeetcode/></div>
                 }
                 {data?.socialLinks?.dev &&
                     <div onClick={()=>window.open(data?.socialLinks?.dev, '_blank')} className={`hover:bg-black bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaDev/></div>
                 }
-                {data?.socialLinks.medium &&
+                {data?.socialLinks?.medium &&
                     <div onClick={()=>window.open(data?.socialLinks?.medium, '_blank')} className={`hover:bg-black bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaMedium/></div>
                 }
-                {data?.socialLinks.mail &&
+                {data?.socialLinks?.mail &&
                     <div onClick={()=>window.open(data?.socialLinks?.mail, '_blank')} className={`hover:bg-red-500 bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><SiGmail/></div>
                 }
-                {data?.socialLinks.youtube &&
+                {data?.socialLinks?.youtube &&
                     <div onClick={()=>window.open(data?.socialLinks?.youtube, '_blank')} className={`hover:bg-red-500 bg-gray-200 text-black  w-10 h-10 transition-all aspect-square justify-center items-center hover:text-white flex rounded-full`}><FaYoutube/></div>
                 }
             </div>

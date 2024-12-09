@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import UserAvatar from '../UserAvatar';
 
-const Header = ({data}) => {
+const Header = ({data, selectedTab, setSelectedTab}) => {
     const [activeSection, setActiveSection] = useState('');
     const [navItems, setNavItems] = useState([
         {
@@ -14,14 +14,14 @@ const Header = ({data}) => {
         },
         data?.skills && data.skills?.technicalSkills && data.skills?.technicalSkills.length > 0 &&
         {
-            link: "#skills",
+            link: "#about",
             title: 'Skills'
         },
         data?.education?.length
-            ? { link: '#education', title: 'Education' }
+            ? { link: '#about', title: 'Education' }
             : null,
         data?.experience?.length
-            ? { link: '#word', title: 'Word' }
+            ? { link: '#work', title: 'Word' }
             : null,
         data?.projects?.length
             ? { link: '#project', title: 'Projects' }
@@ -41,9 +41,9 @@ const Header = ({data}) => {
                     title: 'About'
                 },
                 data?.skills && data.skills?.technicalSkills && data.skills?.technicalSkills.length > 0 &&
-                { link: '#skills', title: 'Skills' },
+                { link: '#about', title: 'Skills' },
                 ...(data.education?.length > 0
-                    ? [{ link: '#education', title: 'Education' }]
+                    ? [{ link: '#about', title: 'Education' }]
                     : []),
                 ...(data.experience?.length > 0
                     ? [{ link: '#work', title: 'Work' }]
@@ -57,37 +57,49 @@ const Header = ({data}) => {
         console.log(data)
     }, [data]);
 
-    useEffect(() => {
-        const sections = document.querySelectorAll('div[id]');
+    // useEffect(() => {
+    //     const sections = document.querySelectorAll('div[id]');
     
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                setActiveSection(entry.target.id);
-              }
-            });
-          },
-          {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5, // Adjust the threshold as needed
-          }
-        );
+    //     const observer = new IntersectionObserver(
+    //       (entries) => {
+    //         entries.forEach((entry) => {
+    //             if (entry.target.id === "about" || entry.target.id === "education" || entry.target.id === "skills") {
+    //                 if (selectedTab === "personalInfo") {
+    //                   setActiveSection("about");
+                      
+    //                 } else if (selectedTab === "skills") {
+    //                   setActiveSection("skills");
+    //                 } else if (selectedTab === "education") {
+    //                   setActiveSection("education");
+    //                 }
+    //               } else {
+    //                 // Default behavior for other sections
+    //                 setActiveSection(entry.target.id);
+    //               }
+    //                 // setActiveSection(entry.target.id);
+      
+    //         });
+    //       },
+    //       {
+    //         root: null,
+    //         rootMargin: '0px',
+    //         threshold: 0.7, // Adjust the threshold as needed
+    //       }
+    //     );
     
-        sections.forEach((section) => observer.observe(section));
+    //     sections.forEach((section) => observer.observe(section));
     
-        return () => {
-          sections.forEach((section) => observer.unobserve(section));
-        };
-      }, []);
+    //     return () => {
+    //       sections.forEach((section) => observer.unobserve(section));
+    //     };
+    //   }, []);
 
 
   return (
-    <div className='w-full py-4 sticky top-0 bg-white z-[1000] '>
+    <div className='w-full py-4 sticky bg-black top-0 text-white z-[1000] '>
         <div className='max-w-screen-xl justify-between mx-auto flex'>
             <div><UserAvatar
-            className='font-poppins font-bold' 
+            className='font-poppins text-dark-primary font-bold' 
             size='xl'
                 name={`${data?.personalInfo?.firstName} ${data?.personalInfo?.lastName}`}
             /></div>
@@ -98,13 +110,22 @@ const Header = ({data}) => {
                             if(!item)return
                             return (
                                 <a
+                                onClick={()=>{
+                                    if(item.title == "Skills"){
+                                        setSelectedTab("skills");
+                                    }else if(item.title == "Education"){
+                                        setSelectedTab("education");
+                                    }else if(item.title == "About"){
+                                        setSelectedTab("personalInfo");
+                                    }
+                                }}
                                 key={index}
                                 href={item.link}
                                 className={`ml-8 font-poppins font-semibold text-md ${
                                   activeSection === item.link.substring(1)
-                                    ? 'text-blue-700 border-b-4 border-blue-700'
-                                    : 'text-gray-800'
-                                } hover:text-blue-700`}
+                                    ? 'text-dark-primary border-b-4 font-bold border-dark-primary'
+                                    : 'text-white'
+                                } hover:text-dark-primary`}
                               >
                                 {item.title}
                               </a>

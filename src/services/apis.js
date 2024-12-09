@@ -22,7 +22,14 @@ const resumeEndpoint = {
     RESUME_ANALYTICS : '/api/v1/resume/analyze'
     
 }
+
+const assetsEndpoint = {
+    UPLOAD_ASSETS : '/api/v1/assets',
+    GET_ASSETS : '/api/v1/assets',
+    DELETE_ASSET : '/api/v1/assets/'
+}
 export {
     portfolioEndPoint,
-    resumeEndpoint
+    resumeEndpoint,
+    assetsEndpoint
 }
