@@ -170,7 +170,7 @@ const SideBar = () => {
 
         <div className="relative w-20">
           <Button
-            className="fixed w-40 bottom-20 left-10 bg-blue-500 text-sm rounded-md transition-all duration-200 hover:bg-blue-700"
+            className="fixed w-40 bottom-20 left-10 bg-blue-50 text-blue-600 shadow-sm text-sm rounded-md transition-all duration-200 hover:bg-blue-100"
             onClick={() => setIsSigningOut(true)}
           >
             <LogOut className="rotate-180" />

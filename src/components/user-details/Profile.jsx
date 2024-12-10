@@ -24,18 +24,18 @@ const Profile = () => {
   });
   const [isEditable, setIsEditable] = useState(false);
   const [userDetailForm, setUserDetailForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    contact: '',
-    profession: '',
-    about: '',
-    username: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    profession: "",
+    about: "",
+    username: "",
     links: {
-    linkedIn: "",
-    github: "",
-    portfolio: "",
-  },
+      linkedIn: "",
+      github: "",
+      portfolio: "",
+    },
   });
   const [errors, setErrors] = useState({});
   const [isDataUploading, setIsDataUploading] = useState(false);
@@ -49,7 +49,7 @@ const Profile = () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!value.trim()) error = "Email is required.";
       else if (!emailRegex.test(value)) error = "Invalid email format.";
-    } else if (name === "contact") {
+    } else if (name === "phone") {
       const phoneRegex = /^[0-9]+$/;
       if (!value.trim()) error = "Contact number is required.";
       else if (!phoneRegex.test(value)) error = "Only numbers are allowed.";
@@ -77,7 +77,6 @@ const Profile = () => {
     }));
   };
 
-
   const updateDetail = async () => {
     if (isEditable) {
       console.log("userDetailForm", userDetailForm);
@@ -88,18 +87,18 @@ const Profile = () => {
       );
       console.log(res);
       localStorage.removeItem("status");
-    }};
-      
-  const linksFormHandler = (name , value) => {
-    setUserDetailForm((prev)=>({
+    }
+  };
 
+  const linksFormHandler = (name, value) => {
+    setUserDetailForm((prev) => ({
       ...prev,
-      links:{
+      links: {
         ...prev.links,
-        [name]:value
-      }
-    }))
-  }
+        [name]: value,
+      },
+    }));
+  };
 
   const changePassword = async () => {
     if (
@@ -148,35 +147,29 @@ const Profile = () => {
 
   const getUserInfo = async () => {
     setLoading(true);
-    try{
-
+    try {
       const res = await axios.get("/api/v1/users/get-user-info", {
         headers: { Authorization: localStorage.getItem("AccessToken") },
       });
-      
+
       console.log(res);
-      if(res.status===200) toast.success("Profile Data fetched successfully");
+      if (res.status === 200)
+        toast.success("Profile Data fetched successfully");
       setProfilePicture(res.data.data.profileInfo.profilePicture);
       setUserDetailForm({
         ...res.data.data.profileInfo,
         firstName: res.data.data.profileInfo.firstName || "",
         lastName: res.data.data.profileInfo.lastName || "",
         email: res.data.data.email || "",
-        contact: res.data.data.profileInfo.contact || "",
-        profession: res.data.data.profileInfo.profession || "",
+        phone: res.data.data.profileInfo.phone || "",
+        profession: res.data.data.profileInfo?.profession || "",
         about: res.data.data.profileInfo.about || " ",
         username: res.data.data.username || "",
         links: res.data.data.profileInfo.links,
-
       });
-    }
-    catch(error){
-
+    } catch (error) {
       toast.error("An error occured while fetching data");
-
-    }
-    finally{
-
+    } finally {
       setLoading(false);
     }
   };
@@ -191,7 +184,7 @@ const Profile = () => {
     <div className="w-full flex flex-col p-3">
       {loading ? (
         <div className="flex mx-auto">
-          <TailSpin color="red"/>
+          <TailSpin color="red" />
           <p>Loading..</p>
         </div>
       ) : (
@@ -199,7 +192,6 @@ const Profile = () => {
           <header className="bg-white shadow-sm">
             <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
               <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-              
             </div>
           </header>
 
@@ -253,7 +245,7 @@ const Profile = () => {
                         <div className="fex flex-col">
                           <label htmlFor="firstName">First Name</label>
                           <input
-                            onChange={(e)=> formHandler(e)}
+                            onChange={(e) => formHandler(e)}
                             name="firstName"
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable
@@ -278,7 +270,7 @@ const Profile = () => {
                           <label htmlFor="lastName">Last Name</label>
                           <input
                             name="lastName"
-                            onChange={(e)=> formHandler(e)}
+                            onChange={(e) => formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
@@ -295,7 +287,7 @@ const Profile = () => {
                           <label htmlFor="email">Email</label>
                           <input
                             name="email"
-                            onChange={(e)=> formHandler(e)}
+                            onChange={(e) => formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable
                                 ? `bg-white rounded-xl ${
@@ -323,7 +315,7 @@ const Profile = () => {
                           <label htmlFor="username">Username</label>
                           <input
                             name="username"
-                            onChange={(e)=> formHandler(e)}
+                            onChange={(e) => formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
@@ -337,18 +329,18 @@ const Profile = () => {
 
                         {/* Last Name */}
                         <div className="fex flex-col">
-                          <label htmlFor="contact">Contact Number</label>
+                          <label htmlFor="phone">Contact Number</label>
                           <input
-                            name="contact"
-                            onChange={(e)=> formHandler(e)}
+                            name="phone"
+                            onChange={(e) => formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
                             disabled={!isEditable}
                             type="text"
-                            id="contact"
+                            id="phone"
                             placeholder="e.g. +91 8654321098"
-                            value={userDetailForm.contact}
+                            value={userDetailForm?.phone}
                           />
                         </div>
 
@@ -357,7 +349,7 @@ const Profile = () => {
                           <label htmlFor="profession">Profession</label>
                           <input
                             name="profession"
-                            onChange={(e)=> formHandler(e)}
+                            onChange={(e) => formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
@@ -373,7 +365,7 @@ const Profile = () => {
                           <label htmlFor="about">About</label>
                           <input
                             name="about"
-                            onChange={(e)=> formHandler(e)}
+                            onChange={(e) => formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
@@ -389,14 +381,11 @@ const Profile = () => {
                     <CardFooter>
                       <Button
                         onClick={() => {
-                          
                           if (isEditable) {
-                            handleDataUpload()
-            }
-                          
+                            handleDataUpload();
+                          }
+
                           setIsEditable((prev) => !prev);
-                          
-                        
                         }}
                         className="flex items-center gap-2 font-semibold px-4 py-2 rounded-xl h-min"
                       >
@@ -441,7 +430,6 @@ const Profile = () => {
                             id="oldpassword"
                             placeholder="Old Password"
                             value={password.oldPassword}
-                            
                           />
                         </div>
 
@@ -461,7 +449,6 @@ const Profile = () => {
                             id="newpassword"
                             placeholder="New Password"
                             value={password.newPassword}
-                
                           />
                         </div>
                       </div>
@@ -497,7 +484,9 @@ const Profile = () => {
                           <input
                             id="linkedIn"
                             name="linkedIn"
-                            onChange={(e) => linksFormHandler('linkedIn', e.target.value)}
+                            onChange={(e) =>
+                              linksFormHandler("linkedIn", e.target.value)
+                            }
                             value={userDetailForm?.links?.linkedIn || ""}
                             className={`bg-white font-semibold p-2 m-1 flex w-full rounded-md shadow-sm border ${
                               isEditable ? "bg-white rounded-xl" : ""
@@ -515,7 +504,9 @@ const Profile = () => {
                           <input
                             id="github"
                             name="github"
-                            onChange={(e) => linksFormHandler('github', e.target.value)}
+                            onChange={(e) =>
+                              linksFormHandler("github", e.target.value)
+                            }
                             value={userDetailForm?.links?.github || ""}
                             className={`bg-white font-semibold p-2 m-1 flex w-full rounded-md shadow-sm border ${
                               isEditable ? "bg-white rounded-xl" : ""
@@ -534,7 +525,9 @@ const Profile = () => {
                           <input
                             id="portfolio"
                             name="portfolio"
-                            onChange={(e) => linksFormHandler('portfolio', e.target.value)}
+                            onChange={(e) =>
+                              linksFormHandler("portfolio", e.target.value)
+                            }
                             value={userDetailForm?.links?.portfolio || ""}
                             className={`bg-white font-semibold p-2 m-1 flex w-full rounded-md shadow-sm border ${
                               isEditable ? "bg-white rounded-xl" : ""
@@ -548,11 +541,10 @@ const Profile = () => {
                       <Button
                         onClick={() => {
                           if (isEditable) {
-              handleDataUpload();
-            }
+                            handleDataUpload();
+                          }
 
                           setIsEditable((prev) => !prev);
-                          
                         }}
                         className="flex items-center gap-2 font-semibold px-4 py-2 rounded-xl h-min"
                       >
@@ -575,6 +567,7 @@ const Profile = () => {
         </div>
       )}
     </div>
-  )};
+  );
+};
 
 export default Profile;
