@@ -14,125 +14,31 @@ import { motion } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, NavLink } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getProfileCompletionStatus } from "@/services/userService";
 
 export default function ProfileCompletion() {
-  //   const { profileCompletionData, isLoading, error } = useProfileCompletion(
-  //     "/api/v1/users/status"
-  //   );
 
-  const [isLoading, setIsLoading] = useState(false);
-  const profileCompletionData = {
-    percentComplete: 90,
-    mandatoryFieldsCompleted: true,
-    completionColor: "#2ECC40",
-    fieldsToComplete: [
-      {
-        category: "Personal Info",
-        fields: [
-          {
-            name: "First Name",
-            completed: true,
-            href: "/dashboard/personal-details",
-          },
-          {
-            name: "Last Name",
-            completed: true,
-            href: "/dashboard/personal-details",
-          },
-          {
-            name: "Phone",
-            completed: true,
-            href: "/dashboard/personal-details",
-          },
-          {
-            name: "Email",
-            completed: true,
-            href: "/dashboard/personal-details",
-          },
-          {
-            name: "LinkedIn",
-            completed: true,
-            href: "/dashboard/personal-details",
-          },
-        ],
-      },
-      {
-        category: "Professional Details",
-        fields: [
-          {
-            name: "Education",
-            completed: true,
-            href: "/profile/education",
-          },
-          {
-            name: "Projects",
-            completed: true,
-            href: "/profile/projects",
-          },
-          {
-            name: "Skills",
-            completed: true,
-            href: "/profile/skills",
-          },
-        ],
-      },
-      {
-        category: "Additional Personal Info",
-        fields: [
-          {
-            name: "About",
-            completed: true,
-            href: "/profile/about",
-          },
-          {
-            name: "Profile Picture",
-            completed: true,
-            href: "/profile/photos",
-          },
-          {
-            name: "Address",
-            completed: true,
-            href: "/profile/address",
-          },
-        ],
-      },
-      {
-        category: "Professional Extras",
-        fields: [
-          {
-            name: "Experience",
-            completed: true,
-            href: "/profile/experience",
-          },
-          {
-            name: "Certifications",
-            completed: true,
-            href: "/profile/certifications",
-          },
-          {
-            name: "Achievements",
-            completed: true,
-            href: "/profile/achievements",
-          },
-        ],
-      },
-    ],
-  };
 
-  //   console.log(profileCompletionData);
+
 
   const [expandSection, setExpandSection] = useState(null);
 
-  //   if (error) {
-  //     return (
-  //       <div className="container min-h-screen flex flex-col justify-center items-center">
-  //         <ServerCrash size={50} color="black" />
-  //         <h1 className="text-teal-700 text-xl mt-2">
-  //           There was a problem in fetching the data from the server.
-  //         </h1>
-  //       </div>
-  //     );
-  //   }
+  const {data: profileCompletionData, isLoading, error} = useQuery({
+    queryKey:'profileCompletion',
+    queryFn:()=>getProfileCompletionStatus(),
+  })
+
+    if (error) {
+      return (
+        <div className="container min-h-screen flex flex-col justify-center items-center">
+          <ServerCrash size={50} color="black" />
+          <h1 className="text-teal-700 text-xl mt-2">
+            There was a problem in fetching the data from the server.
+          </h1>
+        </div>
+      );
+    }
 
   return (
     <div className="container py-7 px-5">

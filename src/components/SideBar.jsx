@@ -75,6 +75,7 @@ const SideBar = () => {
   };
 
   const sections = [
+
     {
       id: "profile-completion",
       label: "Profile Completion",

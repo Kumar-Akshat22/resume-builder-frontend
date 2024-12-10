@@ -77,8 +77,20 @@ const Profile = () => {
     }));
   };
 
-  const linksFormHandler = (name , value) => {
 
+  const updateDetail = async () => {
+    if (isEditable) {
+      console.log("userDetailForm", userDetailForm);
+      const res = await axios.post(
+        "/api/v1/users/upload-details",
+        { userData: JSON.stringify(userDetailForm) },
+        { headers: { Authorization: localStorage.getItem("AccessToken") } }
+      );
+      console.log(res);
+      localStorage.removeItem("status");
+    };
+      
+  const linksFormHandler = (name , value) => {
     setUserDetailForm((prev)=>({
 
       ...prev,
