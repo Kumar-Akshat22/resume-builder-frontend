@@ -88,7 +88,7 @@ const Profile = () => {
       );
       console.log(res);
       localStorage.removeItem("status");
-    };
+    }};
       
   const linksFormHandler = (name , value) => {
     setUserDetailForm((prev)=>({
@@ -575,7 +575,6 @@ const Profile = () => {
         </div>
       )}
     </div>
-  );
-};
+  )};
 
 export default Profile;
