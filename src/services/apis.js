@@ -30,7 +30,8 @@ const assetsEndpoint = {
 }
 
 const userEndPoint = {
-    GET_PROFILE_STATUS : '/api/v1/users/status'
+    GET_PROFILE_STATUS : '/api/v1/users/status',
+    GET_USER_INFO : '/api/v1/users/get-user-info'
 }
 export {
     portfolioEndPoint,
