@@ -21,6 +21,7 @@ function PortfolioDataUpload({ isOpen, onClose, baseUrl }) {
     url: "",
   });
   const [isGenerating, setIsGenerating] = useState(false);
+  const queryClient = useQueryClient()
   // const [isGenerating, setIsGenerating] =
   const { data: isLinkAvailable } = useQuery({
     queryKey: ["link-available", formData.url],
@@ -34,12 +35,11 @@ function PortfolioDataUpload({ isOpen, onClose, baseUrl }) {
     const file = e.target.files?.[0] || null;
     setFormData((prev) => ({ ...prev, file: file }));
   };
-
-  const queryClient = useQueryClient();
+  
   const generatePortfolioMutation = useMutation({
     mutationFn: (data) => generatePortfolio(data),
     onSuccess: () => {
-      queryClient.invalidateQueries(["userPortfolio"]);
+      queryClient.invalidateQueries(['userPortfolio'])
       setIsGenerating(false);
       toast.success("Portfolio generated successfully");
       onClose();

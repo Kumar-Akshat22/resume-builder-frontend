@@ -9,11 +9,12 @@ import {
   FileText,
   CheckCircle2,
   LayoutTemplate,
+  LogOut,
 } from "lucide-react";
 import Template1 from "@/assets/Template-1.png";
 import Template2 from "@/assets/Template-2.png";
-// import RoverResume from "../resume/RoverResume";
-// import Resume1 from "../resume/Resume1";
+import Resume1 from "../resume/Resume1";
+import RoverResume from "../resume/RoverResume";
 import {
   Document,
   Page,
@@ -26,112 +27,14 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getResumeById } from "@/services/resumeService";
 import { FaRegFileLines } from "react-icons/fa6";
 
-// Define styles for PDF
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    backgroundColor: "#FFFFFF",
-    padding: 30,
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  text: {
-    fontSize: 12,
-    marginBottom: 5,
-  },
-});
-
-// Define the Resume component
-const Resume1 = ({ data }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.title}>{data.name}</Text>
-        <Text style={styles.subtitle}>{data.title}</Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Experience</Text>
-        {data.experience.map((exp, index) => (
-          <View key={index}>
-            <Text style={styles.text}>
-              {exp.company} - {exp.position}
-            </Text>
-            <Text style={styles.text}>{exp.duration}</Text>
-            <Text style={styles.text}>{exp.description}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Education</Text>
-        <Text style={styles.text}>{data.education.degree}</Text>
-        <Text style={styles.text}>
-          {data.education.school}, {data.education.year}
-        </Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Skills</Text>
-        <Text style={styles.text}>{data.skills.join(", ")}</Text>
-      </View>
-    </Page>
-  </Document>
-);
-
-const RoverResume = ({ data }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.title}>{data.name}</Text>
-        <Text style={styles.subtitle}>{data.title}</Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Experience</Text>
-        {data.experience.map((exp, index) => (
-          <View key={index}>
-            <Text style={styles.text}>
-              {exp.company} - {exp.position}
-            </Text>
-            <Text style={styles.text}>{exp.duration}</Text>
-            <Text style={styles.text}>{exp.description}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Education</Text>
-        <Text style={styles.text}>{data.education.degree}</Text>
-        <Text style={styles.text}>
-          {data.education.school}, {data.education.year}
-        </Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.subtitle}>Skills</Text>
-        <Text style={styles.text}>{data.skills.join(", ")}</Text>
-      </View>
-    </Page>
-  </Document>
-);
-
 function GenerateResume() {
   const { resumeId } = useParams();
   const [selectedTemplate, setSelectedTemplate] = useState("Resume1");
-  const [isLoading , setIsLoading] = useState(false)
-
-
 
   const templates = [
     {
@@ -140,92 +43,100 @@ function GenerateResume() {
       image: Template1,
     },
     {
-      id: "RoverResume",
+      id: "Resume2",
       name: "Two Column",
       image: Template2,
     },
   ];
 
-  const mockData = {
-    name: "John Doe",
-    title: "Software Engineer",
-    experience: [
-      {
-        company: "Tech Corp",
-        position: "Senior Developer",
-        duration: "2018 - Present",
-        description: "Led development of multiple high-impact projects.",
-      },
-      {
-        company: "Startup Inc",
-        position: "Junior Developer",
-        duration: "2015 - 2018",
-        description:
-          "Contributed to the development of innovative web applications.",
-      },
-    ],
-    education: {
-      degree: "Bachelor of Science in Computer Science",
-      school: "University of Technology",
-      year: "2015",
-    },
-    skills: ["JavaScript", "React", "Node.js", "Python", "SQL"],
+  const handleDownload = async () => {
+    if (!resumeData) {
+      toast.error("No Resume data available for download");
+      return;
+    }
+
+    try {
+      const loadingToast = toast.loading("Generating your resume PDF, please wait...", {
+        duration: Infinity, // Keep it open until the process finishes
+      });
+      const templateComponents = {
+        Resume1: Resume1,
+        Resume2: RoverResume
+      };
+
+      const SelectedTemplateComponent = templateComponents[selectedTemplate];
+
+      if (!SelectedTemplateComponent) {
+        throw new Error("Invalid template selected");
+      }
+      const blob = await pdf(
+        <SelectedTemplateComponent resumeData={resumeData} />
+      ).toBlob();
+
+      // Create a URL for the blob and download the file
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "resume.pdf";
+      link.click();
+      URL.revokeObjectURL(url);
+
+      // Show success message and close the loading toast
+      toast.success("Your resume is ready! Downloading now...", {
+        id: loadingToast, // Use the same toast ID to update the loading toast
+        duration: 5000, // Keep it open for 5 seconds
+      });
+    
+  } catch (error) {
+    console.log("Error generating PDF", error);
+    toast.error("Failed to generate your resume PDF. Please try again later.", {
+      duration: 5000, // Close the toast after 5 seconds
+    });
+  }
   };
 
-  // const handleDownload = async () => {
-  //   if (!resumeData) {
-  //     console.log("No Resume data available for download");
-  //     return;
-  //   }
+  const navigate = useNavigate();
+  const moveToDashboard = ()=>{
 
-  //   try {
-  //     const blob = await pdf(<Resume1 resumeData={resumeData} />).toBlob();
-  //     const url = URL.createObjectURL(blob);
-  //     const link = document.createElement("a");
-  //     link.href = url;
-  //     link.download = "resume.pdf";
-  //     link.click();
-  //     URL.revokeObjectURL(url);
-  //   } catch (error) {
-  //     console.log("Error generating PDF", error);
-  //     toast.error("Failed to download the Resume");
-  //   }
-  // };
+    navigate('/dashboard/profile-completion');
+  }
 
-  // const {
-  //   data: resumeData,
-  //   isLoading,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ["resume", resumeId],
-  //   queryFn: () => getResumeById(resumeId),
-  //   onError: (error) => {
-  //     console.error("Error in fetching resume data", error);
-  //     toast.error("Failed to fetch Resume data");
-  //   },
-  // });
+  const {
+    data: resumeData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["resume", resumeId],
+    queryFn: () => getResumeById(resumeId),
+    onError: (error) => {
+      console.error("Error in fetching resume data", error);
+      toast.error("Failed to fetch Resume data");
+    },
+  });
 
-  // useEffect(() => {
-  //   console.log("resume data", resumeData);
-  // }, [resumeData]);
-  // if (error) {
-  //   toast.error("Failed to fetch Resume data");
-  //   return (
-  //     <div>
-  //       <h1 className="text-4xl font-bold text-gray-800 mb-8">
-  //         Failed to fetch Resume data : {error.data}
-  //       </h1>
-  //       <Button
-  //         className="w-full"
-  //         onClick={() => {
-  //           window.location.href = "/";
-  //         }}
-  //       >
-  //         Return to Home
-  //       </Button>
-  //     </div>
-  //   );
-  // }
+  useEffect(() => {
+    console.log("resume data", resumeData);
+  }, [resumeData]);
+  if (error) {
+    toast.error("Failed to fetch Resume data");
+    return (
+      <div>
+        <h1 className="text-4xl font-bold text-gray-800 mb-8">
+          Failed to fetch Resume data : {error.data}
+        </h1>
+        <Button
+          className="w-full"
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
+          Return to Home
+        </Button>
+      </div>
+    );
+  }
+
+
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-gray-100 to-gray-200 gap-8 overflow-hidden">
@@ -289,18 +200,27 @@ function GenerateResume() {
                   <h1 className="text-3xl font-bold text-gray-800">
                     Your Resume is Ready!
                   </h1>
-                  <Button className="bg-blue-500 hover:bg-blue-600 text-white">
+                  <div className="flex gap-x-2">
+
+                  <Button className="bg-indigo-500 hover:bg-indigo-700 text-white"
+                  onClick={moveToDashboard}>
+                    <LogOut className="mr-2 h-4 w-4 rotate-180" />
+                    Back to Dashboard
+                  </Button>
+                  <Button className="bg-blue-500 hover:bg-blue-600 text-white"
+                  onClick={handleDownload}>
                     <Download className="mr-2 h-4 w-4" />
                     Download PDF
                   </Button>
+                  </div>
                 </div>
                 <div className="flex-1 border rounded-lg overflow-hidden">
-                  {mockData ? (
-                    <PDFViewer width="100%" height="100%">
+                  {resumeData ? (
+                  <PDFViewer width="100%" height="100%">
                       {selectedTemplate === "Resume1" ? (
-                        <Resume1 data={mockData} />
+                        <Resume1 resumeData={resumeData} />
                       ) : (
-                        <RoverResume data={mockData} />
+                        <RoverResume resumeData={resumeData} />
                       )}
                     </PDFViewer>
                   ) : (
