@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Sparkle, Sparkles } from "lucide-react";
 
 function Navbar() {
   return (
@@ -9,7 +9,7 @@ function Navbar() {
         <div className="flex justify-between h-16 items-center">
           <Link to="/">
             <div className="flex items-center">
-              <Briefcase className="h-8 w-8 text-indigo-600" />
+              <Sparkles className="h-8 w-8 text-blue-600" />
               <span className="ml-2 text-xl font-bold text-gray-800">
                 AI Career Builder
               </span>
@@ -19,29 +19,29 @@ function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             <a
               href="#templates"
-              className="text-gray-600 hover:text-indigo-600 transition-colors"
+              className="text-black text-[17px] hover:text-blue-600 transition-colors"
             >
               Templates
             </a>
             <a
               href="#features"
-              className="text-gray-600 hover:text-indigo-600 transition-colors"
+              className="text-black text-[17px] hover:text-blue-600 transition-colors"
             >
               Features
             </a>
             <a
               href="#team"
-              className="text-gray-600 hover:text-indigo-600 transition-colors"
+              className="text-black text-[17px] hover:text-blue-600 transition-colors"
             >
               Our Team
             </a>
 
+          </div>
             <Link to="/signin">
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
                 Get Started
               </button>
             </Link>
-          </div>
         </div>
       </div>
     </nav>

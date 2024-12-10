@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { X, Upload } from "lucide-react";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 function Skills({ updateResumeDetails }) {
   const [skills, setSkills] = useState({
@@ -60,14 +61,29 @@ function Skills({ updateResumeDetails }) {
   const [isDataUploading, setIsDataUploading] = useState(false);
 
   const handleDataUpload = async () => {
+
+    const token = localStorage.getItem("AccessToken");
+
+    if (!token) {
+      toast.error("Authentication token is missing.");
+      return;
+    }
+
+    if(!skills){
+
+      toast.error("Please fill out some details!")
+    }
+
     setIsDataUploading(true);
     try {
+      console.log("Inside try block");
       const res = await axios.post(
         "/api/v1/users/upload-details",
-        { skills: JSON.stringify(skills) },
-        { headers: { Authorization: localStorage.getItem("AccessToken") } }
+        { skills: skills },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       if (res.data.statusCode === 200) {
+        console.log(res);
         toast.success("Skills data ulpoaded successfully!");
       } else {
         toast.error("Failed to upload data.");
@@ -112,6 +128,8 @@ function Skills({ updateResumeDetails }) {
       </div>
     </div>
   );
+
+  console.log(skills);
 
   return (
     <div className="p-3">

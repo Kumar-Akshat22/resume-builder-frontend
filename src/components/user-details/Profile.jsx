@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 import { Globe, User, Upload } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { TailSpin } from "react-loader-spinner";
 
 const Profile = () => {
   const [password, setPassword] = useState({
@@ -22,7 +23,20 @@ const Profile = () => {
     newPassword: "",
   });
   const [isEditable, setIsEditable] = useState(false);
-  const [userDetailForm, setUserDetailForm] = useState({});
+  const [userDetailForm, setUserDetailForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    contact: '',
+    profession: '',
+    about: '',
+    username: '',
+    links: {
+    linkedIn: "",
+    github: "",
+    portfolio: "",
+  },
+  });
   const [errors, setErrors] = useState({});
   const [isDataUploading, setIsDataUploading] = useState(false);
 
@@ -63,22 +77,17 @@ const Profile = () => {
     }));
   };
 
-  const updateDetail = async () => {
-    if (isEditable) {
-      console.log("userDetailForm", userDetailForm);
-      const res = await axios.post(
-        "/api/v1/users/update-account-details",
-        { userData: JSON.stringify(userDetailForm) },
-        { headers: { Authorization: localStorage.getItem("AccessToken") } }
-      );
-      console.log(res);
-      localStorage.removeItem("status");
+  const linksFormHandler = (name , value) => {
 
-      if (res.data.statusCode === 200) {
-        toast.success("Profile updated ");
+    setUserDetailForm((prev)=>({
+
+      ...prev,
+      links:{
+        ...prev.links,
+        [name]:value
       }
-    }
-  };
+    }))
+  }
 
   const changePassword = async () => {
     if (
@@ -93,7 +102,6 @@ const Profile = () => {
       { oldPassword: password.oldPassword, newPassword: password.newPassword },
       { headers: { Authorization: localStorage.getItem("AccessToken") } }
     );
-    console.log("passwords changed");
 
     if (res.data.statusCode === 200) {
       toast.success("Password Updated ");
@@ -112,6 +120,7 @@ const Profile = () => {
         { headers: { Authorization: localStorage.getItem("AccessToken") } }
       );
       if (res.data.statusCode === 200) {
+        console.log(res);
         toast.success("Profile updated successfully!");
       } else {
         toast.error("Failed to update profile.");
@@ -136,8 +145,8 @@ const Profile = () => {
       console.log(res);
       if(res.status===200) toast.success("Profile Data fetched successfully");
       setProfilePicture(res.data.data.profileInfo.profilePicture);
-      setUserDetailForm((prev) => ({
-        ...prev,
+      setUserDetailForm({
+        ...res.data.data.profileInfo,
         firstName: res.data.data.profileInfo.firstName || "",
         lastName: res.data.data.profileInfo.lastName || "",
         email: res.data.data.email || "",
@@ -145,9 +154,13 @@ const Profile = () => {
         profession: res.data.data.profileInfo.profession || "",
         about: res.data.data.profileInfo.about || " ",
         username: res.data.data.username || "",
-      }));
+        links: res.data.data.profileInfo.links,
+
+      });
     }
     catch(error){
+
+      toast.error("An error occured while fetching data");
 
     }
     finally{
@@ -156,6 +169,8 @@ const Profile = () => {
     }
   };
 
+  console.log(userDetailForm);
+
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -163,7 +178,8 @@ const Profile = () => {
   return (
     <div className="w-full flex flex-col p-3">
       {loading ? (
-        <div>
+        <div className="flex mx-auto">
+          <TailSpin color="red"/>
           <p>Loading..</p>
         </div>
       ) : (
@@ -171,16 +187,7 @@ const Profile = () => {
           <header className="bg-white shadow-sm">
             <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
               <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-              <button
-                onClick={() => {
-                  handleDataUpload();
-                }}
-                disabled={isDataUploading}
-                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 text-base"
-              >
-                {isDataUploading ? "Uploading.." : "Save Data"}
-                <Upload size={18}/>
-              </button>
+              
             </div>
           </header>
 
@@ -234,7 +241,7 @@ const Profile = () => {
                         <div className="fex flex-col">
                           <label htmlFor="firstName">First Name</label>
                           <input
-                            onChange={formHandler}
+                            onChange={(e)=> formHandler(e)}
                             name="firstName"
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable
@@ -256,27 +263,27 @@ const Profile = () => {
 
                         {/* Last Name */}
                         <div className="fex flex-col  ">
-                          <label htmlFor="firstName">Last Name</label>
+                          <label htmlFor="lastName">Last Name</label>
                           <input
                             name="lastName"
-                            onChange={formHandler}
+                            onChange={(e)=> formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
                             disabled={!isEditable}
                             type="text"
-                            id="firstName"
-                            placeholder="First Name"
+                            id="lastName"
+                            placeholder="Last Name"
                             value={userDetailForm.lastName}
                           />
                         </div>
 
                         {/* Email */}
-                        <div className="fex flex-col  ">
-                          <label htmlFor="firstName">Email</label>
+                        <div className="fex flex-col">
+                          <label htmlFor="email">Email</label>
                           <input
                             name="email"
-                            onChange={formHandler}
+                            onChange={(e)=> formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable
                                 ? `bg-white rounded-xl ${
@@ -288,8 +295,8 @@ const Profile = () => {
                             }`}
                             disabled={!isEditable}
                             type="text"
-                            id="firstName"
-                            placeholder="First Name"
+                            id="email"
+                            placeholder="Email Address"
                             value={userDetailForm.email}
                           />
                           {errors.email && (
@@ -301,67 +308,67 @@ const Profile = () => {
 
                         {/* Username */}
                         <div className="fex flex-col  ">
-                          <label htmlFor="firstName">Username</label>
+                          <label htmlFor="username">Username</label>
                           <input
                             name="username"
-                            onChange={formHandler}
+                            onChange={(e)=> formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
                             disabled
                             type="text"
-                            id="firstName"
-                            placeholder="First Name"
+                            id="username"
+                            placeholder="User Name"
                             value={userDetailForm.username}
                           />
                         </div>
 
                         {/* Last Name */}
-                        <div className="fex flex-col  ">
-                          <label htmlFor="firstName">Contact Number</label>
+                        <div className="fex flex-col">
+                          <label htmlFor="contact">Contact Number</label>
                           <input
                             name="contact"
-                            onChange={formHandler}
+                            onChange={(e)=> formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
                             disabled={!isEditable}
                             type="text"
-                            id="firstName"
-                            placeholder="First Name"
+                            id="contact"
+                            placeholder="e.g. +91 8654321098"
                             value={userDetailForm.contact}
                           />
                         </div>
 
                         {/* Profession */}
                         <div className="fex flex-col  ">
-                          <label htmlFor="firstName">Profession</label>
+                          <label htmlFor="profession">Profession</label>
                           <input
                             name="profession"
-                            onChange={formHandler}
+                            onChange={(e)=> formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
                             disabled={!isEditable}
                             type="text"
-                            id="firstName"
-                            placeholder="First Name"
+                            id="profession"
+                            placeholder="Your Profession"
                             value={userDetailForm.profession}
                           />
                         </div>
 
                         <div className="fex flex-col col-span-2 ">
-                          <label htmlFor="firstName">About</label>
+                          <label htmlFor="about">About</label>
                           <input
                             name="about"
-                            onChange={formHandler}
+                            onChange={(e)=> formHandler(e)}
                             className={`bg-transparent font-semibold p-2 m-1 flex w-full ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
                             disabled={!isEditable}
                             type="text"
-                            id="firstName"
-                            placeholder="First Name"
+                            id="about"
+                            placeholder="About yourself"
                             value={userDetailForm.about}
                           />
                         </div>
@@ -370,8 +377,14 @@ const Profile = () => {
                     <CardFooter>
                       <Button
                         onClick={() => {
+                          
+                          if (isEditable) {
+                            handleDataUpload()
+            }
+                          
                           setIsEditable((prev) => !prev);
-                          updateDetail();
+                          
+                        
                         }}
                         className="flex items-center gap-2 font-semibold px-4 py-2 rounded-xl h-min"
                       >
@@ -400,9 +413,9 @@ const Profile = () => {
                     </CardHeader>
                     <CardContent className="space-y-2">
                       <div className="p-2 grid grid-cols-2 gap-8">
-                        {/* New Password */}
+                        {/* Old Password */}
                         <div className="fex flex-col  ">
-                          <label htmlFor="firstName">Old Password</label>
+                          <label htmlFor="oldpassword">Old Password</label>
                           <input
                             onChange={(e) =>
                               setPassword((prev) => ({
@@ -410,16 +423,19 @@ const Profile = () => {
                                 oldPassword: e.target.value,
                               }))
                             }
+                            name="oldpassword"
                             className=" font-semibold p-2 m-1 flex w-full bg-white rounded-xl"
                             type="password"
-                            id="firstName"
+                            id="oldpassword"
                             placeholder="Old Password"
+                            value={password.oldPassword}
+                            
                           />
                         </div>
 
-                        {/* Old Password*/}
+                        {/* New Password*/}
                         <div className="fex flex-col  ">
-                          <label htmlFor="firstName">New Password</label>
+                          <label htmlFor="newpassword">New Password</label>
                           <input
                             onChange={(e) =>
                               setPassword((prev) => ({
@@ -427,10 +443,13 @@ const Profile = () => {
                                 newPassword: e.target.value,
                               }))
                             }
+                            name="newpassword"
                             className=" font-semibold p-2 m-1 flex w-full bg-white rounded-xl"
                             type="password"
-                            id="firstName"
+                            id="newpassword"
                             placeholder="New Password"
+                            value={password.newPassword}
+                
                           />
                         </div>
                       </div>
@@ -466,8 +485,8 @@ const Profile = () => {
                           <input
                             id="linkedIn"
                             name="linkedIn"
-                            onChange={formHandler}
-                            value={userDetailForm.links?.linkedIn || ""}
+                            onChange={(e) => linksFormHandler('linkedIn', e.target.value)}
+                            value={userDetailForm?.links?.linkedIn || ""}
                             className={`bg-white font-semibold p-2 m-1 flex w-full rounded-md shadow-sm border ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
@@ -484,8 +503,8 @@ const Profile = () => {
                           <input
                             id="github"
                             name="github"
-                            onChange={formHandler}
-                            value={userDetailForm.links?.github || ""}
+                            onChange={(e) => linksFormHandler('github', e.target.value)}
+                            value={userDetailForm?.links?.github || ""}
                             className={`bg-white font-semibold p-2 m-1 flex w-full rounded-md shadow-sm border ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
@@ -503,8 +522,8 @@ const Profile = () => {
                           <input
                             id="portfolio"
                             name="portfolio"
-                            onChange={formHandler}
-                            value={userDetailForm.links?.portfolio || ""}
+                            onChange={(e) => linksFormHandler('portfolio', e.target.value)}
+                            value={userDetailForm?.links?.portfolio || ""}
                             className={`bg-white font-semibold p-2 m-1 flex w-full rounded-md shadow-sm border ${
                               isEditable ? "bg-white rounded-xl" : ""
                             }`}
@@ -516,8 +535,12 @@ const Profile = () => {
                     <CardFooter>
                       <Button
                         onClick={() => {
+                          if (isEditable) {
+              handleDataUpload();
+            }
+
                           setIsEditable((prev) => !prev);
-                          updateDetail();
+                          
                         }}
                         className="flex items-center gap-2 font-semibold px-4 py-2 rounded-xl h-min"
                       >

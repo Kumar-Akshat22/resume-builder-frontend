@@ -68,7 +68,6 @@ function App() {
           <Route path='portfolio/:link/edit' element={<PortfolioPage />} />
           <Route path='myResume' element={<MyResume />} />
           <Route path='assets' element={<Assets  />} />
-          <Route path='signout' element={<SignOut />} />
 
 
         </Route>

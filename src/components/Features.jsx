@@ -37,6 +37,12 @@ const features = [
     description:
       "Transform basic bullet points into compelling achievements with our AI writer.",
   },
+  {
+    icon: Globe,
+    title: "AI-Powered Portfolio Generation",
+    description:
+      "Let our AI create a professional portfolio website tailored to your industry and experience.",
+  }
   
   
 ];
@@ -113,7 +119,7 @@ function Features() {
       <div className="py-24 bg-gradient-to-b from-white to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-4xl font-bold text-gray-900">
+              <h2 className="text-4xl font-bold text-black">
                 Powered by AI
               </h2>
               <p className="mt-4 text-xl text-gray-600">
