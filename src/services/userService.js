@@ -14,6 +14,17 @@ const getProfileCompletionStatus = async () => {
     return res.data.data
 }
 
+const getUserData = async () => {
+    const token = localStorage.getItem('AccessToken');
+    const res = await axios.get(userEndPoint.GET_USER_INFO,{
+        headers: {
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+    localStorage.setItem('status', JSON.stringify(res.data.data))
+    return res.data.data}
+
 export {
-    getProfileCompletionStatus
+    getProfileCompletionStatus,
+    getUserData
 }

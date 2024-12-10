@@ -132,7 +132,7 @@ function Education() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (res.data.statusCode === 200) {
-        toast.success("Education data ulpoaded successfully!");
+        toast.success("Education data uploaded successfully!");
       } else {
         toast.error("Failed to upload data.");
       }
