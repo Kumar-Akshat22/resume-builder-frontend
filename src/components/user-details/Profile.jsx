@@ -16,6 +16,9 @@ import { Globe, User, Upload } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TailSpin } from "react-loader-spinner";
+import LoadingScreen from "../ui/LoadingScreen";
+import { useQueryClient , useQuery } from "react-query";
+import { getUserData } from "@/services/userService";
 
 const Profile = () => {
   const [password, setPassword] = useState({
@@ -39,6 +42,7 @@ const Profile = () => {
   });
   const [errors, setErrors] = useState({});
   const [isDataUploading, setIsDataUploading] = useState(false);
+  const queryClient = useQueryClient()
 
   // To validate teh input fields
   const validateInput = (name, value) => {
@@ -133,6 +137,8 @@ const Profile = () => {
       if (res.data.statusCode === 200) {
         console.log(res);
         toast.success("Profile updated successfully!");
+        queryClient.invalidateQueries('profileInfo')
+
       } else {
         toast.error("Failed to update profile.");
       }
@@ -176,17 +182,22 @@ const Profile = () => {
 
   console.log(userDetailForm);
 
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  // useEffect(() => {
+  //   getUserInfo();
+  // }, []);
+
+  const {} = useQuery({
+    queryKey:'profileInfo',
+    queryFn:()=>getUserData(),
+    onSuccess:(data)=>{
+      setUserDetailForm(data.profileInfo)
+    }
+  })
 
   return (
     <div className="w-full flex flex-col p-3">
       {loading ? (
-        <div className="flex mx-auto">
-          <TailSpin color="red" />
-          <p>Loading..</p>
-        </div>
+        <LoadingScreen/>
       ) : (
         <div>
           <header className="bg-white shadow-sm">

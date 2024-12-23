@@ -21,6 +21,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { PencilIcon, TrashIcon, PlusIcon, Upload } from "lucide-react";
 import axios from "axios";
+import { useQuery, useQueryClient } from "react-query";
+import { getUserData } from "@/services/userService";
+
 
 const months = [
   "January",
@@ -41,7 +44,7 @@ const years = Array.from({ length: 30 }, (_, i) =>
   (new Date().getFullYear() - 15 + i).toString()
 );
 
-function WorkExp({ updateResumeDetails }) {
+function WorkExp() {
   const [experiences, setExperiences] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
@@ -62,6 +65,7 @@ function WorkExp({ updateResumeDetails }) {
     isPresent: false,
   });
 
+  const queryClient = useQueryClient()
   const resetFields = () => {
     setExperienceDetails({
       employer: "",
@@ -83,7 +87,7 @@ function WorkExp({ updateResumeDetails }) {
     if (editingId) {
       setExperiences(
         experiences.map((exp) =>
-          exp.id === editingId
+          exp._id === editingId
             ? {
                 ...experienceDetails,
                 id: editingId,
@@ -108,7 +112,10 @@ function WorkExp({ updateResumeDetails }) {
   };
 
   const handleEdit = (experience) => {
-    setEditingId(experience.id);
+    console.log(experience.id);
+    console.log(experience._id);
+    
+    setEditingId(experience._id);
     setExperienceDetails({
       employer: experience.employer,
       jobTitle: experience.jobTitle,
@@ -120,7 +127,7 @@ function WorkExp({ updateResumeDetails }) {
   };
 
   const handleDelete = (id) => {
-    setExperiences(experiences.filter((exp) => exp.id !== id));
+    setExperiences(experiences.filter((exp) => exp._id !== id));
   };
 
   const addContribution = () => {
@@ -158,7 +165,9 @@ function WorkExp({ updateResumeDetails }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (res.data.statusCode === 200) {
+
         toast.success("Work Experience data ulpoaded successfully!");
+        queryClient.invalidateQueries('experience')
       } else {
         toast.error("Failed to upload data.");
       }
@@ -169,6 +178,13 @@ function WorkExp({ updateResumeDetails }) {
     }
   }
 
+  const {} = useQuery({
+    queryKey:'experience',
+    queryFn:()=>getUserData(),
+    onSuccess:(data)=>{
+      setExperiences(data.experience)
+    }
+  })
   console.log("Printing the Experiences array:", experiences);
 
   return (
@@ -417,7 +433,7 @@ function WorkExp({ updateResumeDetails }) {
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => handleDelete(experience.id)}
+                  onClick={() => handleDelete(experience._id)}
                 >
                   <TrashIcon className="h-4 w-4 mr-2" />
                   Delete

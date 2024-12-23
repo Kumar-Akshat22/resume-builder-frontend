@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { X, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useQuery, useQueryClient } from "react-query";
+import { getUserData } from "@/services/userService";
 
 function Skills({ updateResumeDetails }) {
   const [skills, setSkills] = useState({
@@ -22,6 +24,7 @@ function Skills({ updateResumeDetails }) {
     tools: "",
     technologies: "",
   });
+  const queryClient = useQueryClient()
 
   const handleAddSkill = (category) => {
 
@@ -85,6 +88,7 @@ function Skills({ updateResumeDetails }) {
       if (res.data.statusCode === 200) {
         console.log(res);
         toast.success("Skills data ulpoaded successfully!");
+        queryClient.invalidateQueries('skills')
       } else {
         toast.error("Failed to upload data.");
       }
@@ -94,6 +98,7 @@ function Skills({ updateResumeDetails }) {
       setIsDataUploading(false);
     }
   };
+
 
   const renderSkillsSection = (category, title) => (
     <div className="space-y-4">
@@ -129,6 +134,13 @@ function Skills({ updateResumeDetails }) {
     </div>
   );
 
+  const {} = useQuery({
+    queryKey:'skills',
+    queryFn:()=>getUserData(),
+    onSuccess:(data)=>{
+      setSkills(data.skills)
+    }
+  })
   console.log(skills);
 
   return (

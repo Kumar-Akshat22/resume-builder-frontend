@@ -1,8 +1,6 @@
 import axios from "axios";
 import { userEndPoint } from "./apis";
 
-
-
 const getProfileCompletionStatus = async () => {
     const token = localStorage.getItem('AccessToken');
     const res = await axios.get(userEndPoint.GET_PROFILE_STATUS,{

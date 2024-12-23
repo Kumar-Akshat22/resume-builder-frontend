@@ -139,8 +139,8 @@ const SideBar = () => {
         </div>
 
         <div>
-          <h1 className="text-xl font-bold text-gray-900">Resume Builder</h1>
-          <p className="text-sm text-gray-500">Build your perfect resume</p>
+          <h1 className="text-xl font-bold text-gray-900">AI Career Builder</h1>
+          <p className="text-sm text-gray-500">Build your resume & portfolio</p>
         </div>
       </div>
 
