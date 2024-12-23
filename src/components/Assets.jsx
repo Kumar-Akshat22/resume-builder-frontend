@@ -49,9 +49,9 @@ export default function Assets() {
   })
 
   return (
-    (<div className="container mx-auto p-4">
+    (<div className="container mx-auto p-8">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Assets</h1>
+        <h1 className="text-2xl font-bold">My Assets</h1>
         <div className="flex space-x-2">
           <Button
             onClick={() => setViewMode('card')}

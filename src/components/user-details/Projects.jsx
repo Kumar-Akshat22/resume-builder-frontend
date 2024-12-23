@@ -20,6 +20,8 @@ import {
 import toast from "react-hot-toast";
 import { FaGithub } from "react-icons/fa6";
 import axios from "axios";
+import { useQueryClient , useQuery } from "react-query";
+import { getUserData } from "@/services/userService";
 
 function Projects({ updateResumeDetails }) {
   const [projects, setProjects] = useState([]);
@@ -30,6 +32,8 @@ function Projects({ updateResumeDetails }) {
     liveLink: "",
     githubLink: "",
   });
+
+  const queryClient = useQueryClient()
 
   const resetFields = () => {
     setProjectDetails({
@@ -54,7 +58,7 @@ function Projects({ updateResumeDetails }) {
     if (editingId) {
       setProjects(
         projects.map((project) =>
-          project.id === editingId
+          project._id === editingId
             ? { ...projectDetails, id: editingId, projectDescription }
             : project
         )
@@ -73,7 +77,7 @@ function Projects({ updateResumeDetails }) {
   };
 
   const handleEdit = (project) => {
-    setEditingId(project.id);
+    setEditingId(project._id);
     setProjectDetails({
       title: project.title,
       shortDescription: project.shortDescription,
@@ -85,7 +89,7 @@ function Projects({ updateResumeDetails }) {
   };
 
   const handleDelete = (id) => {
-    setProjects(projects.filter((project) => project.id !== id));
+    setProjects(projects.filter((project) => project._id !== id));
   };
 
   const addDescription = () => {
@@ -114,8 +118,6 @@ function Projects({ updateResumeDetails }) {
     }
   };
 
-
-
   const [isDataUploading , setIsDataUploading] = useState(false);
   const handleDataUpload = async() => {
 
@@ -137,9 +139,12 @@ function Projects({ updateResumeDetails }) {
         { projects: projects },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
       if (res.data.statusCode === 200) {
+        
         console.log(res);
         toast.success("Project data ulpoaded successfully!");
+        queryClient.invalidateQueries('projects');
       } else {
         toast.error("Failed to upload data.");
       }
@@ -150,7 +155,14 @@ function Projects({ updateResumeDetails }) {
     }
   };
 
-
+  
+  const {} = useQuery({
+    queryKey:'projects',
+    queryFn:()=>getUserData(),
+    onSuccess:(data)=>{
+      setProjects(data.projects)
+    }
+  })
   console.log("Printing the Projects Array", projects);
 
   return (
@@ -327,7 +339,7 @@ function Projects({ updateResumeDetails }) {
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => handleDelete(project.id)}
+                  onClick={() => handleDelete(project._id)}
                 >
                   <TrashIcon className="h-4 w-4 mr-2" />
                   Delete

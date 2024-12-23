@@ -16,6 +16,7 @@ import { useQuery } from "react-query";
 import { getAllResume } from "@/services/resumeService";
 import GenerateResume from "@/pages/GenerateResume";
 import GenerateResumeModal from "./GenerateResumeModal";
+import LoadingScreen from "../ui/LoadingScreen";
 
 function MyResume() {
   const navigate = useNavigate();
@@ -59,9 +60,7 @@ function MyResume() {
 
       {
       isLoading ?
-      <div className="text-center py-12">
-        <p className="text-xl text-muted-foreground">Loading...</p>
-      </div>
+      <LoadingScreen/>
       :
       Array.isArray(resumes) && resumes.length === 0 ? (
         <div className="text-center py-12">

@@ -4,6 +4,7 @@ import { getPortfolio } from '@/services/portfolioService'
 import { useParams } from 'react-router-dom'
 import PortfolioLight from '@/components/Portfolio/TemplateLight/PortfolioLight'
 import PortfolioDark from '@/components/Portfolio/TemplateDark/PortfolioDark'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 const Portfolio = () => {
   const [isLinkValid, setIsLinkValid] = useState(true)
@@ -16,7 +17,7 @@ const Portfolio = () => {
   })
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <LoadingScreen/>
   }
   if(!isLinkValid){
     return <div>Invalid Link</div>

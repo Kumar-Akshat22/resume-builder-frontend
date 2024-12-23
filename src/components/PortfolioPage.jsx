@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom'
 import { getAuthorizedPortfolio, updatePortfolio } from '@/services/portfolioService'
 import toast from 'react-hot-toast'
 import { Preview, Web } from '@mui/icons-material'
+import LoadingScreen from './ui/LoadingScreen'
 
 
 
@@ -46,7 +47,7 @@ export default function PortfolioPage() {
 
   if(isLoading){
     // TODO: Make a intutive loading component 
-    return <div>Loading...</div>
+    return <LoadingScreen/>
   }
 
   if(error){
@@ -55,7 +56,7 @@ export default function PortfolioPage() {
   }
 
   return (
-    (<div className="container mx-auto p-4">
+    (<div className="container mx-auto p-8">
       <h1 className="text-2xl font-bold mb-4">My Portfolio</h1>
       <div className='flex justify-between'>
 
