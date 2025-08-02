@@ -33,9 +33,25 @@ const userEndPoint = {
     GET_PROFILE_STATUS : '/api/v1/users/status',
     GET_USER_INFO : '/api/v1/users/get-user-info'
 }
+
+const courseEndpoints = {
+
+    GET_COURSES : '/api/v1/courses/getAllCourse',
+    CREATE_COURSE : '/api/v1/courses/create-course',
+    
+}
+
+const notesEndpoints = {
+
+    GET_NOTES : '/api/v1/notes/getAllNotes',
+    CREATE_NOTE : '/api/v1/notes/create-note',
+    
+}
 export {
     portfolioEndPoint,
     resumeEndpoint,
     assetsEndpoint,
-    userEndPoint
+    userEndPoint,
+    courseEndpoints,
+    notesEndpoints
 }

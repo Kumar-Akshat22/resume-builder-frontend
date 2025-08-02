@@ -26,6 +26,10 @@ import PortfolioPage from './components/PortfolioPage';
 import PortfolioDark from './components/Portfolio/TemplateDark/PortfolioDark';
 import Assets from './components/Assets';
 import SignOut from './components/SignOut';
+import GenerateCourseWithAi from './components/GenerateCourseWithAi';
+import GenerateNotesWithAi from './components/GenerateNotesWithAi';
+import CourseView from './pages/CourseView';
+import NoteViewer from './pages/NoteViewer';
 
 
 function App() {
@@ -68,6 +72,8 @@ function App() {
           <Route path='portfolio/:link/edit' element={<PortfolioPage />} />
           <Route path='myResume' element={<MyResume />} />
           <Route path='assets' element={<Assets  />} />
+          <Route path='generate-course-with-ai' element={<GenerateCourseWithAi  />} />
+          <Route path='generate-notes-with-ai' element={<GenerateNotesWithAi  />} />
 
 
         </Route>
@@ -77,6 +83,8 @@ function App() {
         <Route path='/resume-analysis' element={<ResumeAnalysis />} />
         <Route path='/resume/:resumeId/' element={<GenerateResume />} />
         <Route path='/setting/saved-resume/:resumeName/preview' element={<PreviewSavedResume />} />
+        <Route path='/course/:courseId/:moduleNo' element={<CourseView />} />
+        <Route path='/note/:noteId' element={<NoteViewer />} />
 
       </Routes>
       </QueryClientProvider>

@@ -5,7 +5,7 @@ import { FaRegFileLines, FaGraduationCap } from "react-icons/fa6";
 import { LuFolderGit2 } from "react-icons/lu";
 import { IoBriefcase } from "react-icons/io5";
 import { FaMedal } from "react-icons/fa6";
-import { NavLink, useNavigate } from "react-router-dom";
+import { matchPath, NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import {
   BookMarked,
@@ -13,6 +13,8 @@ import {
   BookmarkCheck,
   ContactRound,
   FileText,
+  BookA,
+  NotebookPen,
   LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,49 +32,44 @@ import { useLocation } from "react-router-dom";
 const SideBar = () => {
   const navigate = useNavigate();
 
-  const [sectionId, setSectionId] = useState("profile-completion");
   const [isProfileCompleted, setIsProfileCompleted] = useState(true);
 
   const location = useLocation(); // Get the current location (URL)
   
 
-  useEffect(() => {
-    // Set the active section based on the URL path
-    const currentPath = location.pathname.split('/').pop(); // Get the last part of the URL
-    setSectionId(currentPath); // Update the active section ID
-  }, [location.pathname]); // Re-run whenever the path changes
-  const handleSectionClick = (id) => {
-    setSectionId(id);
-  };
+  const matchRoute = (route)=>{
 
-  const [isSigningOut, setIsSigningOut] = useState(false);
+    return matchPath({path: route} , location.pathname);
+  }
 
-  const handleSignOut = async () => {
-    setIsSigningOut(true);
-    // Simulate sign-out process
-    try {
-      // Simulate sign-out process
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+  // const [isSigningOut, setIsSigningOut] = useState(false);
 
-      const res = await axios.post("/api/v1/users/signout", {
-        headers: { Authorization: localStorage.getItem("AccessToken") },
-      });
+  // const handleSignOut = async () => {
+  //   setIsSigningOut(true);
+  //   // Simulate sign-out process
+  //   try {
+  //     // Simulate sign-out process
+  //     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      if (res.data.statusCode === 202) {
-        localStorage.removeItem("AccessToken");
-        localStorage.removeItem("RefreshToken");
-        toast.success("Logged Out");
-        navigate("/"); // Redirect to home or any other page after sign-out
-      } else {
-        toast.error("Error signing out, please try again.");
-      }
-    } catch (error) {
-      toast.error("Something went wrong while signing out.");
-    } finally {
-      setIsSigningOut(false); // Close the modal after process is done
-      navigate("/signin"); // Redirect to sign in page after sign-out
-    }
-  };
+  //     const res = await axios.post("/api/v1/users/signout", {
+  //       headers: { Authorization: localStorage.getItem("AccessToken") },
+  //     });
+
+  //     if (res.data.statusCode === 202) {
+  //       localStorage.removeItem("AccessToken");
+  //       localStorage.removeItem("RefreshToken");
+  //       toast.success("Logged Out");
+  //       navigate("/"); // Redirect to home or any other page after sign-out
+  //     } else {
+  //       toast.error("Error signing out, please try again.");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Something went wrong while signing out.");
+  //   } finally {
+  //     setIsSigningOut(false); // Close the modal after process is done
+  //     navigate("/signin"); // Redirect to sign in page after sign-out
+  //   }
+  // };
 
   const sections = [
 
@@ -125,6 +122,18 @@ const SideBar = () => {
       icon: FilesIcon,
       path: "/dashboard/assets",
     },
+    {
+      id: "aiCourse",
+      label: "My Course",
+      icon: BookA,
+      path: "/dashboard/generate-course-with-ai",
+    },
+    {
+      id: "aiNotes",
+      label: "My Notes",
+      icon: NotebookPen,
+      path: "/dashboard/generate-notes-with-ai",
+    },
   ];
 
   useEffect(() => {
@@ -132,10 +141,10 @@ const SideBar = () => {
   }, []);
 
   return (
-    <div className="w-64 fixed top-0 left-0 bg-white border-r h-screen py-5">
-      <div className="sticky top-0 bg-white border-b flex items-center gap-3 p-2">
+    <div className="fixed top-0 left-0 w-64 h-screen py-5 bg-white border-r">
+      <div className="sticky top-0 flex items-center gap-3 p-2 bg-white border-b">
         <div>
-          <FaRegFileLines className="h-7 w-7 text-blue-500" />
+          <FaRegFileLines className="text-blue-500 h-7 w-7" />
         </div>
 
         <div>
@@ -152,14 +161,14 @@ const SideBar = () => {
               disabled={!isProfileCompleted}
               onClick={() => handleSectionClick(id)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
-                sectionId === id
+                matchRoute(path)
                   ? "bg-blue-50 text-blue-600 shadow-sm"
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
               <Icon
                 className={`h-5 w-5 transition-colors duration-200 ${
-                  sectionId === id ? "text-blue-500" : "text-gray-400"
+                  matchRoute(path) ? "text-blue-500" : "text-gray-400"
                 }`}
               />
 
@@ -167,41 +176,10 @@ const SideBar = () => {
             </button>
           </NavLink>
         ))}
-
-        <div className="relative w-20">
-          <Button
-            className="fixed w-40 bottom-20 left-10 bg-blue-50 text-blue-600 shadow-sm text-sm rounded-md transition-all duration-200 hover:bg-blue-100"
-            onClick={() => setIsSigningOut(true)}
-          >
-            <LogOut className="rotate-180" />
-            Sign Out
-          </Button>
-          <Dialog open={isSigningOut} onOpenChange={setIsSigningOut}>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle className="text-xl">Sign Out</DialogTitle>
-                <DialogDescription className="text-base">
-                  Please wait while we securely sign you out...
-                </DialogDescription>
-              </DialogHeader>
-
-              <DialogFooter>
-                <Button
-                  onClick={handleSignOut} // Call the handleSignOut function when clicked
-                  className="bg-red-500 text-white rounded-md"
-                >
-                  
-                  
-                    Confirm Sign Out
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
       </nav>
 
-      <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-white">
-        <div className="text-md text-center text-gray-500">
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t">
+        <div className="text-center text-gray-500 text-md">
           © {new Date().getFullYear()} Resume Builder
         </div>
       </div>
